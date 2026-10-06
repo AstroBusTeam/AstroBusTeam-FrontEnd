@@ -5,6 +5,24 @@
     "status": "Sistema_activo",
     "panic": "Señal de pánico"
   },
+  "menu": {
+    "dashboard": "Dashboard",
+    "map": "Mapa de operaciones",
+    "administration": "Administración",
+    "control-center": "Centro de control",
+    "drivers": "Gestión de conductores",
+    "vehicles": "Gestión de vehículos",
+    "assignments": "Asignación de unidades",
+    "notifications": "Notificaciones",
+    "history": "Historial de turnos",
+    "impact": "Impacto en números",
+    "alert-logs": "Registro de alertas",
+    "sign-out": "Cerrar sesión"
+  },
+  "footer": {
+    "status": "Vigilancia activa: transmitiendo a central",
+    "credits": "Hecho por AstroBus Team"
+  },
   "iam": {
     "title": "Verificación de identidad",
     "subtitle": "Ingresa tu código de empleado para iniciar el turno.",

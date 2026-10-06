@@ -1,0 +1,466 @@
+{
+  "drivers": [
+    {
+      "id": 1,
+      "employeeCode": "SF-90210",
+      "firstName": "Marcos",
+      "lastName": "Silva",
+      "dni": "77443322",
+      "category": "A-IIIb",
+      "licenseNumber": "Q77443322",
+      "licenseExpiry": "2027-05-12",
+      "points": 14,
+      "rating": 4.9,
+      "yearsExperience": 12,
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "employeeCode": "SF-88294",
+      "firstName": "Alejandro",
+      "lastName": "Ortiz",
+      "dni": "11223344",
+      "category": "A-IIIb",
+      "licenseNumber": "Q11223344",
+      "licenseExpiry": "2026-12-05",
+      "points": 15,
+      "rating": 4.8,
+      "yearsExperience": 8,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "employeeCode": "SF-85401",
+      "firstName": "Elena",
+      "lastName": "Garrido",
+      "dni": "45678912",
+      "category": "A-IIIc",
+      "licenseNumber": "Q45678912",
+      "licenseExpiry": "2028-03-20",
+      "points": 12,
+      "rating": 4.6,
+      "yearsExperience": 5,
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "employeeCode": "SF-87910",
+      "firstName": "Roberto",
+      "lastName": "Valdez",
+      "dni": "99001122",
+      "category": "A-IIIb",
+      "licenseNumber": "Q99001122",
+      "licenseExpiry": "2026-08-30",
+      "points": 10,
+      "rating": 4.3,
+      "yearsExperience": 15,
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "employeeCode": "SF-44829",
+      "firstName": "Carlos",
+      "lastName": "Mendoza",
+      "dni": "70112233",
+      "category": "A-IIIa",
+      "licenseNumber": "Q70112233",
+      "licenseExpiry": "2027-01-15",
+      "points": 13,
+      "rating": 4.5,
+      "yearsExperience": 3,
+      "status": "inactive"
+    },
+    {
+      "id": 6,
+      "employeeCode": "SF-00001",
+      "firstName": "Alexander Paolo",
+      "lastName": "Justo Yauricasa",
+      "dni": "72111890",
+      "category": "A-IIIc",
+      "licenseNumber": "Q77443323",
+      "licenseExpiry": "1999-09-20",
+      "points": 10,
+      "rating": 0,
+      "yearsExperience": 5,
+      "status": "active"
+    }
+  ],
+  "vehicles": [
+    {
+      "id": 1,
+      "code": "BUS-7729",
+      "plate": "ABC-1234",
+      "model": "Volvo B11R",
+      "capacity": 48,
+      "status": "in-service",
+      "latitude": -12.0464,
+      "longitude": -77.0428
+    },
+    {
+      "id": 2,
+      "code": "BUS-4522",
+      "plate": "GHT-901",
+      "model": "Scania K400",
+      "capacity": 52,
+      "status": "in-service",
+      "latitude": -12.0389,
+      "longitude": -77.056
+    },
+    {
+      "id": 3,
+      "code": "BUS-9102",
+      "plate": "PQA-224",
+      "model": "Mercedes OF",
+      "capacity": 40,
+      "status": "available",
+      "latitude": -12.056,
+      "longitude": -77.03
+    },
+    {
+      "id": 4,
+      "code": "BUS-0422",
+      "plate": "XYZ-987",
+      "model": "Volvo B11R",
+      "capacity": 48,
+      "status": "in-service",
+      "latitude": -12.042,
+      "longitude": -77.034
+    },
+    {
+      "id": 5,
+      "code": "BUS-5590",
+      "plate": "DEF-456",
+      "model": "Scania K400",
+      "capacity": 52,
+      "status": "in-service",
+      "latitude": -12.062,
+      "longitude": -77.048
+    },
+    {
+      "id": 6,
+      "code": "BUS-3310",
+      "plate": "JKL-321",
+      "model": "Mercedes OF",
+      "capacity": 40,
+      "status": "maintenance",
+      "latitude": -12.051,
+      "longitude": -77.061
+    }
+  ],
+  "assignments": [
+    {
+      "id": 1,
+      "driverId": 1,
+      "vehicleId": 1,
+      "route": "R-42 Terminal Norte - Estación Central",
+      "startTime": "05:30",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "driverId": 2,
+      "vehicleId": 2,
+      "route": "Express Aeropuerto",
+      "startTime": "06:15",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "driverId": 4,
+      "vehicleId": 4,
+      "route": "Línea Circunvalación",
+      "startTime": "07:00",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "driverId": 6,
+      "vehicleId": 5,
+      "route": "Jorge Chaves",
+      "startTime": "21:43",
+      "status": "active"
+    }
+  ],
+  "shifts": [
+    {
+      "id": 1,
+      "driverId": 1,
+      "vehicleId": 1,
+      "routeCode": "R-42",
+      "routeName": "Terminal Norte → Estación Central",
+      "date": "2026-10-04",
+      "startTime": "2026-10-04T08:00:00",
+      "endTime": "2026-10-04T21:29:16",
+      "distanceKm": 11.45,
+      "passengers": 12,
+      "revenue": 21,
+      "incidents": 0,
+      "status": "finished"
+    },
+    {
+      "id": 2,
+      "driverId": 4,
+      "vehicleId": 4,
+      "routeCode": "R-01",
+      "routeName": "Ruta Norte 001",
+      "date": "2026-10-03",
+      "startTime": "2026-10-03T22:00:00",
+      "endTime": "2026-10-04T06:00:00",
+      "distanceKm": 142.4,
+      "passengers": 1204,
+      "revenue": 1450,
+      "incidents": 1,
+      "status": "finished"
+    },
+    {
+      "id": 3,
+      "driverId": 4,
+      "vehicleId": 5,
+      "routeCode": "L-05",
+      "routeName": "Línea Circunvalación",
+      "date": "2026-10-02",
+      "startTime": "2026-10-02T14:00:00",
+      "endTime": "2026-10-02T20:00:00",
+      "distanceKm": 98.1,
+      "passengers": 845,
+      "revenue": 1010.5,
+      "incidents": 0,
+      "status": "finished"
+    },
+    {
+      "id": 4,
+      "driverId": 4,
+      "vehicleId": 4,
+      "routeCode": "R-01",
+      "routeName": "Ruta Norte 001",
+      "date": "2026-10-01",
+      "startTime": "2026-10-01T22:00:00",
+      "endTime": "2026-10-02T02:22:00",
+      "distanceKm": 61.7,
+      "passengers": 512,
+      "revenue": 620,
+      "incidents": 1,
+      "status": "interrupted"
+    },
+    {
+      "id": 5,
+      "driverId": 2,
+      "vehicleId": 2,
+      "routeCode": "EX-1",
+      "routeName": "Express Aeropuerto",
+      "date": "2026-10-03",
+      "startTime": "2026-10-03T06:15:00",
+      "endTime": "2026-10-03T14:15:00",
+      "distanceKm": 120.3,
+      "passengers": 980,
+      "revenue": 1320,
+      "incidents": 0,
+      "status": "finished"
+    },
+    {
+      "id": 6,
+      "driverId": 1,
+      "vehicleId": 1,
+      "routeCode": "R-42",
+      "routeName": "Terminal Norte → Estación Central",
+      "date": "2026-10-03",
+      "startTime": "2026-10-03T08:00:00",
+      "endTime": "2026-10-03T15:42:15",
+      "distanceKm": 142.4,
+      "passengers": 60,
+      "revenue": 1450,
+      "incidents": 0,
+      "status": "finished"
+    },
+    {
+      "id": 7,
+      "driverId": 4,
+      "vehicleId": 4,
+      "routeCode": "R-01",
+      "routeName": "Ruta Norte 001",
+      "date": "2026-10-04",
+      "startTime": "2026-10-04T21:16:56",
+      "endTime": "2026-10-04T21:27:25",
+      "distanceKm": 0.3,
+      "passengers": 1,
+      "revenue": 1.5,
+      "incidents": 0,
+      "status": "finished"
+    }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "code": "AL-9928",
+      "vehicleId": 4,
+      "type": "Botón de pánico",
+      "receiver": "UNIDAD_MOVIL_04",
+      "attempts": 2,
+      "status": "confirmed",
+      "createdAt": "2026-10-04T14:22:05",
+      "latitude": -12.042,
+      "longitude": -77.034
+    },
+    {
+      "id": 2,
+      "code": "AL-9927",
+      "vehicleId": 2,
+      "type": "Puerta abierta en marcha",
+      "receiver": "TERMINAL_CENTRAL",
+      "attempts": 3,
+      "status": "critical",
+      "createdAt": "2026-10-04T14:20:12",
+      "latitude": -12.0389,
+      "longitude": -77.056
+    },
+    {
+      "id": 3,
+      "code": "AL-9925",
+      "vehicleId": 1,
+      "type": "Ingreso no autorizado",
+      "receiver": "SISTEMA_RED_WAN",
+      "attempts": 3,
+      "status": "critical",
+      "createdAt": "2026-10-04T14:18:45",
+      "latitude": -12.0464,
+      "longitude": -77.0428
+    },
+    {
+      "id": 4,
+      "code": "AL-9920",
+      "vehicleId": 3,
+      "type": "Fallo mecánico",
+      "receiver": "DISP_SEGURIDAD_NORTE",
+      "attempts": 2,
+      "status": "confirmed",
+      "createdAt": "2026-10-04T14:15:22",
+      "latitude": -12.056,
+      "longitude": -77.03
+    },
+    {
+      "id": 5,
+      "code": "AL-1953",
+      "vehicleId": 1,
+      "type": "Botón de pánico",
+      "receiver": "CENTRAL_OPERACIONES",
+      "attempts": 2,
+      "status": "pending",
+      "createdAt": "2026-10-05T22:39:06",
+      "latitude": -12.0464,
+      "longitude": -77.0428
+    }
+  ],
+  "recipients": [
+    {
+      "id": 1,
+      "name": "Ricardo S.",
+      "role": "Supervisor de zona centro",
+      "channel": "SMS / PUSH",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Elena M.",
+      "role": "Coordinadora de logística",
+      "channel": "EMAIL / PUSH",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Marcos T.",
+      "role": "Despacho nocturno",
+      "channel": "SMS",
+      "active": false
+    },
+    {
+      "id": 4,
+      "name": "Sarah J.",
+      "role": "Analista de redes",
+      "channel": "PUSH / WEB",
+      "active": true
+    }
+  ],
+  "deliveries": [
+    {
+      "id": 1,
+      "recipientName": "Ricardo S.",
+      "channel": "SMS / PUSH",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T10:12:00"
+    },
+    {
+      "id": 2,
+      "recipientName": "Elena M.",
+      "channel": "EMAIL / PUSH",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T10:12:00"
+    },
+    {
+      "id": 3,
+      "recipientName": "Sarah J.",
+      "channel": "PUSH / WEB",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "failed",
+      "sentAt": "2026-10-04T10:12:00"
+    },
+    {
+      "recipientName": "Ricardo S.",
+      "channel": "SMS / PUSH",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T21:43:29",
+      "id": 4
+    },
+    {
+      "recipientName": "Elena M.",
+      "channel": "EMAIL / PUSH",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T21:43:29",
+      "id": 5
+    },
+    {
+      "recipientName": "Sarah J.",
+      "channel": "PUSH / WEB",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T21:43:29",
+      "id": 6
+    },
+    {
+      "recipientName": "Ricardo S.",
+      "channel": "SMS / PUSH",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T21:43:34",
+      "id": 7
+    },
+    {
+      "recipientName": "Elena M.",
+      "channel": "EMAIL / PUSH",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T21:43:34",
+      "id": 8
+    },
+    {
+      "recipientName": "Sarah J.",
+      "channel": "PUSH / WEB",
+      "alertType": "Fallo de infraestructura",
+      "priority": "Media",
+      "status": "sent",
+      "sentAt": "2026-10-04T21:43:34",
+      "id": 9
+    }
+  ]
+}

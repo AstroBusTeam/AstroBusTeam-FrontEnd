@@ -1,0 +1,107 @@
+{
+  "toolbar": {
+    "monitor": "MONITOR DE TRÁNSITO v2.4",
+    "unit": "Unidad",
+    "status": "Sistema_activo",
+    "panic": "Señal de pánico"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "map": "Mapa de operaciones",
+    "administration": "Administración",
+    "control-center": "Centro de control",
+    "drivers": "Gestión de conductores",
+    "vehicles": "Gestión de vehículos",
+    "assignments": "Asignación de unidades",
+    "notifications": "Notificaciones",
+    "history": "Historial de turnos",
+    "impact": "Impacto en números",
+    "alert-logs": "Registro de alertas",
+    "sign-out": "Cerrar sesión"
+  },
+  "footer": {
+    "status": "Vigilancia activa: transmitiendo a central",
+    "credits": "Hecho por AstroBus Team"
+  },
+  "iam": {
+    "title": "Verificación de identidad",
+    "subtitle": "Ingresa tu código de empleado para iniciar el turno.",
+    "hero-title": "Vigilancia operativa en tiempo real.",
+    "hero-subtitle": "Panel de control de SecurityBus para gestionar rutas, telemetría y protocolos de seguridad.",
+    "authorized-title": "Acceso autorizado",
+    "authorized-subtitle": "Transmisión de emergencia activa"
+  },
+  "dashboard": {
+    "service-title": "Inicio de servicio",
+    "summary-title": "Resumen de turno finalizado",
+    "no-service-title": "Sin servicio activo",
+    "no-service-subtitle": "Inicia un nuevo servicio para empezar a registrar el turno.",
+    "route-title": "Ruta operada",
+    "protocol-title": "Protocolo de cierre",
+    "confirmation-title": "Confirmación final",
+    "system-title": "Estado del sistema",
+    "finished-title": "Servicio finalizado correctamente",
+    "finished-subtitle": "Los datos del turno han sido guardados y transmitidos a la central de operaciones."
+  },
+  "service-map": {
+    "title": "Mapa de operaciones",
+    "subtitle": "Posición de tu unidad y alertas activas."
+  },
+  "control-center": {
+    "title": "Centro de control",
+    "subtitle": "Posición en vivo de toda la flota."
+  },
+  "drivers": {
+    "title": "Gestión de conductores",
+    "subtitle": "Mostrando {count} conductores registrados en el sistema.",
+    "detail-title": "Información detallada",
+    "new-title": "Nuevo conductor",
+    "edit-title": "Editar conductor"
+  },
+  "vehicles": {
+    "title": "Gestión de vehículos",
+    "subtitle": "Mostrando {count} buses registrados en la flota.",
+    "new-title": "Nuevo vehículo",
+    "edit-title": "Editar vehículo"
+  },
+  "assignments": {
+    "title": "Asociación conductor-vehículo",
+    "subtitle": "Gestiona el emparejamiento de recursos activos en tiempo real.",
+    "drivers-title": "Conductores disponibles",
+    "vehicles-title": "Vehículos disponibles",
+    "link-title": "Vincular recursos",
+    "current-title": "Asignaciones vigentes"
+  },
+  "history": {
+    "title": "Historial de turnos",
+    "subtitle": "Revisa los turnos e incidentes de cada conductor."
+  },
+  "impact": {
+    "title": "Impacto en números",
+    "subtitle": "Métricas de rendimiento operacional y mitigación de riesgos de la red SafeBus.",
+    "passengers-chart-title": "Pasajeros por turno",
+    "alerts-chart-title": "Alertas por estado"
+  },
+  "alerts": {
+    "title": "Alertas no confirmadas",
+    "subtitle": "Gestión activa de reenvíos y protocolos de escalada de red.",
+    "detail-title": "Confirmación de alerta",
+    "detail-subtitle": "Referencia: {code}",
+    "location-title": "Ubicación de la alerta"
+  },
+  "notifications": {
+    "title": "Administración de red de alertas",
+    "subtitle": "Gestiona los destinatarios activos y realiza simulacros de envío para validar los protocolos.",
+    "recipients-title": "Destinatarios activos",
+    "simulation-title": "Simulación de envío",
+    "log-title": "Registro de entregas"
+  },
+  "panic": {
+    "title": "¡Alerta enviada!",
+    "subtitle": "Transmisión de emergencia activa"
+  },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "subtitle": "La ruta {unavailable-route} no está disponible."
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "toolbar": {
+    "monitor": "TRANSIT MONITOR v2.4",
+    "unit": "Unit",
+    "status": "System_live",
+    "panic": "Panic signal"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "map": "Operations map",
+    "administration": "Administration",
+    "control-center": "Control center",
+    "drivers": "Driver management",
+    "vehicles": "Vehicle management",
+    "assignments": "Unit assignment",
+    "notifications": "Notifications",
+    "history": "Shift history",
+    "impact": "Impact in numbers",
+    "alert-logs": "Alert logs",
+    "sign-out": "Sign out"
+  },
+  "footer": {
+    "status": "Active surveillance: transmitting to central",
+    "credits": "Made by AstroBus Team"
+  },
+  "iam": {
+    "title": "Identity verification",
+    "subtitle": "Enter your employee code to start the shift.",
+    "hero-title": "Real-time operational surveillance.",
+    "hero-subtitle": "SecurityBus control panel to manage routes, telemetry and safety protocols.",
+    "authorized-title": "Access authorized",
+    "authorized-subtitle": "Emergency transmission active"
+  },
+  "dashboard": {
+    "service-title": "Service in progress",
+    "summary-title": "Finished shift summary",
+    "no-service-title": "No active service",
+    "no-service-subtitle": "Start a new service to begin recording the shift.",
+    "route-title": "Operated route",
+    "protocol-title": "Closing protocol",
+    "confirmation-title": "Final confirmation",
+    "system-title": "System status",
+    "finished-title": "Service finished successfully",
+    "finished-subtitle": "The shift data has been saved and sent to the operations center."
+  },
+  "service-map": {
+    "title": "Operations map",
+    "subtitle": "Position of your unit and active alerts."
+  },
+  "control-center": {
+    "title": "Control center",
+    "subtitle": "Live position of the whole fleet."
+  },
+  "drivers": {
+    "title": "Driver management",
+    "subtitle": "Showing {count} drivers registered in the system.",
+    "detail-title": "Detailed information",
+    "new-title": "New driver",
+    "edit-title": "Edit driver"
+  },
+  "vehicles": {
+    "title": "Vehicle management",
+    "subtitle": "Showing {count} buses registered in the fleet.",
+    "new-title": "New vehicle",
+    "edit-title": "Edit vehicle"
+  },
+  "assignments": {
+    "title": "Driver-vehicle assignment",
+    "subtitle": "Manage the pairing of active resources in real time.",
+    "drivers-title": "Available drivers",
+    "vehicles-title": "Available vehicles",
+    "link-title": "Link resources",
+    "current-title": "Current assignments"
+  },
+  "history": {
+    "title": "Shift history",
+    "subtitle": "Review the shifts and incidents of each driver."
+  },
+  "impact": {
+    "title": "Impact in numbers",
+    "subtitle": "Operational performance and risk mitigation metrics of the SecurityBus network.",
+    "passengers-chart-title": "Passengers per shift",
+    "alerts-chart-title": "Alerts by status"
+  },
+  "alerts": {
+    "title": "Unconfirmed alerts",
+    "subtitle": "Active management of resends and network escalation protocols.",
+    "detail-title": "Alert confirmation",
+    "detail-subtitle": "Reference: {code}",
+    "location-title": "Alert location"
+  },
+  "notifications": {
+    "title": "Alert network administration",
+    "subtitle": "Manage the active recipients and run delivery drills to validate the protocols.",
+    "recipients-title": "Active recipients",
+    "simulation-title": "Delivery simulation",
+    "log-title": "Delivery log"
+  },
+  "panic": {
+    "title": "Alert sent!",
+    "subtitle": "Emergency transmission active"
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "subtitle": "The path {unavailable-route} is not available."
+  }
+}

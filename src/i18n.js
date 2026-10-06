@@ -5,8 +5,8 @@ import es from "./locales/es.json";
 // configuración de idiomas, la app empieza en español
 const i18n = createI18n({
     legacy: false,
-    locale: 'es',
-    fallbackLocale: 'es',
+    locale: 'en',
+    fallbackLocale: 'en',
     messages: { en, es }
 });
 

@@ -50,7 +50,7 @@ const signOut = () => {
     <!-- menú lateral -->
     <aside class="sb-sidebar">
       <div class="px-3 pt-3 pb-4">
-        <div class="text-xl font-bold sb-accent">SafeBus</div>
+        <div class="text-xl font-bold sb-accent">SecurityBus</div>
         <div class="text-xs sb-muted">{{ iamStore.currentDriver?.employeeCode }}</div>
       </div>
 

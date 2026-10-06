@@ -29,7 +29,7 @@ const router = createRouter({
 
 // antes de cambiar de página ponemos el título y revisamos si hay sesión
 router.beforeEach((to) => {
-    document.title = `SafeBus - ${to.meta['title']}`;
+    document.title = `SecurityBus - ${to.meta['title']}`;
     return authenticationGuard(to);
 });
 

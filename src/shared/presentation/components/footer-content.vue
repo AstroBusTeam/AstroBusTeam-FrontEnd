@@ -8,7 +8,7 @@ const { t } = useI18n();
   <!-- barra de abajo, los textos cambian con el idioma -->
   <footer class="sb-footer">
     <span class="uppercase"><span class="sb-dot mr-2"/>{{ t('footer.status') }}</span>
-    <span class="sb-muted">SafeBus © 2026 · {{ t('footer.credits') }}</span>
+    <span class="sb-muted">SecurityBus © 2026 · {{ t('footer.credits') }}</span>
   </footer>
 </template>
 

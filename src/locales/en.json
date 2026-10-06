@@ -27,7 +27,7 @@
     "title": "Identity verification",
     "subtitle": "Enter your employee code to start the shift.",
     "hero-title": "Real-time operational surveillance.",
-    "hero-subtitle": "SafeBus control panel to manage routes, telemetry and safety protocols.",
+    "hero-subtitle": "SecurityBus control panel to manage routes, telemetry and safety protocols.",
     "authorized-title": "Access authorized",
     "authorized-subtitle": "Emergency transmission active"
   },
@@ -78,7 +78,7 @@
   },
   "impact": {
     "title": "Impact in numbers",
-    "subtitle": "Operational performance and risk mitigation metrics of the SafeBus network.",
+    "subtitle": "Operational performance and risk mitigation metrics of the SecurityBus network.",
     "passengers-chart-title": "Passengers per shift",
     "alerts-chart-title": "Alerts by status"
   },

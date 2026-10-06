@@ -2,7 +2,7 @@
   "name": "astrobus",
   "private": true,
   "version": "1.0.0",
-  "description": "SafeBus (AstroBus) - Front-end para la gestión de flota de buses, conductores y alertas de emergencia. Vue, Vite, PrimeVue, Axios.",
+  "description": "SecurityBus (AstroBus) - Front-end para la gestión de flota de buses, conductores y alertas de emergencia. Vue, Vite, PrimeVue, Axios.",
   "type": "module",
   "scripts": {
     "dev": "vite",

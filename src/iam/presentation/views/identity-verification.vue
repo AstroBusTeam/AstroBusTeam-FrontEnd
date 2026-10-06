@@ -53,7 +53,7 @@ const goToDashboard = () => {
 <template>
   <div class="access-page">
     <header class="flex justify-content-between align-items-center px-4 py-3">
-      <div class="font-bold sb-accent">SAFEBUS | URBANGUARD</div>
+      <div class="font-bold sb-accent">SECURITYBUS | URBANGUARD</div>
       <language-switcher/>
     </header>
 
@@ -67,7 +67,7 @@ const goToDashboard = () => {
 
       <!-- formulario -->
       <section class="p-5">
-        <div class="text-xl font-bold sb-accent">SafeBus</div>
+        <div class="text-xl font-bold sb-accent">SecurityBus</div>
         <h2 class="text-2xl font-medium mt-1 mb-0">{{ t('iam.title') }}</h2>
         <p class="sb-subtitle mb-4">{{ t('iam.subtitle') }}</p>
 

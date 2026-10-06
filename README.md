@@ -1,4 +1,4 @@
-# SafeBus (AstroBus Team) - Front-end
+# SecurityBus (AstroBus Team) - Front-end
 
 Front-end de un sistema de gestión de flota de buses y conductores, con sistema de alertas y botón de emergencia.
 Hecho con Vue 3, Vite, Vue Router, PrimeVue, vue-i18n y Axios. 

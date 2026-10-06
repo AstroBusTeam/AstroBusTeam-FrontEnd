@@ -1,19 +1,22 @@
 import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
-import operationsRoutes from "./operations/presentation/operations-routes.js";
+import operationsRoutes, {operationsAdministrationRoutes} from "./operations/presentation/operations-routes.js";
 import fleetRoutes from "./fleet/presentation/fleet-routes.js";
-import alertsRoutes from "./alerts/presentation/alerts-routes.js";
+import alertsRoutes, {alertsAdministrationRoutes} from "./alerts/presentation/alerts-routes.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 
 // página para las rutas que no existen
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
+// las opciones del menú de administración juntan rutas de varios módulos
+const administrationRoutes = [...fleetRoutes, ...alertsAdministrationRoutes, ...operationsAdministrationRoutes];
+
 // rutas de la app, cada módulo tiene sus propias rutas
 const routes = [
-    { path: '/iam',             name: 'iam',        children: iamRoutes },
-    { path: '/operations',      name: 'operations', children: operationsRoutes },
-    { path: '/fleet',           name: 'fleet',      children: fleetRoutes },
-    { path: '/alerts',          name: 'alerts',     children: alertsRoutes },
+    { path: '/iam',             name: 'iam',            children: iamRoutes },
+    { path: '/operations',      name: 'operations',     children: operationsRoutes },
+    { path: '/administration',  name: 'administration', children: administrationRoutes },
+    { path: '/alerts',          name: 'alerts',         children: alertsRoutes },
     { path: '/home',            redirect: '/operations/dashboard' },
     { path: '/',                redirect: '/operations/dashboard' },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: { title: 'Página no encontrada' } }

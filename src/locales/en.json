@@ -5,6 +5,24 @@
     "status": "System_live",
     "panic": "Panic signal"
   },
+  "menu": {
+    "dashboard": "Dashboard",
+    "map": "Operations map",
+    "administration": "Administration",
+    "control-center": "Control center",
+    "drivers": "Driver management",
+    "vehicles": "Vehicle management",
+    "assignments": "Unit assignment",
+    "notifications": "Notifications",
+    "history": "Shift history",
+    "impact": "Impact in numbers",
+    "alert-logs": "Alert logs",
+    "sign-out": "Sign out"
+  },
+  "footer": {
+    "status": "Active surveillance: transmitting to central",
+    "credits": "Made by AstroBus Team"
+  },
   "iam": {
     "title": "Identity verification",
     "subtitle": "Enter your employee code to start the shift.",

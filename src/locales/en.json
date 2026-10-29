@@ -82,6 +82,23 @@
     "passengers-chart-title": "Passengers per shift",
     "alerts-chart-title": "Alerts by status"
   },
+  "speed": {
+    "current": "Current speed",
+    "max": "Maximum speed",
+    "average": "Average speed",
+    "limit": "Limit",
+    "overspeed": "Speeding events",
+    "normal": "Normal",
+    "warning": "Caution",
+    "overspeed-status": "Speeding",
+    "good": "Good driver",
+    "regular": "Regular behavior",
+    "risk": "Risky behavior",
+    "unknown": "Not assessed",
+    "chart-title": "Max speed per shift",
+    "max-recorded": "Max recorded speed",
+    "affected-shifts": "shifts affected"
+  },
   "alerts": {
     "title": "Unconfirmed alerts",
     "subtitle": "Active management of resends and network escalation protocols.",

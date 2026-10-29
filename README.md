@@ -36,3 +36,7 @@ Cada contexto tiene las capas `domain/model` (entidades), `infrastructure` (API 
   y se dibujan en `shared/presentation/components/fleet-map.vue`.
 - **Botón de emergencia:** `SEÑAL DE PÁNICO` (`PANIC SIGNAL` en inglés) en el toolbar crea una alerta con la ubicación del bus;
   se puede cancelar durante 5 segundos.
+- **Velocidad (km/h):** durante el turno se simula la velocidad del bus cada 5 segundos. El límite es de **60 km/h**
+  y desde 48 km/h se muestra precaución. Cada turno guarda velocidad actual, promedio, máxima y cantidad de excesos;
+  esos datos se usan para calcular la conducta del conductor (buen conductor, conducta regular o conducta de riesgo)
+  y se muestran en el dashboard, mapa, historial, impacto y gestión de conductores.

@@ -82,6 +82,23 @@
     "passengers-chart-title": "Pasajeros por turno",
     "alerts-chart-title": "Alertas por estado"
   },
+  "speed": {
+    "current": "Velocidad actual",
+    "max": "Velocidad máxima",
+    "average": "Velocidad promedio",
+    "limit": "Límite",
+    "overspeed": "Excesos de velocidad",
+    "normal": "Normal",
+    "warning": "Precaución",
+    "overspeed-status": "Exceso",
+    "good": "Buen conductor",
+    "regular": "Conducta regular",
+    "risk": "Conducta de riesgo",
+    "unknown": "Sin evaluar",
+    "chart-title": "Velocidad máxima por turno",
+    "max-recorded": "Velocidad máxima registrada",
+    "affected-shifts": "turnos afectados"
+  },
   "alerts": {
     "title": "Alertas no confirmadas",
     "subtitle": "Gestión activa de reenvíos y protocolos de escalada de red.",

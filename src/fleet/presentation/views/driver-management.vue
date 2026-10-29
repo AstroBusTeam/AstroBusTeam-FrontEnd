@@ -5,11 +5,14 @@ import {useRouter} from "vue-router";
 import {useConfirm} from "primevue";
 import useFleetStore from "../../application/fleet.store.js";
 import {Driver} from "../../domain/model/driver.entity.js";
+import useOperationsStore from "../../../operations/application/operations.store.js";
+import {assessDriver} from "../../../operations/domain/model/speed-policy.js";
 
 const { t } = useI18n();
 const router = useRouter();
 const confirm = useConfirm();
 const fleetStore = useFleetStore();
+const operationsStore = useOperationsStore();
 
 // opciones de los selects
 const categories = ['A-IIa', 'A-IIb', 'A-IIIa', 'A-IIIb', 'A-IIIc'];
@@ -24,6 +27,7 @@ const isEdit = computed(() => form.value.id !== null);
 
 onMounted(() => {
   fleetStore.fetchAll();
+  if (!operationsStore.shiftsLoaded) operationsStore.fetchShifts();
 });
 
 // código del bus asignado al conductor
@@ -31,6 +35,16 @@ const vehicleCodeOf = (driver) => {
   const assignment = fleetStore.getAssignmentByDriverId(driver.id);
   return assignment ? fleetStore.getVehicleById(assignment.vehicleId)?.code : null;
 };
+
+// evaluación de conducta del conductor según sus turnos
+const assessmentOf = (driver) => assessDriver({
+  rating: driver.rating,
+  shifts: operationsStore.getShiftsByDriverId(driver.id)
+});
+const behaviorLabels = { good: 'speed.good', regular: 'speed.regular', risk: 'speed.risk', unknown: 'speed.unknown' };
+const behaviorSeverities = { good: 'success', regular: 'warn', risk: 'danger', unknown: 'secondary' };
+const behaviorLabel = (driver) => t(behaviorLabels[assessmentOf(driver).level]).toUpperCase();
+const behaviorSeverity = (driver) => behaviorSeverities[assessmentOf(driver).level];
 
 // abrir el formulario vacío
 const openNew = () => {
@@ -109,6 +123,11 @@ const confirmDelete = (driver) => {
             <pv-tag :value="data.isActive ? 'ACTIVO' : 'INACTIVO'" :severity="data.isActive ? 'success' : 'secondary'"/>
           </template>
         </pv-column>
+        <pv-column header="Conducta">
+          <template #body="{ data }">
+            <pv-tag :value="behaviorLabel(data)" :severity="behaviorSeverity(data)"/>
+          </template>
+        </pv-column>
         <pv-column header="Acciones">
           <template #body="{ data }">
             <pv-button icon="pi pi-pencil" text rounded @click.stop="openEdit(data)"/>
@@ -139,7 +158,10 @@ const confirmDelete = (driver) => {
             <div class="col-6"><div class="detail-box"><div class="sb-label">Vencimiento</div>{{ selectedDriver.licenseExpiry }}</div></div>
             <div class="col-6"><div class="detail-box"><div class="sb-label">Puntos</div><span class="sb-accent">{{ selectedDriver.points }} / 15</span></div></div>
             <div class="col-6"><div class="detail-box"><div class="sb-label">Calificación</div>★ {{ selectedDriver.rating }}</div></div>
+            <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('speed.average') }}</div>{{ assessmentOf(selectedDriver).averageSpeedKmh ?? '—' }} km/h</div></div>
+            <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('speed.overspeed') }}</div><span :class="assessmentOf(selectedDriver).overspeedEvents ? 'sb-danger' : 'sb-accent'">{{ assessmentOf(selectedDriver).overspeedEvents }}</span></div></div>
           </div>
+          <pv-tag :value="behaviorLabel(selectedDriver)" :severity="behaviorSeverity(selectedDriver)" class="mt-3"/>
 
           <div class="flex gap-2 mt-3">
             <pv-button label="HISTORIAL" icon="pi pi-history" severity="secondary" class="flex-1"

@@ -6,6 +6,7 @@ import {useConfirm, useToast} from "primevue";
 import useOperationsStore from "../../application/operations.store.js";
 import useIamStore from "../../../iam/application/iam.store.js";
 import FleetMap from "../../../shared/presentation/components/fleet-map.vue";
+import {SPEED_LIMIT_KMH} from "../../domain/model/speed-policy.js";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -28,9 +29,23 @@ const vehicle = computed(() => iamStore.currentVehicle);
 // turno que se muestra en el dashboard
 const shift = computed(() => operationsStore.getCurrentShift(iamStore.currentDriver.id));
 const isProtocolComplete = computed(() => checklist.value.every(item => item.done));
+
+// velocidad del turno actual
+const currentSpeed = computed(() => Math.round(shift.value?.speedKmh ?? 0));
+const maxSpeed = computed(() => Math.round(shift.value?.maxSpeedKmh ?? 0));
+const overspeedEvents = computed(() => shift.value?.overspeedEvents ?? 0);
+const speedState = computed(() => shift.value?.speedStatus ?? 'normal');
+const speedLabels = { normal: 'speed.normal', warning: 'speed.warning', overspeed: 'speed.overspeed-status' };
+const speedSeverities = { normal: 'success', warning: 'warn', overspeed: 'danger' };
+const speedPanelClass = computed(() => ({
+  'speed-panel-warning': speedState.value === 'warning',
+  'speed-panel-overspeed': speedState.value === 'overspeed'
+}));
+
 const vehicleMarkers = computed(() => [{
   id: vehicle.value.id, latitude: vehicle.value.latitude, longitude: vehicle.value.longitude,
-  label: vehicle.value.code, title: vehicle.value.code, description: `Placa ${vehicle.value.plate}`
+  label: vehicle.value.code, title: vehicle.value.code,
+  description: `Placa ${vehicle.value.plate} · ${currentSpeed.value} km/h`
 }]);
 
 onMounted(() => {
@@ -157,6 +172,21 @@ const signOut = () => {
         </div>
       </section>
 
+      <section class="sb-panel speed-panel" :class="speedPanelClass">
+        <h2 class="sb-section-title">{{ t('speed.current') }}</h2>
+        <div class="speed-value">{{ currentSpeed }}<span class="speed-unit"> KM/H</span></div>
+        <pv-tag :value="t(speedLabels[speedState]).toUpperCase()" :severity="speedSeverities[speedState]" class="mt-2"/>
+        <div class="text-xs sb-muted mt-2">{{ t('speed.limit') }}: {{ SPEED_LIMIT_KMH }} km/h</div>
+        <div class="flex justify-content-between text-sm mt-3">
+          <span class="sb-muted">{{ t('speed.max') }}</span>
+          <span class="sb-accent">{{ maxSpeed }} km/h</span>
+        </div>
+        <div class="flex justify-content-between text-sm">
+          <span class="sb-muted">{{ t('speed.overspeed') }}</span>
+          <span :class="overspeedEvents ? 'sb-danger' : 'sb-accent'">{{ overspeedEvents }}</span>
+        </div>
+      </section>
+
       <section class="sb-panel">
         <h2 class="sb-section-title">{{ t('dashboard.system-title') }}</h2>
         <div class="flex justify-content-between text-sm mb-2"><span class="sb-muted">GPS</span><span class="sb-accent">ESTABLE</span></div>
@@ -206,5 +236,40 @@ const signOut = () => {
   padding: 0.75rem;
   background: var(--sb-panel-light);
   cursor: pointer;
+}
+
+.speed-panel {
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.speed-panel-warning {
+  border-color: var(--sb-warning);
+}
+
+.speed-panel-overspeed {
+  border-color: var(--sb-danger);
+  background: var(--sb-danger-dark);
+}
+
+.speed-value {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--sb-accent);
+}
+
+.speed-panel-warning .speed-value {
+  color: var(--sb-warning);
+}
+
+.speed-panel-overspeed .speed-value {
+  color: var(--sb-danger);
+}
+
+.speed-unit {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--sb-muted);
 }
 </style>

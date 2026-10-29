@@ -5,6 +5,7 @@ import useOperationsStore from "../../application/operations.store.js";
 import useAlertsStore from "../../../alerts/application/alerts.store.js";
 import useIamStore from "../../../iam/application/iam.store.js";
 import FleetMap from "../../../shared/presentation/components/fleet-map.vue";
+import {SPEED_LIMIT_KMH} from "../../domain/model/speed-policy.js";
 
 const { t } = useI18n();
 const operationsStore = useOperationsStore();
@@ -16,12 +17,16 @@ let clock = null;
 
 const vehicle = computed(() => iamStore.currentVehicle);
 const shift = computed(() => operationsStore.getCurrentShift(iamStore.currentDriver.id));
+const currentSpeed = computed(() => Math.round(shift.value?.speedKmh ?? 0));
+const maxSpeed = computed(() => Math.round(shift.value?.maxSpeedKmh ?? 0));
+const overspeedEvents = computed(() => shift.value?.overspeedEvents ?? 0);
 
 // mi bus y las alertas sin confirmar
 const markers = computed(() => [
   {
     id: `vehicle-${vehicle.value.id}`, latitude: vehicle.value.latitude, longitude: vehicle.value.longitude,
-    label: vehicle.value.code, title: `Unidad ${vehicle.value.code}`, description: `Placa ${vehicle.value.plate} · Tu unidad`
+    label: vehicle.value.code, title: `Unidad ${vehicle.value.code}`,
+    description: `Placa ${vehicle.value.plate} · ${currentSpeed.value} km/h · Tu unidad`
   },
   ...alertsStore.unconfirmedAlerts.map(alert => ({
     id: `alert-${alert.id}`, latitude: alert.latitude, longitude: alert.longitude, danger: true,
@@ -49,6 +54,19 @@ onUnmounted(() => clearInterval(clock));
       <fleet-map :center="vehicle" :markers="markers" :zoom="15" height="620px"/>
     </div>
     <div class="col-12 lg:col-3 flex flex-column gap-4">
+      <div>
+        <div class="sb-label">{{ t('speed.current') }}</div>
+        <div class="sb-value" :class="{ 'sb-danger': shift?.speedStatus === 'overspeed' }">{{ currentSpeed }} KM/H</div>
+        <div class="text-xs sb-muted">{{ t('speed.limit') }}: {{ SPEED_LIMIT_KMH }} km/h</div>
+      </div>
+      <div>
+        <div class="sb-label">{{ t('speed.max') }}</div>
+        <div class="sb-value">{{ maxSpeed }} KM/H</div>
+      </div>
+      <div>
+        <div class="sb-label">{{ t('speed.overspeed') }}</div>
+        <div class="sb-value" :class="overspeedEvents ? 'sb-danger' : 'sb-accent'">{{ overspeedEvents }}</div>
+      </div>
       <div>
         <div class="sb-label">Tiempo total</div>
         <div class="sb-value">{{ shift ? shift.getDuration(now) : '--:--:--' }}</div>

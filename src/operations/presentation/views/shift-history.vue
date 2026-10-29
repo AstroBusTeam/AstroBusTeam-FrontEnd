@@ -4,6 +4,7 @@ import {useI18n} from "vue-i18n";
 import {useRoute} from "vue-router";
 import useOperationsStore from "../../application/operations.store.js";
 import useFleetStore from "../../../fleet/application/fleet.store.js";
+import {assessDriver, SPEED_LIMIT_KMH} from "../../domain/model/speed-policy.js";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -19,10 +20,21 @@ const openShiftId = ref(null);
 
 const driver = computed(() => fleetStore.getDriverById(selectedDriverId.value));
 const shifts = computed(() => operationsStore.getShiftsByDriverId(selectedDriverId.value));
+// evaluación de conducta a partir de turnos, excesos e incidentes
+const assessment = computed(() => assessDriver({
+  rating: driver.value?.rating ?? 0,
+  shifts: shifts.value
+}));
 // suma de incidentes de todos los turnos
-const totalIncidents = computed(() => shifts.value.reduce((sum, shift) => sum + shift.incidents, 0));
-// puntaje = calificación x 20
-const safetyScore = computed(() => driver.value ? (driver.value.rating * 20).toFixed(1) : 0);
+const totalIncidents = computed(() => assessment.value.incidents);
+const safetyScore = computed(() => assessment.value.score);
+const averageSpeed = computed(() => assessment.value.averageSpeedKmh ?? '—');
+const maxSpeed = computed(() => assessment.value.maxSpeedKmh);
+const overspeedEvents = computed(() => assessment.value.overspeedEvents);
+
+// etiquetas y colores del nivel de conducta
+const behaviorLabels = { good: 'speed.good', regular: 'speed.regular', risk: 'speed.risk', unknown: 'speed.unknown' };
+const behaviorSeverities = { good: 'success', regular: 'warn', risk: 'danger', unknown: 'secondary' };
 
 onMounted(() => {
   if (!operationsStore.shiftsLoaded) operationsStore.fetchShifts();
@@ -83,6 +95,21 @@ const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: '
       <div class="sb-panel h-full">
         <div class="sb-label">Puntuación seguridad</div>
         <div class="text-5xl font-bold sb-accent">{{ safetyScore }}<span class="text-base sb-muted">/100</span></div>
+        <pv-tag :value="t(behaviorLabels[assessment.level]).toUpperCase()" :severity="behaviorSeverities[assessment.level]"/>
+      </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-3">
+      <div class="sb-panel h-full">
+        <div class="sb-label">{{ t('speed.average') }}</div>
+        <div class="text-5xl font-bold">{{ averageSpeed }}<span class="text-base sb-muted"> km/h</span></div>
+        <div class="text-xs sb-muted">{{ t('speed.limit') }}: {{ SPEED_LIMIT_KMH }} km/h</div>
+      </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-3">
+      <div class="sb-panel h-full">
+        <div class="sb-label">{{ t('speed.overspeed') }}</div>
+        <div class="text-5xl font-bold" :class="overspeedEvents ? 'sb-danger' : ''">{{ String(overspeedEvents).padStart(2, '0') }}</div>
+        <div class="text-xs sb-muted">{{ t('speed.max') }}: {{ maxSpeed }} km/h</div>
       </div>
     </div>
   </div>
@@ -120,9 +147,12 @@ const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: '
         <div class="text-sm mb-1"><span class="sb-dot mr-2"/>{{ hour(shift.startTime) }} — Inicio de turno · Escaneo de credencial validado.</div>
         <div v-if="shift.incidents" class="text-sm mb-1"><span class="sb-dot mr-2" style="background: var(--sb-warning)"/>Incidentes registrados: {{ shift.incidents }}</div>
         <div class="text-sm mb-3"><span class="sb-dot mr-2" style="background: var(--sb-muted)"/>{{ hour(shift.endTime) }} — Fin de turno</div>
-        <div class="flex gap-5 text-sm">
+        <div class="flex flex-wrap gap-5 text-sm">
           <span>Ruta: <strong>{{ shift.routeCode }}</strong></span>
           <span>Distancia: <strong>{{ shift.distanceKm }} km</strong></span>
+          <span>{{ t('speed.average') }}: <strong>{{ shift.averageSpeed ?? '—' }} km/h</strong></span>
+          <span>{{ t('speed.max') }}: <strong>{{ shift.hasSpeedData ? shift.maxSpeedKmh : '—' }} km/h</strong></span>
+          <span>{{ t('speed.overspeed') }}: <strong :class="shift.overspeedEvents ? 'sb-danger' : ''">{{ shift.overspeedEvents }}</strong></span>
           <span>Recaudación: <strong>S/ {{ shift.revenue.toFixed(2) }}</strong></span>
           <pv-tag :value="statusLabel[shift.status]" :severity="statusSeverity[shift.status]"/>
         </div>

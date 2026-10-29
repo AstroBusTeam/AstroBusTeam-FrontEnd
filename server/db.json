@@ -195,7 +195,12 @@
       "passengers": 12,
       "revenue": 21,
       "incidents": 0,
-      "status": "finished"
+      "status": "finished",
+      "speedKmh": 0,
+      "maxSpeedKmh": 58,
+      "averageSpeedKmh": 32,
+      "speedSamples": 0,
+      "overspeedEvents": 0
     },
     {
       "id": 2,
@@ -210,7 +215,12 @@
       "passengers": 1204,
       "revenue": 1450,
       "incidents": 1,
-      "status": "finished"
+      "status": "finished",
+      "speedKmh": 0,
+      "maxSpeedKmh": 88,
+      "averageSpeedKmh": 52,
+      "speedSamples": 0,
+      "overspeedEvents": 4
     },
     {
       "id": 3,
@@ -225,7 +235,12 @@
       "passengers": 845,
       "revenue": 1010.5,
       "incidents": 0,
-      "status": "finished"
+      "status": "finished",
+      "speedKmh": 0,
+      "maxSpeedKmh": 64,
+      "averageSpeedKmh": 38,
+      "speedSamples": 0,
+      "overspeedEvents": 1
     },
     {
       "id": 4,
@@ -240,7 +255,12 @@
       "passengers": 512,
       "revenue": 620,
       "incidents": 1,
-      "status": "interrupted"
+      "status": "interrupted",
+      "speedKmh": 0,
+      "maxSpeedKmh": 92,
+      "averageSpeedKmh": 60,
+      "speedSamples": 0,
+      "overspeedEvents": 5
     },
     {
       "id": 5,
@@ -255,7 +275,12 @@
       "passengers": 980,
       "revenue": 1320,
       "incidents": 0,
-      "status": "finished"
+      "status": "finished",
+      "speedKmh": 0,
+      "maxSpeedKmh": 55,
+      "averageSpeedKmh": 30,
+      "speedSamples": 0,
+      "overspeedEvents": 0
     },
     {
       "id": 6,
@@ -270,7 +295,12 @@
       "passengers": 60,
       "revenue": 1450,
       "incidents": 0,
-      "status": "finished"
+      "status": "finished",
+      "speedKmh": 0,
+      "maxSpeedKmh": 62,
+      "averageSpeedKmh": 35,
+      "speedSamples": 0,
+      "overspeedEvents": 1
     },
     {
       "id": 7,
@@ -285,7 +315,12 @@
       "passengers": 1,
       "revenue": 1.5,
       "incidents": 0,
-      "status": "finished"
+      "status": "finished",
+      "speedKmh": 0,
+      "maxSpeedKmh": 45,
+      "averageSpeedKmh": 20,
+      "speedSamples": 0,
+      "overspeedEvents": 0
     }
   ],
   "alerts": [

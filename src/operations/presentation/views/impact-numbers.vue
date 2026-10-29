@@ -4,6 +4,7 @@ import {useI18n} from "vue-i18n";
 import useOperationsStore from "../../application/operations.store.js";
 import useFleetStore from "../../../fleet/application/fleet.store.js";
 import useAlertsStore from "../../../alerts/application/alerts.store.js";
+import {SPEED_LIMIT_KMH} from "../../domain/model/speed-policy.js";
 
 const { t } = useI18n();
 const operationsStore = useOperationsStore();
@@ -20,6 +21,14 @@ onMounted(() => {
 // total de pasajeros de todos los turnos
 const totalPassengers = computed(() => operationsStore.shifts.reduce((sum, shift) => sum + shift.passengers, 0));
 
+// métricas de velocidad de toda la operación
+const totalOverspeedEvents = computed(() =>
+    operationsStore.shifts.reduce((sum, shift) => sum + (shift.overspeedEvents ?? 0), 0));
+const maxFleetSpeed = computed(() =>
+    operationsStore.shifts.reduce((max, shift) => Math.max(max, shift.maxSpeedKmh ?? 0), 0));
+const shiftsWithOverspeed = computed(() =>
+    operationsStore.shifts.filter(shift => (shift.overspeedEvents ?? 0) > 0).length);
+
 // tarjetas con los números
 const cards = computed(() => [
   { label: 'Conductores verificados', icon: 'pi pi-shield', value: fleetStore.drivers.filter(d => d.isActive).length,
@@ -29,7 +38,11 @@ const cards = computed(() => [
   { label: 'Pasajeros transportados', icon: 'pi pi-users', value: totalPassengers.value.toLocaleString(),
     detail: `${operationsStore.shifts.length} turnos` },
   { label: 'Unidades en servicio', icon: 'pi pi-car', value: fleetStore.vehicles.filter(v => v.status === 'in-service').length,
-    detail: `${fleetStore.vehicles.length} buses en la flota` }
+    detail: `${fleetStore.vehicles.length} buses en la flota` },
+  { label: t('speed.overspeed'), icon: 'pi pi-exclamation-triangle', value: totalOverspeedEvents.value,
+    detail: `${shiftsWithOverspeed.value} ${t('speed.affected-shifts')}` },
+  { label: t('speed.max-recorded'), icon: 'pi pi-gauge', value: `${maxFleetSpeed.value} km/h`,
+    detail: `${t('speed.limit')}: ${SPEED_LIMIT_KMH} km/h` }
 ]);
 
 // barras del gráfico (hechas con css)
@@ -49,6 +62,19 @@ const alertBars = computed(() => {
   const max = Math.max(1, ...counts);
   return statuses.map((status, index) => ({ label: status.label, value: counts[index], height: counts[index] / max * 100,
     danger: status.key === 'critical' }));
+});
+
+// velocidad máxima de los últimos turnos con datos
+const speedBars = computed(() => {
+  const list = [...operationsStore.shifts]
+      .filter(shift => shift.hasSpeedData)
+      .sort((a, b) => a.startTime.localeCompare(b.startTime))
+      .slice(-8);
+  const max = Math.max(SPEED_LIMIT_KMH, ...list.map(shift => shift.maxSpeedKmh));
+  return list.map(shift => ({
+    label: shift.date.slice(5), value: shift.maxSpeedKmh, height: shift.maxSpeedKmh / max * 100,
+    danger: shift.maxSpeedKmh > SPEED_LIMIT_KMH
+  }));
 });
 </script>
 
@@ -98,6 +124,21 @@ const alertBars = computed(() => {
             <span class="text-xs sb-muted">{{ bar.label }}</span>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="sb-panel">
+        <h2 class="sb-section-title">{{ t('speed.chart-title') }}</h2>
+        <div class="chart">
+          <div v-for="bar in speedBars" :key="bar.label" class="chart-column">
+            <span class="text-xs">{{ bar.value }}</span>
+            <div class="chart-track">
+              <div class="chart-bar" :class="{ 'chart-bar-danger': bar.danger }" :style="{ height: `${bar.height}%` }"/>
+            </div>
+            <span class="text-xs sb-muted">{{ bar.label }}</span>
+          </div>
+        </div>
+        <p v-if="!speedBars.length" class="sb-muted text-sm m-0">Aún no hay turnos con velocidad registrada.</p>
       </div>
     </div>
   </div>

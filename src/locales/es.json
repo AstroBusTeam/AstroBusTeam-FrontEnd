@@ -29,7 +29,27 @@
     "hero-title": "Vigilancia operativa en tiempo real.",
     "hero-subtitle": "Panel de control de SecurityBus para gestionar rutas, telemetría y protocolos de seguridad.",
     "authorized-title": "Acceso autorizado",
-    "authorized-subtitle": "Transmisión de emergencia activa"
+    "authorized-subtitle": "Transmisión de emergencia activa",
+    "status-waiting": "Estado: en espera",
+    "code-required": "CÓDIGO REQUERIDO",
+    "code-example": "Ejemplo: SF-90210",
+    "code-placeholder": "Código de empleado",
+    "verify": "VERIFICAR CREDENCIALES",
+    "verified": "Identidad verificada",
+    "vehicle-plate": "Placa vehículo",
+    "status-active": "ACTIVO",
+    "start-shift": "INICIAR TURNO",
+    "continue": "Seguir",
+    "errors": {
+      "invalid-code-title": "Código inválido",
+      "invalid-code-detail": "El código no coincide con los registros actuales.",
+      "unauthorized-title": "Conductor no autorizado",
+      "unauthorized-detail": "Su perfil no tiene permisos para operar.",
+      "no-vehicle-title": "Sin vehículo asignado",
+      "no-vehicle-detail": "Pida a la central que le asigne una unidad.",
+      "connection-title": "Sin conexión",
+      "connection-detail": "No se pudo conectar con el servidor (json-server)."
+    }
   },
   "dashboard": {
     "service-title": "Inicio de servicio",
@@ -41,28 +61,89 @@
     "confirmation-title": "Confirmación final",
     "system-title": "Estado del sistema",
     "finished-title": "Servicio finalizado correctamente",
-    "finished-subtitle": "Los datos del turno han sido guardados y transmitidos a la central de operaciones."
+    "finished-subtitle": "Los datos del turno han sido guardados y transmitidos a la central de operaciones.",
+    "protocol-incomplete-title": "Protocolo de cierre incompleto",
+    "protocol-incomplete-detail": "Marca los 3 puntos del protocolo de cierre antes de finalizar.",
+    "finish-header": "Finalizar servicio",
+    "finish-message": "¿Seguro que deseas finalizar el servicio? Esta acción no puede deshacerse.",
+    "finish-accept": "Finalizar",
+    "vehicle-description": "Placa {plate} · {speed} km/h",
+    "unit-plate": "Unidad {unit} · Placa {plate}",
+    "view-map": "VER MAPA",
+    "start-new-service": "INICIAR NUEVO SERVICIO",
+    "start-service": "INICIAR SERVICIO",
+    "finish-service": "FINALIZAR SERVICIO",
+    "running": "Servicio en curso · datos actualizándose",
+    "stopped": "Servicio detenido · datos guardados",
+    "gps": "GPS",
+    "gps-stable": "ESTABLE",
+    "telemetry": "TELEMETRÍA",
+    "telemetry-synced": "SINCRO",
+    "cloud": "RED CLOUD",
+    "cloud-active": "ACTIVA",
+    "view-report": "VER REPORTE",
+    "exit": "SALIR",
+    "checklist": {
+      "parked": "Vehículo estacionado en zona segura / terminal",
+      "interior": "Verificación de interior sin objetos perdidos",
+      "passengers": "Validación de total de pasajeros en consola"
+    }
   },
   "service-map": {
     "title": "Mapa de operaciones",
-    "subtitle": "Posición de tu unidad y alertas activas."
+    "subtitle": "Posición de tu unidad y alertas activas.",
+    "active-alerts": "Alertas activas",
+    "marker-hint": "Haz clic en un marcador para ver su información.",
+    "your-unit-description": "Placa {plate} · {speed} km/h · Tu unidad"
   },
   "control-center": {
     "title": "Centro de control",
-    "subtitle": "Posición en vivo de toda la flota."
+    "subtitle": "Posición en vivo de toda la flota.",
+    "units-count": "UNIDADES",
+    "in-service-count": "EN SERVICIO",
+    "active-alerts-count": "ALERTAS ACTIVAS"
   },
   "drivers": {
     "title": "Gestión de conductores",
     "subtitle": "Mostrando {count} conductores registrados en el sistema.",
     "detail-title": "Información detallada",
     "new-title": "Nuevo conductor",
-    "edit-title": "Editar conductor"
+    "edit-title": "Editar conductor",
+    "new-driver": "NUEVO CONDUCTOR",
+    "name": "Nombre",
+    "dni": "DNI",
+    "category": "Categoría",
+    "vehicle": "Vehículo",
+    "not-assigned": "No asignado",
+    "behavior": "Conducta",
+    "in-service": "EN SERVICIO",
+    "years-experience-text": "{years} años de experiencia",
+    "license": "Licencia",
+    "expiry": "Vencimiento",
+    "points": "Puntos",
+    "rating": "Calificación",
+    "history": "HISTORIAL",
+    "edit": "EDITAR",
+    "select-prompt": "Selecciona un conductor de la tabla para ver su información.",
+    "delete-message": "¿Seguro que deseas eliminar a {name}?",
+    "first-name": "Nombres",
+    "last-name": "Apellidos",
+    "employee-code": "Código de empleado",
+    "license-number": "N° de licencia",
+    "select": "Selecciona",
+    "years-experience": "Años de experiencia"
   },
   "vehicles": {
     "title": "Gestión de vehículos",
     "subtitle": "Mostrando {count} buses registrados en la flota.",
     "new-title": "Nuevo vehículo",
-    "edit-title": "Editar vehículo"
+    "edit-title": "Editar vehículo",
+    "new-vehicle": "NUEVO VEHÍCULO",
+    "model": "Modelo",
+    "capacity": "Capacidad",
+    "delete-message": "¿Seguro que deseas eliminar la unidad {code}?",
+    "unit-code": "Código de unidad",
+    "capacity-passengers": "Capacidad (pasajeros)"
   },
   "assignments": {
     "title": "Asociación conductor-vehículo",
@@ -70,17 +151,60 @@
     "drivers-title": "Conductores disponibles",
     "vehicles-title": "Vehículos disponibles",
     "link-title": "Vincular recursos",
-    "current-title": "Asignaciones vigentes"
+    "current-title": "Asignaciones vigentes",
+    "no-drivers": "No hay conductores libres.",
+    "no-vehicles": "No hay vehículos disponibles.",
+    "vehicle-meta": "PLACA: {plate} · CAP: {capacity} PAX",
+    "route-placeholder": "Ruta asignada (ej. Norte-Centro L1)",
+    "confirm": "CONFIRMAR ASIGNACIÓN",
+    "confirmed-toast": "Asignación confirmada",
+    "col-driver": "Conductor",
+    "col-vehicle": "Vehículo (placa)",
+    "col-route": "Ruta asignada",
+    "col-start": "Hora inicio",
+    "release": "Liberar",
+    "release-header": "Liberar unidad",
+    "release-message": "¿Deseas terminar esta asignación? El vehículo quedará disponible."
   },
   "history": {
     "title": "Historial de turnos",
-    "subtitle": "Revisa los turnos e incidentes de cada conductor."
+    "subtitle": "Revisa los turnos e incidentes de cada conductor.",
+    "select-driver": "Selecciona un conductor",
+    "class": "Clase {category}",
+    "total-shifts": "Total turnos",
+    "incidents-detected": "Incidentes detectados",
+    "safety-score": "Puntuación seguridad",
+    "incidents": "Incidentes",
+    "alert": "ALERTA",
+    "clean": "LIMPIO",
+    "operations-log": "Log de operaciones",
+    "shift-start": "Inicio de turno · Escaneo de credencial validado.",
+    "incidents-recorded": "Incidentes registrados: {count}",
+    "shift-end": "Fin de turno",
+    "route": "Ruta",
+    "no-shifts": "Este conductor aún no tiene turnos registrados."
   },
   "impact": {
     "title": "Impacto en números",
     "subtitle": "Métricas de rendimiento operacional y mitigación de riesgos de la red SafeBus.",
     "passengers-chart-title": "Pasajeros por turno",
-    "alerts-chart-title": "Alertas por estado"
+    "alerts-chart-title": "Alertas por estado",
+    "kicker": "— Analítica de seguridad",
+    "verified-drivers": "Conductores verificados",
+    "registered": "{count} registrados",
+    "managed-alerts": "Alertas gestionadas",
+    "confirmed": "{count} confirmadas",
+    "transported": "Pasajeros transportados",
+    "shifts": "{count} turnos",
+    "units-in-service": "Unidades en servicio",
+    "fleet-buses": "{count} buses en la flota",
+    "no-speed-data": "Aún no hay turnos con velocidad registrada.",
+    "bars": {
+      "pending": "PENDIENTE",
+      "timeout": "AGOTADO",
+      "critical": "CRÍTICO",
+      "confirmed": "CONFIRMADO"
+    }
   },
   "speed": {
     "current": "Velocidad actual",
@@ -104,21 +228,182 @@
     "subtitle": "Gestión activa de reenvíos y protocolos de escalada de red.",
     "detail-title": "Confirmación de alerta",
     "detail-subtitle": "Referencia: {code}",
-    "location-title": "Ubicación de la alerta"
+    "location-title": "Ubicación de la alerta",
+    "resend-all": "REENVIAR TODOS",
+    "pending-total": "Pendientes totales",
+    "unconfirmed": "ALERTAS SIN CONFIRMAR",
+    "critical-attempt": "Críticos ({count}er intento)",
+    "action-required": "ACCIÓN REQUERIDA",
+    "confirmed-label": "Confirmadas",
+    "by-central": "POR LA CENTRAL",
+    "col-time": "Hora",
+    "col-id": "ID alerta",
+    "col-type": "Tipo",
+    "col-receiver": "Receptor",
+    "col-attempts": "Intentos",
+    "tip-resend": "Reenviar",
+    "tip-confirm": "Confirmar",
+    "tip-detail": "Ver detalle",
+    "delete-message": "¿Seguro que deseas eliminar la alerta {code}?",
+    "step-sent": "Alerta enviada",
+    "step-received": "Alerta recibida",
+    "step-confirmed": "Confirmada",
+    "step-time": "Hora: {time}",
+    "step-node": "Nodo: {node}",
+    "step-attempts": "Intentos: {count}",
+    "step-number": "Paso {number}",
+    "signal-from": "Señal emitida por la unidad {code}",
+    "protocol-validated": "Protocolo validado",
+    "confirm-alert": "CONFIRMAR ALERTA",
+    "resend": "REENVIAR",
+    "close-view": "CERRAR VISTA",
+    "not-found": "La alerta no existe o fue eliminada."
   },
   "notifications": {
     "title": "Administración de red de alertas",
     "subtitle": "Gestiona los destinatarios activos y realiza simulacros de envío para validar los protocolos.",
     "recipients-title": "Destinatarios activos",
     "simulation-title": "Simulación de envío",
-    "log-title": "Registro de entregas"
+    "log-title": "Registro de entregas",
+    "operational": "OPERATIVOS: {count}",
+    "alert-type": "Tipo de alerta",
+    "priority-label": "Prioridad del mensaje",
+    "preview-label": "Vista previa del mensaje",
+    "preview-text": "[ALERTA-SIM] Se reporta \"{type}\" con prioridad {priority}. Requiere atención según protocolo TRANSIT-SEC.",
+    "send-all": "ENVIAR A TODOS",
+    "col-recipient": "Destinatario",
+    "col-channel": "Canal",
+    "col-priority": "Prioridad",
+    "col-date": "Fecha",
+    "sim-sent": "Simulación enviada",
+    "notified": "{count} destinatarios notificados"
   },
   "panic": {
     "title": "¡Alerta enviada!",
-    "subtitle": "Transmisión de emergencia activa"
+    "subtitle": "Transmisión de emergencia activa",
+    "error": "Error",
+    "error-detail": "No se pudo enviar la alerta. ¿Está encendido json-server?",
+    "cancelled-title": "Alerta cancelada",
+    "cancelled-detail": "{code} fue cancelada.",
+    "code": "Código",
+    "cancel-alert": "CANCELAR ALERTA ({seconds}s)",
+    "cannot-cancel": "YA NO SE PUEDE CANCELAR",
+    "ok": "OK"
   },
   "page-not-found": {
     "title": "Página no encontrada",
-    "subtitle": "La ruta {unavailable-route} no está disponible."
+    "subtitle": "La ruta {unavailable-route} no está disponible.",
+    "back": "← Volver al inicio"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "confirm-delete": "Confirmar eliminación",
+    "actions": "Acciones",
+    "status": "Estado",
+    "unit": "Unidad",
+    "unit-code": "Unidad {code}",
+    "plate": "Placa",
+    "gps": "Coordenadas GPS",
+    "central-status": "Estado central",
+    "central-notified": "CENTRAL NOTIFICADA",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "distance": "Distancia",
+    "total-time": "Tiempo total",
+    "passengers": "Pasajeros",
+    "revenue": "Recaudación",
+    "total": "TOTAL",
+    "no-driver": "Sin conductor",
+    "your-unit": "Tu unidad",
+    "language": "Cambiar idioma"
+  },
+  "vehicle-status": {
+    "available": "Disponible",
+    "in-service": "En servicio",
+    "maintenance": "Mantenimiento"
+  },
+  "alert-status": {
+    "pending": "SIN RESPUESTA",
+    "timeout": "TIEMPO AGOTADO",
+    "critical": "FALLO CRÍTICO",
+    "confirmed": "CONFIRMADO"
+  },
+  "shift-status": {
+    "active": "EN CURSO",
+    "finished": "FINALIZADO",
+    "interrupted": "INTERRUMPIDO"
+  },
+  "delivery-status": {
+    "sent": "ENVIADO",
+    "pending": "PENDIENTE",
+    "failed": "FALLIDO"
+  },
+  "months": {
+    "jan": "ENE",
+    "feb": "FEB",
+    "mar": "MAR",
+    "apr": "ABR",
+    "may": "MAY",
+    "jun": "JUN",
+    "jul": "JUL",
+    "aug": "AGO",
+    "sep": "SET",
+    "oct": "OCT",
+    "nov": "NOV",
+    "dec": "DIC"
+  },
+  "titles": {
+    "access": "Acceso conductor",
+    "home": "Inicio",
+    "map": "Mapa",
+    "history": "Historial de turnos",
+    "impact": "Impacto en números",
+    "alert-logs": "Registro de alertas",
+    "alert-detail": "Confirmación de alerta",
+    "notifications": "Notificaciones",
+    "control-center": "Centro de control",
+    "drivers": "Gestión de conductores",
+    "vehicles": "Gestión de vehículos",
+    "assignments": "Asignación de unidades",
+    "not-found": "Página no encontrada"
+  },
+  "data": {
+    "alert-type": {
+      "panic-button": "Botón de pánico",
+      "mechanical-failure": "Fallo mecánico",
+      "unauthorized-entry": "Ingreso no autorizado",
+      "door-open": "Puerta abierta en marcha",
+      "infrastructure-failure": "Fallo de infraestructura",
+      "route-deviation": "Desvío de ruta"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "urgent": "Urgente"
+    },
+    "role": {
+      "zone-supervisor": "Supervisor de zona centro",
+      "logistics-coordinator": "Coordinadora de logística",
+      "night-dispatch": "Despacho nocturno",
+      "network-analyst": "Analista de redes"
+    },
+    "receiver": {
+      "CENTRAL_OPERACIONES": "CENTRAL_OPERACIONES",
+      "DISP_SEGURIDAD_NORTE": "DISP_SEGURIDAD_NORTE",
+      "SISTEMA_RED_WAN": "SISTEMA_RED_WAN",
+      "TERMINAL_CENTRAL": "TERMINAL_CENTRAL",
+      "UNIDAD_MOVIL_04": "UNIDAD_MOVIL_04"
+    }
+  },
+  "primevue": {
+    "empty-message": "No hay opciones disponibles",
+    "empty-search-message": "No se encontraron resultados",
+    "empty-selection-message": "Ningún elemento seleccionado"
+  },
+  "map": {
+    "critical-alert": "ALERTA CRÍTICA",
+    "view-details": "VER DETALLES →"
   }
 }

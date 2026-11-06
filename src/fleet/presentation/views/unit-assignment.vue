@@ -31,7 +31,7 @@ const confirmAssignment = () => {
     startTime: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
   });
   fleetStore.addAssignment(assignment);
-  toast.add({ severity: 'success', summary: 'Asignación confirmada', detail: assignment.route, life: 3000 });
+  toast.add({ severity: 'success', summary: t('assignments.confirmed-toast'), detail: assignment.route, life: 3000 });
   selectedDriverId.value = null;
   selectedVehicleId.value = null;
   routeName.value = '';
@@ -40,11 +40,11 @@ const confirmAssignment = () => {
 // termina la asignación
 const confirmRelease = (assignment) => {
   confirm.require({
-    header: 'Liberar unidad',
-    message: '¿Deseas terminar esta asignación? El vehículo quedará disponible.',
+    header: t('assignments.release-header'),
+    message: t('assignments.release-message'),
     icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Liberar',
-    rejectLabel: 'Cancelar',
+    acceptLabel: t('assignments.release'),
+    rejectLabel: t('common.cancel'),
     accept: () => fleetStore.deleteAssignment(assignment)
   });
 };
@@ -68,7 +68,7 @@ const vehicleText = (id) => {
       <div class="sb-panel h-full">
         <div class="flex justify-content-between">
           <h2 class="sb-section-title">{{ t('assignments.drivers-title') }}</h2>
-          <span class="text-xs sb-accent">{{ fleetStore.availableDrivers.length }} TOTAL</span>
+          <span class="text-xs sb-accent">{{ fleetStore.availableDrivers.length }} {{ t('common.total') }}</span>
         </div>
         <div class="flex flex-column gap-2">
           <div v-for="driver in fleetStore.availableDrivers" :key="driver.id" class="pick-item"
@@ -80,7 +80,7 @@ const vehicleText = (id) => {
             </div>
             <i v-if="selectedDriverId === driver.id" class="pi pi-check-circle sb-accent"/>
           </div>
-          <p v-if="!fleetStore.availableDrivers.length" class="sb-muted text-sm">No hay conductores libres.</p>
+          <p v-if="!fleetStore.availableDrivers.length" class="sb-muted text-sm">{{ t('assignments.no-drivers') }}</p>
         </div>
       </div>
     </div>
@@ -90,9 +90,9 @@ const vehicleText = (id) => {
       <div class="sb-panel text-center">
         <i class="pi pi-arrow-right-arrow-left text-3xl sb-accent"/>
         <h2 class="sb-section-title sb-muted mt-3">{{ t('assignments.link-title') }}</h2>
-        <pv-input-text v-model="routeName" placeholder="Ruta asignada (ej. Norte-Centro L1)" class="w-full"/>
+        <pv-input-text v-model="routeName" :placeholder="t('assignments.route-placeholder')" class="w-full"/>
       </div>
-      <pv-button label="CONFIRMAR ASIGNACIÓN" icon="pi pi-check-circle" class="py-3 font-bold" :disabled="!canConfirm"
+      <pv-button :label="t('assignments.confirm')" icon="pi pi-check-circle" class="py-3 font-bold" :disabled="!canConfirm"
                  @click="confirmAssignment"/>
     </div>
 
@@ -101,7 +101,7 @@ const vehicleText = (id) => {
       <div class="sb-panel h-full">
         <div class="flex justify-content-between">
           <h2 class="sb-section-title">{{ t('assignments.vehicles-title') }}</h2>
-          <span class="text-xs sb-accent">{{ fleetStore.availableVehicles.length }} TOTAL</span>
+          <span class="text-xs sb-accent">{{ fleetStore.availableVehicles.length }} {{ t('common.total') }}</span>
         </div>
         <div class="flex flex-column gap-2">
           <div v-for="vehicle in fleetStore.availableVehicles" :key="vehicle.id" class="pick-item"
@@ -109,11 +109,11 @@ const vehicleText = (id) => {
             <span class="text-2xl">🚌</span>
             <div class="flex-1">
               <div class="font-semibold">{{ vehicle.code }} · {{ vehicle.model.toUpperCase() }}</div>
-              <div class="text-xs sb-muted">PLACA: {{ vehicle.plate }} · CAP: {{ vehicle.capacity }} PAX</div>
+              <div class="text-xs sb-muted">{{ t('assignments.vehicle-meta', { plate: vehicle.plate, capacity: vehicle.capacity }) }}</div>
             </div>
             <i v-if="selectedVehicleId === vehicle.id" class="pi pi-check-circle sb-accent"/>
           </div>
-          <p v-if="!fleetStore.availableVehicles.length" class="sb-muted text-sm">No hay vehículos disponibles.</p>
+          <p v-if="!fleetStore.availableVehicles.length" class="sb-muted text-sm">{{ t('assignments.no-vehicles') }}</p>
         </div>
       </div>
     </div>
@@ -122,20 +122,20 @@ const vehicleText = (id) => {
   <h2 class="sb-section-title">{{ t('assignments.current-title') }}</h2>
   <!-- asignaciones actuales -->
   <pv-data-table :value="fleetStore.activeAssignments" :loading="!fleetStore.assignmentsLoaded" striped-rows>
-    <pv-column header="Conductor">
+    <pv-column :header="t('assignments.col-driver')">
       <template #body="{ data }">{{ driverName(data.driverId) }}</template>
     </pv-column>
-    <pv-column header="Vehículo (placa)">
+    <pv-column :header="t('assignments.col-vehicle')">
       <template #body="{ data }">{{ vehicleText(data.vehicleId) }}</template>
     </pv-column>
-    <pv-column field="route" header="Ruta asignada"/>
-    <pv-column field="startTime" header="Hora inicio"/>
-    <pv-column header="Estado">
-      <template #body><pv-tag value="EN CURSO" severity="success"/></template>
+    <pv-column field="route" :header="t('assignments.col-route')"/>
+    <pv-column field="startTime" :header="t('assignments.col-start')"/>
+    <pv-column :header="t('common.status')">
+      <template #body><pv-tag :value="t('shift-status.active')" severity="success"/></template>
     </pv-column>
-    <pv-column header="Acciones">
+    <pv-column :header="t('common.actions')">
       <template #body="{ data }">
-        <pv-button label="Liberar" icon="pi pi-times" text severity="danger" @click="confirmRelease(data)"/>
+        <pv-button :label="t('assignments.release')" icon="pi pi-times" text severity="danger" @click="confirmRelease(data)"/>
       </template>
     </pv-column>
   </pv-data-table>

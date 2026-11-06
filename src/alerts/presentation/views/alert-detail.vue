@@ -52,9 +52,9 @@ onMounted(() => {
           <div class="flex justify-content-between align-items-start mb-4">
             <div>
               <div class="text-lg">{{ alert.type }}</div>
-              <div class="text-sm sb-muted">Señal emitida por la unidad {{ vehicle?.code ?? '—' }}</div>
+              <div class="text-sm sb-muted">{{ t('alerts.signal-from', { code: vehicle?.code ?? '—' }) }}</div>
             </div>
-            <span v-if="alert.isConfirmed" class="sb-badge">Protocolo validado</span>
+            <span v-if="alert.isConfirmed" class="sb-badge">{{ t('alerts.protocol-validated') }}</span>
             <pv-tag v-else-if="alert.isCritical" value="FALLO CRÍTICO" severity="danger"/>
           </div>
 

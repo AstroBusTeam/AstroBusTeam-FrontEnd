@@ -54,30 +54,30 @@ const rowClass = (alert) => alert.isCritical ? 'critical-row' : '';
       <h1 class="sb-title">{{ t('alerts.title') }}</h1>
       <p class="sb-subtitle">{{ t('alerts.subtitle') }}</p>
     </div>
-    <pv-button label="REENVIAR TODOS" icon="pi pi-refresh" @click="resendAll"/>
+    <pv-button :label="t('alerts.resend-all')" icon="pi pi-refresh" @click="resendAll"/>
   </div>
 
   <!-- contadores -->
   <div class="grid mb-3">
     <div class="col-12 md:col-4">
       <div class="sb-panel">
-        <div class="sb-label">Pendientes totales</div>
+        <div class="sb-label">{{ t('alerts.pending-total') }}</div>
         <div class="text-5xl">{{ alertsStore.unconfirmedAlerts.length }}</div>
-        <div class="text-xs sb-accent">ALERTAS SIN CONFIRMAR</div>
+        <div class="text-xs sb-accent">{{ t('alerts.unconfirmed') }}</div>
       </div>
     </div>
     <div class="col-12 md:col-4">
       <div class="sb-panel">
-        <div class="sb-label">Críticos ({{ MAX_ATTEMPTS }}er intento)</div>
+        <div class="sb-label">{{ t('alerts.critical-attempt', { count: MAX_ATTEMPTS }) }}</div>
         <div class="text-5xl sb-danger">{{ String(alertsStore.criticalAlerts.length).padStart(2, '0') }}</div>
-        <div class="text-xs sb-danger">ACCIÓN REQUERIDA</div>
+        <div class="text-xs sb-danger">{{ t('alerts.action-required') }}</div>
       </div>
     </div>
     <div class="col-12 md:col-4">
       <div class="sb-panel">
-        <div class="sb-label">Confirmadas</div>
+        <div class="sb-label">{{ t('alerts.confirmed-label') }}</div>
         <div class="text-5xl sb-accent">{{ alertsStore.alerts.length - alertsStore.unconfirmedAlerts.length }}</div>
-        <div class="text-xs sb-muted">POR LA CENTRAL</div>
+        <div class="text-xs sb-muted">{{ t('alerts.by-central') }}</div>
       </div>
     </div>
   </div>
@@ -85,28 +85,28 @@ const rowClass = (alert) => alert.isCritical ? 'critical-row' : '';
   <!-- tabla de alertas -->
   <pv-data-table :value="alertsStore.alerts" :loading="!alertsStore.alertsLoaded" :row-class="rowClass"
                  paginator :rows="8">
-    <pv-column header="Hora" sortable sort-field="createdAt">
+    <pv-column :header="t('alerts.col-time')" sortable sort-field="createdAt">
       <template #body="{ data }">{{ data.time }}</template>
     </pv-column>
-    <pv-column field="code" header="ID alerta" sortable>
+    <pv-column field="code" :header="t('alerts.col-id')" sortable>
       <template #body="{ data }">#{{ data.code }}</template>
     </pv-column>
-    <pv-column header="Unidad">
+    <pv-column :header="t('common.unit')">
       <template #body="{ data }">{{ vehicleCode(data.vehicleId) }}</template>
     </pv-column>
-    <pv-column field="type" header="Tipo"/>
-    <pv-column field="receiver" header="Receptor"/>
-    <pv-column header="Intentos">
+    <pv-column field="type" :header="t('alerts.col-type')"/>
+    <pv-column field="receiver" :header="t('alerts.col-receiver')"/>
+    <pv-column :header="t('alerts.col-attempts')">
       <template #body="{ data }">
         <pv-tag :value="`${data.attempts}/${MAX_ATTEMPTS}`" :severity="data.attempts >= MAX_ATTEMPTS ? 'danger' : 'warn'"/>
       </template>
     </pv-column>
-    <pv-column header="Estado">
+    <pv-column :header="t('common.status')">
       <template #body="{ data }">
         <pv-tag :value="statusInfo[data.status].label" :severity="statusInfo[data.status].severity"/>
       </template>
     </pv-column>
-    <pv-column header="Acciones">
+    <pv-column :header="t('common.actions')">
       <template #body="{ data }">
         <div class="flex gap-1">
           <pv-button v-tooltip.top="'Reenviar'" icon="pi pi-refresh" text rounded

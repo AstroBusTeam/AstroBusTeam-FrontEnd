@@ -1,18 +1,30 @@
 <script setup>
-import {computed} from "vue";
+import {computed, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {usePrimeVue} from "primevue/config";
 import LanguageSwitcher from "./language-switcher.vue";
 import FooterContent from "./footer-content.vue";
 import PanicButton from "../../../alerts/presentation/components/panic-button.vue";
 import useIamStore from "../../../iam/application/iam.store.js";
 import useOperationsStore from "../../../operations/application/operations.store.js";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const primevue = usePrimeVue();
 const route = useRoute();
 const router = useRouter();
 const iamStore = useIamStore();
 const operationsStore = useOperationsStore();
+
+// los mensajes por defecto de PrimeVue (tablas vacías, selects) cambian con el idioma
+watch(locale, () => {
+  Object.assign(primevue.config.locale, {
+    emptyMessage: t('primevue.empty-message'),
+    emptyFilterMessage: t('primevue.empty-search-message'),
+    emptySearchMessage: t('primevue.empty-search-message'),
+    emptySelectionMessage: t('primevue.empty-selection-message')
+  });
+}, { immediate: true });
 
 // la página de login se muestra sin menú ni toolbar
 const isPublicPage = computed(() => route.meta['public'] === true);

@@ -1,5 +1,6 @@
 <script setup>
 import {computed, onUnmounted, ref, watch} from "vue";
+import {useI18n} from "vue-i18n";
 import {MapApi} from "../../infrastructure/map-api.js";
 
 // recibe el centro, los marcadores, el zoom y el alto del mapa
@@ -10,6 +11,7 @@ const props = defineProps({
   height:  { type: String, default: '500px' }
 });
 
+const { t } = useI18n();
 const mapApi = new MapApi();
 // cada imagen del mapa mide 256x256 y usamos una grilla de 5x4
 const TILE_SIZE = 256;
@@ -102,11 +104,11 @@ onUnmounted(releaseTiles);
 
       <!-- popup con la info del marcador -->
       <div v-if="selectedMarker" class="fleet-map-popup" :style="markerStyle(selectedMarker)" @click.stop>
-        <pv-tag v-if="selectedMarker.danger" severity="danger" value="ALERTA CRÍTICA" class="mb-2"/>
+        <pv-tag v-if="selectedMarker.danger" severity="danger" :value="t('map.critical-alert')" class="mb-2"/>
         <div class="font-semibold">{{ selectedMarker.title }}</div>
         <div class="text-sm sb-muted">{{ selectedMarker.description }}</div>
         <router-link v-if="selectedMarker.link" :to="selectedMarker.link" class="block mt-2 text-sm sb-accent">
-          VER DETALLES →
+          {{ t('map.view-details') }}
         </router-link>
       </div>
     </div>

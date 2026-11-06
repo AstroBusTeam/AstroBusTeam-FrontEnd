@@ -16,7 +16,10 @@ const operationsStore = useOperationsStore();
 
 // opciones de los selects
 const categories = ['A-IIa', 'A-IIb', 'A-IIIa', 'A-IIIb', 'A-IIIc'];
-const statusOptions = [{ label: 'Activo', value: 'active' }, { label: 'Inactivo', value: 'inactive' }];
+const statusOptions = computed(() => [
+  { label: t('common.active'), value: 'active' },
+  { label: t('common.inactive'), value: 'inactive' }
+]);
 
 const selectedDriverId = ref(null);
 const dialogVisible = ref(false);
@@ -68,11 +71,11 @@ const saveDriver = () => {
 // pregunta antes de eliminar
 const confirmDelete = (driver) => {
   confirm.require({
-    header: 'Confirmar eliminación',
-    message: `¿Seguro que deseas eliminar a ${driver.fullName}?`,
+    header: t('common.confirm-delete'),
+    message: t('drivers.delete-message', { name: driver.fullName }),
     icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Eliminar',
-    rejectLabel: 'Cancelar',
+    acceptLabel: t('common.delete'),
+    rejectLabel: t('common.cancel'),
     accept: () => {
       fleetStore.deleteDriver(driver);
       selectedDriverId.value = null;
@@ -89,7 +92,7 @@ const confirmDelete = (driver) => {
           <h1 class="sb-title">{{ t('drivers.title') }}</h1>
           <p class="sb-subtitle">{{ t('drivers.subtitle', { count: fleetStore.drivers.length }) }}</p>
         </div>
-        <pv-button label="NUEVO CONDUCTOR" icon="pi pi-plus" @click="openNew"/>
+        <pv-button :label="t('drivers.new-driver')" icon="pi pi-plus" @click="openNew"/>
       </div>
 
       <!-- tabla de conductores -->
@@ -97,7 +100,7 @@ const confirmDelete = (driver) => {
                      selection-mode="single" :selection="selectedDriver"
                      @row-select="event => selectedDriverId = event.data.id"
                      paginator :rows="8" striped-rows>
-        <pv-column header="Nombre" sortable sort-field="lastName">
+        <pv-column :header="t('drivers.name')" sortable sort-field="lastName">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
               <pv-avatar :label="data.initials"/>
@@ -108,27 +111,27 @@ const confirmDelete = (driver) => {
             </div>
           </template>
         </pv-column>
-        <pv-column field="dni" header="DNI"/>
-        <pv-column header="Categoría">
+        <pv-column field="dni" :header="t('drivers.dni')"/>
+        <pv-column :header="t('drivers.category')">
           <template #body="{ data }"><pv-tag :value="data.category" severity="secondary"/></template>
         </pv-column>
-        <pv-column header="Vehículo">
+        <pv-column :header="t('drivers.vehicle')">
           <template #body="{ data }">
             <span v-if="vehicleCodeOf(data)"><i class="pi pi-car mr-1"/>{{ vehicleCodeOf(data) }}</span>
-            <span v-else class="sb-muted">No asignado</span>
+            <span v-else class="sb-muted">{{ t('drivers.not-assigned') }}</span>
           </template>
         </pv-column>
-        <pv-column header="Estado">
+        <pv-column :header="t('common.status')">
           <template #body="{ data }">
-            <pv-tag :value="data.isActive ? 'ACTIVO' : 'INACTIVO'" :severity="data.isActive ? 'success' : 'secondary'"/>
+            <pv-tag :value="t(data.isActive ? 'common.active' : 'common.inactive').toUpperCase()" :severity="data.isActive ? 'success' : 'secondary'"/>
           </template>
         </pv-column>
-        <pv-column header="Conducta">
+        <pv-column :header="t('drivers.behavior')">
           <template #body="{ data }">
             <pv-tag :value="behaviorLabel(data)" :severity="behaviorSeverity(data)"/>
           </template>
         </pv-column>
-        <pv-column header="Acciones">
+        <pv-column :header="t('common.actions')">
           <template #body="{ data }">
             <pv-button icon="pi pi-pencil" text rounded @click.stop="openEdit(data)"/>
             <pv-button icon="pi pi-trash" text rounded severity="danger" @click.stop="confirmDelete(data)"/>
@@ -145,31 +148,31 @@ const confirmDelete = (driver) => {
             <pv-avatar :label="selectedDriver.initials" size="xlarge"/>
             <div>
               <div class="text-xs" :class="selectedDriver.isActive ? 'sb-accent' : 'sb-muted'">
-                <span class="sb-dot mr-1"/>{{ selectedDriver.isActive ? 'EN SERVICIO' : 'INACTIVO' }}
+                <span class="sb-dot mr-1"/>{{ selectedDriver.isActive ? t('drivers.in-service') : t('common.inactive').toUpperCase() }}
               </div>
               <div class="text-xl font-semibold">{{ selectedDriver.fullName.toUpperCase() }}</div>
-              <div class="text-sm sb-muted">{{ selectedDriver.yearsExperience }} años de experiencia</div>
+              <div class="text-sm sb-muted">{{ t('drivers.years-experience-text', { years: selectedDriver.yearsExperience }) }}</div>
             </div>
           </div>
 
           <h2 class="sb-section-title sb-muted">{{ t('drivers.detail-title') }}</h2>
           <div class="grid">
-            <div class="col-6"><div class="detail-box"><div class="sb-label">Licencia</div>{{ selectedDriver.licenseNumber }}</div></div>
-            <div class="col-6"><div class="detail-box"><div class="sb-label">Vencimiento</div>{{ selectedDriver.licenseExpiry }}</div></div>
-            <div class="col-6"><div class="detail-box"><div class="sb-label">Puntos</div><span class="sb-accent">{{ selectedDriver.points }} / 15</span></div></div>
-            <div class="col-6"><div class="detail-box"><div class="sb-label">Calificación</div>★ {{ selectedDriver.rating }}</div></div>
+            <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('drivers.license') }}</div>{{ selectedDriver.licenseNumber }}</div></div>
+            <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('drivers.expiry') }}</div>{{ selectedDriver.licenseExpiry }}</div></div>
+            <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('drivers.points') }}</div><span class="sb-accent">{{ selectedDriver.points }} / 15</span></div></div>
+            <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('drivers.rating') }}</div>★ {{ selectedDriver.rating }}</div></div>
             <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('speed.average') }}</div>{{ assessmentOf(selectedDriver).averageSpeedKmh ?? '—' }} km/h</div></div>
             <div class="col-6"><div class="detail-box"><div class="sb-label">{{ t('speed.overspeed') }}</div><span :class="assessmentOf(selectedDriver).overspeedEvents ? 'sb-danger' : 'sb-accent'">{{ assessmentOf(selectedDriver).overspeedEvents }}</span></div></div>
           </div>
           <pv-tag :value="behaviorLabel(selectedDriver)" :severity="behaviorSeverity(selectedDriver)" class="mt-3"/>
 
           <div class="flex gap-2 mt-3">
-            <pv-button label="HISTORIAL" icon="pi pi-history" severity="secondary" class="flex-1"
+            <pv-button :label="t('drivers.history')" icon="pi pi-history" severity="secondary" class="flex-1"
                        @click="router.push({ name: 'operations-history', query: { driverId: selectedDriver.id } })"/>
-            <pv-button label="EDITAR" icon="pi pi-pencil" severity="secondary" class="flex-1" @click="openEdit(selectedDriver)"/>
+            <pv-button :label="t('drivers.edit')" icon="pi pi-pencil" severity="secondary" class="flex-1" @click="openEdit(selectedDriver)"/>
           </div>
         </template>
-        <p v-else class="sb-muted text-center mt-6">Selecciona un conductor de la tabla para ver su información.</p>
+        <p v-else class="sb-muted text-center mt-6">{{ t('drivers.select-prompt') }}</p>
       </div>
     </div>
   </div>
@@ -179,49 +182,49 @@ const confirmDelete = (driver) => {
              :style="{ width: '520px' }">
     <form id="driver-form" class="grid" @submit.prevent="saveDriver">
       <div class="col-6 flex flex-column gap-1">
-        <label for="firstName" class="sb-label">Nombres</label>
+        <label for="firstName" class="sb-label">{{ t('drivers.first-name') }}</label>
         <pv-input-text id="firstName" v-model="form.firstName" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="lastName" class="sb-label">Apellidos</label>
+        <label for="lastName" class="sb-label">{{ t('drivers.last-name') }}</label>
         <pv-input-text id="lastName" v-model="form.lastName" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="employeeCode" class="sb-label">Código de empleado</label>
+        <label for="employeeCode" class="sb-label">{{ t('drivers.employee-code') }}</label>
         <pv-input-text id="employeeCode" v-model="form.employeeCode" placeholder="SF-00000" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="dni" class="sb-label">DNI</label>
+        <label for="dni" class="sb-label">{{ t('drivers.dni') }}</label>
         <pv-input-text id="dni" v-model="form.dni" maxlength="8" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="licenseNumber" class="sb-label">N° de licencia</label>
+        <label for="licenseNumber" class="sb-label">{{ t('drivers.license-number') }}</label>
         <pv-input-text id="licenseNumber" v-model="form.licenseNumber" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="licenseExpiry" class="sb-label">Vencimiento</label>
+        <label for="licenseExpiry" class="sb-label">{{ t('drivers.expiry') }}</label>
         <pv-input-text id="licenseExpiry" v-model="form.licenseExpiry" type="date" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="category" class="sb-label">Categoría</label>
-        <pv-select id="category" v-model="form.category" :options="categories" placeholder="Selecciona"/>
+        <label for="category" class="sb-label">{{ t('drivers.category') }}</label>
+        <pv-select id="category" v-model="form.category" :options="categories" :placeholder="t('drivers.select')"/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="status" class="sb-label">Estado</label>
+        <label for="status" class="sb-label">{{ t('common.status') }}</label>
         <pv-select id="status" v-model="form.status" :options="statusOptions" option-label="label" option-value="value"/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="yearsExperience" class="sb-label">Años de experiencia</label>
+        <label for="yearsExperience" class="sb-label">{{ t('drivers.years-experience') }}</label>
         <pv-input-number id="yearsExperience" v-model="form.yearsExperience" :min="0" :max="50"/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="points" class="sb-label">Puntos</label>
+        <label for="points" class="sb-label">{{ t('drivers.points') }}</label>
         <pv-input-number id="points" v-model="form.points" :min="0" :max="15"/>
       </div>
     </form>
     <template #footer>
-      <pv-button label="Cancelar" severity="secondary" @click="dialogVisible = false"/>
-      <pv-button label="Guardar" icon="pi pi-save" type="submit" form="driver-form"/>
+      <pv-button :label="t('common.cancel')" severity="secondary" @click="dialogVisible = false"/>
+      <pv-button :label="t('common.save')" icon="pi pi-save" type="submit" form="driver-form"/>
     </template>
   </pv-dialog>
 </template>

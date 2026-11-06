@@ -20,9 +20,9 @@ let clock = null;
 const finishedDialogVisible = ref(false);
 // puntos del protocolo de cierre
 const checklist = ref([
-  { label: 'Vehículo estacionado en zona segura / terminal', done: false },
-  { label: 'Verificación de interior sin objetos perdidos', done: false },
-  { label: 'Validación de total de pasajeros en consola', done: false }
+  { labelKey: 'dashboard.checklist.parked', done: false },
+  { labelKey: 'dashboard.checklist.interior', done: false },
+  { labelKey: 'dashboard.checklist.passengers', done: false }
 ]);
 
 const vehicle = computed(() => iamStore.currentVehicle);
@@ -45,7 +45,7 @@ const speedPanelClass = computed(() => ({
 const vehicleMarkers = computed(() => [{
   id: vehicle.value.id, latitude: vehicle.value.latitude, longitude: vehicle.value.longitude,
   label: vehicle.value.code, title: vehicle.value.code,
-  description: `Placa ${vehicle.value.plate} · ${currentSpeed.value} km/h`
+  description: t('dashboard.vehicle-description', { plate: vehicle.value.plate, speed: currentSpeed.value })
 }]);
 
 onMounted(() => {
@@ -65,16 +65,16 @@ watch(() => shift.value?.isActive, isActive => {
 const confirmFinish = () => {
   // primero hay que marcar el protocolo de cierre
   if (!isProtocolComplete.value) {
-    toast.add({ severity: 'warn', summary: 'Protocolo de cierre incompleto',
-      detail: 'Marca los 3 puntos del protocolo de cierre antes de finalizar.', life: 3500 });
+    toast.add({ severity: 'warn', summary: t('dashboard.protocol-incomplete-title'),
+      detail: t('dashboard.protocol-incomplete-detail'), life: 3500 });
     return;
   }
   confirm.require({
-    header: 'Finalizar servicio',
-    message: '¿Seguro que deseas finalizar el servicio? Esta acción no puede deshacerse.',
+    header: t('dashboard.finish-header'),
+    message: t('dashboard.finish-message'),
     icon: 'pi pi-power-off',
-    acceptLabel: 'Finalizar',
-    rejectLabel: 'Cancelar',
+    acceptLabel: t('dashboard.finish-accept'),
+    rejectLabel: t('common.cancel'),
     accept: () => {
       operationsStore.finishShift(shift.value).then(() => {
         checklist.value.forEach(item => item.done = false);
@@ -110,19 +110,19 @@ const signOut = () => {
           <h2 class="sb-section-title">{{ shift.isActive ? t('dashboard.service-title') : t('dashboard.summary-title') }}</h2>
           <div class="grid">
             <div class="col-6 xl:col-3">
-              <div class="sb-label">Distancia</div>
+              <div class="sb-label">{{ t('common.distance') }}</div>
               <div class="sb-value">{{ shift.distanceKm.toFixed(2) }} KM</div>
             </div>
             <div class="col-6 xl:col-3">
-              <div class="sb-label">Tiempo total</div>
+              <div class="sb-label">{{ t('common.total-time') }}</div>
               <div class="sb-value">{{ shift.getDuration(now) }}</div>
             </div>
             <div class="col-6 xl:col-3">
-              <div class="sb-label">Pasajeros</div>
+              <div class="sb-label">{{ t('common.passengers') }}</div>
               <div class="sb-value">{{ shift.passengers }}</div>
             </div>
             <div class="col-6 xl:col-3">
-              <div class="sb-label">Recaudación</div>
+              <div class="sb-label">{{ t('common.revenue') }}</div>
               <div class="sb-value">S/ {{ shift.revenue.toFixed(2) }}</div>
             </div>
           </div>
@@ -133,17 +133,17 @@ const signOut = () => {
             <span class="route-code">{{ shift.routeCode }}</span>
             <div class="flex-1">
               <div class="font-semibold">{{ shift.routeName }}</div>
-              <div class="text-xs sb-muted">Unidad {{ vehicle.code }} · Placa {{ vehicle.plate }}</div>
+              <div class="text-xs sb-muted">{{ t('dashboard.unit-plate', { unit: vehicle.code, plate: vehicle.plate }) }}</div>
             </div>
-            <pv-button v-if="shift.isActive" label="VER MAPA" icon="pi pi-map" @click="router.push('/operations/map')"/>
-            <pv-button v-else label="INICIAR NUEVO SERVICIO" icon="pi pi-play" @click="startNewService"/>
+            <pv-button v-if="shift.isActive" :label="t('dashboard.view-map')" icon="pi pi-map" @click="router.push('/operations/map')"/>
+            <pv-button v-else :label="t('dashboard.start-new-service')" icon="pi pi-play" @click="startNewService"/>
           </div>
         </template>
 
         <template v-else>
           <h2 class="sb-section-title">{{ t('dashboard.no-service-title') }}</h2>
           <p class="sb-subtitle mb-3">{{ t('dashboard.no-service-subtitle') }}</p>
-          <pv-button label="INICIAR SERVICIO" icon="pi pi-play" @click="startNewService"/>
+          <pv-button :label="t('dashboard.start-service')" icon="pi pi-play" @click="startNewService"/>
         </template>
       </section>
 
@@ -153,7 +153,7 @@ const signOut = () => {
         <div class="flex flex-column gap-2">
           <label v-for="(item, index) in checklist" :key="index" class="check-row">
             <pv-checkbox v-model="item.done" binary :disabled="!shift?.isActive"/>
-            <span>{{ item.label }}</span>
+            <span>{{ t(item.labelKey) }}</span>
           </label>
         </div>
       </section>
@@ -164,11 +164,11 @@ const signOut = () => {
       <section class="sb-panel text-center">
         <i class="pi pi-power-off text-5xl sb-accent"/>
         <h2 class="sb-section-title mt-3 sb-muted">{{ t('dashboard.confirmation-title') }}</h2>
-        <pv-button label="FINALIZAR SERVICIO" class="w-full py-3 font-bold" :disabled="!shift?.isActive"
+        <pv-button :label="t('dashboard.finish-service')" class="w-full py-3 font-bold" :disabled="!shift?.isActive"
                    @click="confirmFinish"/>
         <div class="text-xs mt-2" :class="shift?.isActive ? 'sb-accent' : 'sb-muted'">
-          <template v-if="shift?.isActive"><span class="sb-dot mr-1"/>Servicio en curso · datos actualizándose</template>
-          <template v-else>Servicio detenido · datos guardados</template>
+          <template v-if="shift?.isActive"><span class="sb-dot mr-1"/>{{ t('dashboard.running') }}</template>
+          <template v-else>{{ t('dashboard.stopped') }}</template>
         </div>
       </section>
 
@@ -189,9 +189,9 @@ const signOut = () => {
 
       <section class="sb-panel">
         <h2 class="sb-section-title">{{ t('dashboard.system-title') }}</h2>
-        <div class="flex justify-content-between text-sm mb-2"><span class="sb-muted">GPS</span><span class="sb-accent">ESTABLE</span></div>
-        <div class="flex justify-content-between text-sm mb-2"><span class="sb-muted">TELEMETRÍA</span><span class="sb-accent">SINCRO</span></div>
-        <div class="flex justify-content-between text-sm"><span class="sb-muted">RED CLOUD</span><span class="sb-accent">ACTIVA</span></div>
+        <div class="flex justify-content-between text-sm mb-2"><span class="sb-muted">{{ t('dashboard.gps') }}</span><span class="sb-accent">{{ t('dashboard.gps-stable') }}</span></div>
+        <div class="flex justify-content-between text-sm mb-2"><span class="sb-muted">{{ t('dashboard.telemetry') }}</span><span class="sb-accent">{{ t('dashboard.telemetry-synced') }}</span></div>
+        <div class="flex justify-content-between text-sm"><span class="sb-muted">{{ t('dashboard.cloud') }}</span><span class="sb-accent">{{ t('dashboard.cloud-active') }}</span></div>
       </section>
 
       <!-- mapa pequeño con el bus -->
@@ -206,8 +206,8 @@ const signOut = () => {
       <h2 class="text-xl uppercase mt-3 mb-2">{{ t('dashboard.finished-title') }}</h2>
       <p class="sb-subtitle mb-4">{{ t('dashboard.finished-subtitle') }}</p>
       <div class="flex gap-2">
-        <pv-button label="VER REPORTE" severity="secondary" class="flex-1" @click="finishedDialogVisible = false"/>
-        <pv-button label="SALIR" class="flex-1" @click="signOut"/>
+        <pv-button :label="t('dashboard.view-report')" severity="secondary" class="flex-1" @click="finishedDialogVisible = false"/>
+        <pv-button :label="t('dashboard.exit')" class="flex-1" @click="signOut"/>
       </div>
     </div>
   </pv-dialog>

@@ -27,7 +27,7 @@ const sendAlert = () => {
     visible.value = true;
     startCountdown();
   }).catch(() => {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo enviar la alerta. ¿Está encendido json-server?', life: 4000 });
+    toast.add({ severity: 'error', summary: t('panic.error'), detail: t('panic.error-detail'), life: 4000 });
   }).finally(() => sending.value = false);
 };
 
@@ -48,7 +48,7 @@ const stopCountdown = () => {
 // cancelar = eliminar la alerta
 const cancelAlert = () => {
   alertsStore.deleteAlert(sentAlert.value);
-  toast.add({ severity: 'info', summary: 'Alerta cancelada', detail: `${sentAlert.value.code} fue cancelada.`, life: 3000 });
+  toast.add({ severity: 'info', summary: t('panic.cancelled-title'), detail: t('panic.cancelled-detail', { code: sentAlert.value.code }), life: 3000 });
   close();
 };
 
@@ -74,23 +74,23 @@ onUnmounted(stopCountdown);
 
         <div class="panic-info">
           <div class="flex justify-content-between">
-            <span class="sb-label">Código</span>
+            <span class="sb-label">{{ t('panic.code') }}</span>
             <span>{{ sentAlert.code }}</span>
           </div>
           <div class="flex justify-content-between">
-            <span class="sb-label">Coordenadas GPS</span>
+            <span class="sb-label">{{ t('common.gps') }}</span>
             <span class="sb-danger">{{ sentAlert.latitude }}, {{ sentAlert.longitude }}</span>
           </div>
           <div class="flex justify-content-between">
-            <span class="sb-label">Estado central</span>
-            <span class="sb-accent">CENTRAL NOTIFICADA <i class="pi pi-check-circle"/></span>
+            <span class="sb-label">{{ t('common.central-status') }}</span>
+            <span class="sb-accent">{{ t('common.central-notified') }} <i class="pi pi-check-circle"/></span>
           </div>
         </div>
 
         <pv-button class="panic-white-button w-full mb-2" :disabled="secondsLeft <= 0"
-                   :label="secondsLeft > 0 ? `CANCELAR ALERTA (${secondsLeft}s)` : 'YA NO SE PUEDE CANCELAR'"
+                   :label="secondsLeft > 0 ? t('panic.cancel-alert', { seconds: secondsLeft }) : t('panic.cannot-cancel')"
                    @click="cancelAlert"/>
-        <pv-button class="panic-white-button w-full" label="OK" @click="close"/>
+        <pv-button class="panic-white-button w-full" :label="t('panic.ok')" @click="close"/>
       </div>
     </div>
   </Teleport>

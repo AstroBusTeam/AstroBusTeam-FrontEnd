@@ -47,9 +47,9 @@ const vehiclesInService = computed(() => fleetStore.vehicles.filter(v => v.statu
   </div>
 
   <div class="flex gap-5 mb-3 text-sm">
-    <span><span class="sb-dot mr-2"/>{{ fleetStore.vehicles.length }} UNIDADES</span>
-    <span><span class="sb-dot mr-2"/>{{ vehiclesInService }} EN SERVICIO</span>
-    <span class="sb-danger"><span class="sb-dot mr-2" style="background: var(--sb-danger)"/>{{ alertsStore.unconfirmedAlerts.length }} ALERTAS ACTIVAS</span>
+    <span><span class="sb-dot mr-2"/>{{ fleetStore.vehicles.length }} {{t('control-center.units-count')}}</span>
+    <span><span class="sb-dot mr-2"/>{{ vehiclesInService }} {{t('control-center.in-service-count')}}</span>
+    <span class="sb-danger"><span class="sb-dot mr-2" style="background: var(--sb-danger)"/>{{ alertsStore.unconfirmedAlerts.length }} {{t('control-center.active-alerts-count')}}</span>
   </div>
 
   <fleet-map :center="LIMA_CENTER" :markers="markers" :zoom="14" height="620px"/>

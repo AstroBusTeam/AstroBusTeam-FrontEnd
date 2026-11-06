@@ -51,7 +51,7 @@ const sendToAll = () => {
       <div class="sb-panel">
         <div class="flex justify-content-between">
           <h2 class="sb-section-title sb-accent">{{ t('notifications.recipients-title') }}</h2>
-          <span class="text-xs sb-muted">OPERATIVOS: {{ activeCount }}</span>
+          <span class="text-xs sb-muted">{{ t('notifications.operational', { count: activeCount }) }}</span>
         </div>
         <div v-for="recipient in alertsStore.recipients" :key="recipient.id" class="recipient-row">
           <pv-avatar icon="pi pi-user"/>
@@ -70,18 +70,18 @@ const sendToAll = () => {
       <div class="sb-panel h-full flex flex-column gap-3">
         <h2 class="sb-section-title sb-accent">{{ t('notifications.simulation-title') }}</h2>
         <div class="flex flex-column gap-1">
-          <label for="alertType" class="sb-label">Tipo de alerta</label>
+          <label for="alertType" class="sb-label">{{ t('notifications.alert-type') }}</label>
           <pv-select id="alertType" v-model="alertType" :options="alertTypes"/>
         </div>
         <div class="flex flex-column gap-1">
-          <span class="sb-label">Prioridad del mensaje</span>
+          <span class="sb-label">{{ t('notifications.priority-label') }}</span>
           <pv-select-button v-model="priority" :options="priorities" :allow-empty="false"/>
         </div>
         <div class="preview">
-          <div class="sb-label mb-1">Vista previa del mensaje</div>
+          <div class="sb-label mb-1">{{ t('notifications.preview-label') }}</div>
           <span class="sb-accent">{{ preview }}</span>
         </div>
-        <pv-button label="ENVIAR A TODOS" icon="pi pi-send" class="py-3 font-bold" :loading="sending"
+        <pv-button :label="t('notifications.send-all')" icon="pi pi-send" class="py-3 font-bold" :loading="sending"
                    :disabled="activeCount === 0" @click="sendToAll"/>
       </div>
     </div>
@@ -90,14 +90,14 @@ const sendToAll = () => {
     <div class="col-12">
       <h2 class="sb-section-title sb-accent mt-2">{{ t('notifications.log-title') }}</h2>
       <pv-data-table :value="alertsStore.deliveries" :loading="!alertsStore.deliveriesLoaded" paginator :rows="6" striped-rows>
-        <pv-column field="recipientName" header="Destinatario"/>
-        <pv-column field="channel" header="Canal"/>
-        <pv-column field="alertType" header="Tipo de alerta"/>
-        <pv-column field="priority" header="Prioridad"/>
-        <pv-column header="Fecha">
+        <pv-column field="recipientName" :header="t('notifications.col-recipient')"/>
+        <pv-column field="channel" :header="t('notifications.col-channel')"/>
+        <pv-column field="alertType" :header="t('notifications.alert-type')"/>
+        <pv-column field="priority" :header="t('notifications.col-priority')"/>
+        <pv-column :header="t('notifications.col-date')">
           <template #body="{ data }">{{ data.sentAt.replace('T', ' ') }}</template>
         </pv-column>
-        <pv-column header="Estado">
+        <pv-column :header="t('common.status')">
           <template #body="{ data }">
             <pv-tag :value="statusInfo[data.status].label" :severity="statusInfo[data.status].severity"/>
           </template>

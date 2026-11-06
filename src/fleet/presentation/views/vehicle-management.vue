@@ -10,11 +10,11 @@ const confirm = useConfirm();
 const fleetStore = useFleetStore();
 
 // estados del bus
-const statusOptions = [
-  { label: 'Disponible',    value: 'available',   severity: 'success' },
-  { label: 'En servicio',   value: 'in-service',  severity: 'info' },
-  { label: 'Mantenimiento', value: 'maintenance', severity: 'warn' }
-];
+const statusOptions = computed(() => [
+  { label: t('vehicle-status.available'),   value: 'available',   severity: 'success' },
+  { label: t('vehicle-status.in-service'),  value: 'in-service',  severity: 'info' },
+  { label: t('vehicle-status.maintenance'), value: 'maintenance', severity: 'warn' }
+]);
 
 const dialogVisible = ref(false);
 const form = ref(new Vehicle({}));
@@ -24,7 +24,7 @@ onMounted(() => {
   if (!fleetStore.vehiclesLoaded) fleetStore.fetchVehicles();
 });
 
-const statusOf = (value) => statusOptions.find(option => option.value === value);
+const statusOf = (value) => statusOptions.value.find(option => option.value === value);
 
 const openNew = () => {
   form.value = new Vehicle({});
@@ -46,11 +46,11 @@ const saveVehicle = () => {
 // pregunta antes de eliminar
 const confirmDelete = (vehicle) => {
   confirm.require({
-    header: 'Confirmar eliminación',
-    message: `¿Seguro que deseas eliminar la unidad ${vehicle.code}?`,
+    header: t('common.confirm-delete'),
+    message: t('vehicles.delete-message', { code: vehicle.code }),
     icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Eliminar',
-    rejectLabel: 'Cancelar',
+    acceptLabel: t('common.delete'),
+    rejectLabel: t('common.cancel'),
     accept: () => fleetStore.deleteVehicle(vehicle)
   });
 };
@@ -62,25 +62,25 @@ const confirmDelete = (vehicle) => {
       <h1 class="sb-title">{{ t('vehicles.title') }}</h1>
       <p class="sb-subtitle">{{ t('vehicles.subtitle', { count: fleetStore.vehicles.length }) }}</p>
     </div>
-    <pv-button label="NUEVO VEHÍCULO" icon="pi pi-plus" @click="openNew"/>
+    <pv-button :label="t('vehicles.new-vehicle')" icon="pi pi-plus" @click="openNew"/>
   </div>
 
   <!-- tabla de vehículos -->
   <pv-data-table :value="fleetStore.vehicles" :loading="!fleetStore.vehiclesLoaded" paginator :rows="8" striped-rows>
-    <pv-column field="code" header="Unidad" sortable>
+    <pv-column field="code" :header="t('common.unit')" sortable>
       <template #body="{ data }"><span class="font-semibold">🚌 {{ data.code }}</span></template>
     </pv-column>
-    <pv-column field="plate" header="Placa" sortable/>
-    <pv-column field="model" header="Modelo" sortable/>
-    <pv-column field="capacity" header="Capacidad" sortable>
+    <pv-column field="plate" :header="t('common.plate')" sortable/>
+    <pv-column field="model" :header="t('vehicles.model')" sortable/>
+    <pv-column field="capacity" :header="t('vehicles.capacity')" sortable>
       <template #body="{ data }">{{ data.capacity }} PAX</template>
     </pv-column>
-    <pv-column field="status" header="Estado" sortable>
+    <pv-column field="status" :header="t('common.status')" sortable>
       <template #body="{ data }">
         <pv-tag :value="statusOf(data.status)?.label.toUpperCase()" :severity="statusOf(data.status)?.severity"/>
       </template>
     </pv-column>
-    <pv-column header="Acciones">
+    <pv-column :header="t('common.actions')">
       <template #body="{ data }">
         <pv-button icon="pi pi-pencil" text rounded @click="openEdit(data)"/>
         <pv-button icon="pi pi-trash" text rounded severity="danger" @click="confirmDelete(data)"/>
@@ -93,29 +93,29 @@ const confirmDelete = (vehicle) => {
              :style="{ width: '480px' }">
     <form id="vehicle-form" class="grid" @submit.prevent="saveVehicle">
       <div class="col-6 flex flex-column gap-1">
-        <label for="code" class="sb-label">Código de unidad</label>
+        <label for="code" class="sb-label">{{ t('vehicles.unit-code') }}</label>
         <pv-input-text id="code" v-model="form.code" placeholder="BUS-0000" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="plate" class="sb-label">Placa</label>
+        <label for="plate" class="sb-label">{{ t('common.plate') }}</label>
         <pv-input-text id="plate" v-model="form.plate" placeholder="ABC-123" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="model" class="sb-label">Modelo</label>
+        <label for="model" class="sb-label">{{ t('vehicles.model') }}</label>
         <pv-input-text id="model" v-model="form.model" required/>
       </div>
       <div class="col-6 flex flex-column gap-1">
-        <label for="capacity" class="sb-label">Capacidad (pasajeros)</label>
+        <label for="capacity" class="sb-label">{{ t('vehicles.capacity-passengers') }}</label>
         <pv-input-number id="capacity" v-model="form.capacity" :min="1" :max="120"/>
       </div>
       <div class="col-12 flex flex-column gap-1">
-        <label for="status" class="sb-label">Estado</label>
+        <label for="status" class="sb-label">{{ t('common.status') }}</label>
         <pv-select id="status" v-model="form.status" :options="statusOptions" option-label="label" option-value="value"/>
       </div>
     </form>
     <template #footer>
-      <pv-button label="Cancelar" severity="secondary" @click="dialogVisible = false"/>
-      <pv-button label="Guardar" icon="pi pi-save" type="submit" form="vehicle-form"/>
+      <pv-button :label="t('common.cancel')" severity="secondary" @click="dialogVisible = false"/>
+      <pv-button :label="t('common.save')" icon="pi pi-save" type="submit" form="vehicle-form"/>
     </template>
   </pv-dialog>
 </template>

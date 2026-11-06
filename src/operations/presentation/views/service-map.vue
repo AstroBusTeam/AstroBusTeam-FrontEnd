@@ -68,18 +68,18 @@ onUnmounted(() => clearInterval(clock));
         <div class="sb-value" :class="overspeedEvents ? 'sb-danger' : 'sb-accent'">{{ overspeedEvents }}</div>
       </div>
       <div>
-        <div class="sb-label">Tiempo total</div>
+        <div class="sb-label">{{ t('common.total-time') }}</div>
         <div class="sb-value">{{ shift ? shift.getDuration(now) : '--:--:--' }}</div>
       </div>
       <div>
-        <div class="sb-label">Distancia</div>
+        <div class="sb-label">{{ t('common.distance')}}</div>
         <div class="sb-value">{{ shift ? shift.distanceKm.toFixed(2) : 0 }} KM</div>
       </div>
       <div>
-        <div class="sb-label">Alertas activas</div>
+        <div class="sb-label">{{ t('service-map.active-alerts') }}</div>
         <div class="sb-value sb-danger">{{ alertsStore.unconfirmedAlerts.length }}</div>
       </div>
-      <p class="text-xs sb-muted m-0">Haz clic en un marcador para ver su información.</p>
+      <p class="text-xs sb-muted m-0">{{ t('service-map.marker-hint') }}</p>
     </div>
   </div>
 </template>

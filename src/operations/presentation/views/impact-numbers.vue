@@ -31,14 +31,14 @@ const shiftsWithOverspeed = computed(() =>
 
 // tarjetas con los números
 const cards = computed(() => [
-  { label: 'Conductores verificados', icon: 'pi pi-shield', value: fleetStore.drivers.filter(d => d.isActive).length,
-    detail: `${fleetStore.drivers.length} registrados` },
-  { label: 'Alertas gestionadas', icon: 'pi pi-bell', value: alertsStore.alerts.length,
-    detail: `${alertsStore.alerts.filter(a => a.isConfirmed).length} confirmadas` },
-  { label: 'Pasajeros transportados', icon: 'pi pi-users', value: totalPassengers.value.toLocaleString(),
-    detail: `${operationsStore.shifts.length} turnos` },
-  { label: 'Unidades en servicio', icon: 'pi pi-car', value: fleetStore.vehicles.filter(v => v.status === 'in-service').length,
-    detail: `${fleetStore.vehicles.length} buses en la flota` },
+  { label: t('impact.verified-drivers'), icon: 'pi pi-shield', value: fleetStore.drivers.filter(d => d.isActive).length,
+    detail: t('impact.registered', { count: fleetStore.drivers.length }) },
+  { label: t('impact.managed-alerts'), icon: 'pi pi-bell', value: alertsStore.alerts.length,
+    detail: t('impact.confirmed', { count: alertsStore.alerts.filter(a => a.isConfirmed).length }) },
+  { label: t('impact.transported'), icon: 'pi pi-users', value: totalPassengers.value.toLocaleString(),
+    detail: t('impact.shifts', { count: operationsStore.shifts.length }) },
+  { label: t('impact.units-in-service'), icon: 'pi pi-car', value: fleetStore.vehicles.filter(v => v.status === 'in-service').length,
+    detail: t('impact.fleet-buses', { count: fleetStore.vehicles.length }) },
   { label: t('speed.overspeed'), icon: 'pi pi-exclamation-triangle', value: totalOverspeedEvents.value,
     detail: `${shiftsWithOverspeed.value} ${t('speed.affected-shifts')}` },
   { label: t('speed.max-recorded'), icon: 'pi pi-gauge', value: `${maxFleetSpeed.value} km/h`,
@@ -55,8 +55,8 @@ const passengerBars = computed(() => {
 // alertas por estado
 const alertBars = computed(() => {
   const statuses = [
-    { key: 'pending', label: 'PENDIENTE' }, { key: 'timeout', label: 'AGOTADO' },
-    { key: 'critical', label: 'CRÍTICO' }, { key: 'confirmed', label: 'CONFIRMADO' }
+    { key: 'pending', label: t('impact.bars.pending') }, { key: 'timeout', label: t('impact.bars.timeout') },
+    { key: 'critical', label: t('impact.bars.critical') }, { key: 'confirmed', label: t('impact.bars.confirmed') }
   ];
   const counts = statuses.map(status => alertsStore.alerts.filter(a => a.status === status.key).length);
   const max = Math.max(1, ...counts);
@@ -80,7 +80,7 @@ const speedBars = computed(() => {
 
 <template>
   <div class="mb-4">
-    <div class="sb-label sb-accent mb-1">— Analítica de seguridad</div>
+    <div class="sb-label sb-accent mb-1">{{ t('impact.kicker') }}</div>
     <h1 class="sb-title">{{ t('impact.title') }}</h1>
     <p class="sb-subtitle">{{ t('impact.subtitle') }}</p>
   </div>
@@ -138,7 +138,7 @@ const speedBars = computed(() => {
             <span class="text-xs sb-muted">{{ bar.label }}</span>
           </div>
         </div>
-        <p v-if="!speedBars.length" class="sb-muted text-sm m-0">Aún no hay turnos con velocidad registrada.</p>
+        <p v-if="!speedBars.length" class="sb-muted text-sm m-0">{{ t('impact.no-speed-data') }}</p>
       </div>
     </div>
   </div>

@@ -29,7 +29,27 @@
     "hero-title": "Real-time operational surveillance.",
     "hero-subtitle": "SecurityBus control panel to manage routes, telemetry and safety protocols.",
     "authorized-title": "Access authorized",
-    "authorized-subtitle": "Emergency transmission active"
+    "authorized-subtitle": "Emergency transmission active",
+    "status-waiting": "Status: standby",
+    "code-required": "CODE REQUIRED",
+    "code-example": "Example: SF-90210",
+    "code-placeholder": "Employee code",
+    "verify": "VERIFY CREDENTIALS",
+    "verified": "Identity verified",
+    "vehicle-plate": "Vehicle plate",
+    "status-active": "ACTIVE",
+    "start-shift": "START SHIFT",
+    "continue": "Continue",
+    "errors": {
+      "invalid-code-title": "Invalid code",
+      "invalid-code-detail": "The code does not match current records.",
+      "unauthorized-title": "Unauthorized driver",
+      "unauthorized-detail": "Your profile does not have permission to operate.",
+      "no-vehicle-title": "No vehicle assigned",
+      "no-vehicle-detail": "Ask the control center to assign you a unit.",
+      "connection-title": "No connection",
+      "connection-detail": "Could not connect to the server (json-server)."
+    }
   },
   "dashboard": {
     "service-title": "Service in progress",
@@ -41,28 +61,89 @@
     "confirmation-title": "Final confirmation",
     "system-title": "System status",
     "finished-title": "Service finished successfully",
-    "finished-subtitle": "The shift data has been saved and sent to the operations center."
+    "finished-subtitle": "The shift data has been saved and sent to the operations center.",
+    "protocol-incomplete-title": "Closing protocol incomplete",
+    "protocol-incomplete-detail": "Check all 3 closing protocol items before finishing.",
+    "finish-header": "Finish service",
+    "finish-message": "Are you sure you want to finish the service? This action cannot be undone.",
+    "finish-accept": "Finish",
+    "vehicle-description": "Plate {plate} · {speed} km/h",
+    "unit-plate": "Unit {unit} · Plate {plate}",
+    "view-map": "VIEW MAP",
+    "start-new-service": "START NEW SERVICE",
+    "start-service": "START SERVICE",
+    "finish-service": "FINISH SERVICE",
+    "running": "Service in progress · data updating",
+    "stopped": "Service stopped · data saved",
+    "gps": "GPS",
+    "gps-stable": "STABLE",
+    "telemetry": "TELEMETRY",
+    "telemetry-synced": "SYNCED",
+    "cloud": "CLOUD NETWORK",
+    "cloud-active": "ACTIVE",
+    "view-report": "VIEW REPORT",
+    "exit": "EXIT",
+    "checklist": {
+      "parked": "Vehicle parked in a safe zone / terminal",
+      "interior": "Interior check with no lost items",
+      "passengers": "Passenger total validated on console"
+    }
   },
   "service-map": {
     "title": "Operations map",
-    "subtitle": "Position of your unit and active alerts."
+    "subtitle": "Position of your unit and active alerts.",
+    "active-alerts": "Active alerts",
+    "marker-hint": "Click a marker to see its information.",
+    "your-unit-description": "Plate {plate} · {speed} km/h · Your unit"
   },
   "control-center": {
     "title": "Control center",
-    "subtitle": "Live position of the whole fleet."
+    "subtitle": "Live position of the whole fleet.",
+    "units-count": "UNITS",
+    "in-service-count": "IN SERVICE",
+    "active-alerts-count": "ACTIVE ALERTS"
   },
   "drivers": {
     "title": "Driver management",
     "subtitle": "Showing {count} drivers registered in the system.",
     "detail-title": "Detailed information",
     "new-title": "New driver",
-    "edit-title": "Edit driver"
+    "edit-title": "Edit driver",
+    "new-driver": "NEW DRIVER",
+    "name": "Name",
+    "dni": "DNI",
+    "category": "Category",
+    "vehicle": "Vehicle",
+    "not-assigned": "Not assigned",
+    "behavior": "Behavior",
+    "in-service": "IN SERVICE",
+    "years-experience-text": "{years} years of experience",
+    "license": "License",
+    "expiry": "Expiry",
+    "points": "Points",
+    "rating": "Rating",
+    "history": "HISTORY",
+    "edit": "EDIT",
+    "select-prompt": "Select a driver from the table to see their information.",
+    "delete-message": "Are you sure you want to delete {name}?",
+    "first-name": "First name(s)",
+    "last-name": "Last name(s)",
+    "employee-code": "Employee code",
+    "license-number": "License no.",
+    "select": "Select",
+    "years-experience": "Years of experience"
   },
   "vehicles": {
     "title": "Vehicle management",
     "subtitle": "Showing {count} buses registered in the fleet.",
     "new-title": "New vehicle",
-    "edit-title": "Edit vehicle"
+    "edit-title": "Edit vehicle",
+    "new-vehicle": "NEW VEHICLE",
+    "model": "Model",
+    "capacity": "Capacity",
+    "delete-message": "Are you sure you want to delete unit {code}?",
+    "unit-code": "Unit code",
+    "capacity-passengers": "Capacity (passengers)"
   },
   "assignments": {
     "title": "Driver-vehicle assignment",
@@ -70,17 +151,60 @@
     "drivers-title": "Available drivers",
     "vehicles-title": "Available vehicles",
     "link-title": "Link resources",
-    "current-title": "Current assignments"
+    "current-title": "Current assignments",
+    "no-drivers": "No free drivers.",
+    "no-vehicles": "No vehicles available.",
+    "vehicle-meta": "PLATE: {plate} · CAP: {capacity} PAX",
+    "route-placeholder": "Assigned route (e.g. North-Center L1)",
+    "confirm": "CONFIRM ASSIGNMENT",
+    "confirmed-toast": "Assignment confirmed",
+    "col-driver": "Driver",
+    "col-vehicle": "Vehicle (plate)",
+    "col-route": "Assigned route",
+    "col-start": "Start time",
+    "release": "Release",
+    "release-header": "Release unit",
+    "release-message": "Do you want to end this assignment? The vehicle will become available."
   },
   "history": {
     "title": "Shift history",
-    "subtitle": "Review the shifts and incidents of each driver."
+    "subtitle": "Review the shifts and incidents of each driver.",
+    "select-driver": "Select a driver",
+    "class": "Class {category}",
+    "total-shifts": "Total shifts",
+    "incidents-detected": "Incidents detected",
+    "safety-score": "Safety score",
+    "incidents": "Incidents",
+    "alert": "ALERT",
+    "clean": "CLEAN",
+    "operations-log": "Operations log",
+    "shift-start": "Shift start · Credential scan validated.",
+    "incidents-recorded": "Incidents recorded: {count}",
+    "shift-end": "Shift end",
+    "route": "Route",
+    "no-shifts": "This driver has no recorded shifts yet."
   },
   "impact": {
     "title": "Impact in numbers",
     "subtitle": "Operational performance and risk mitigation metrics of the SecurityBus network.",
     "passengers-chart-title": "Passengers per shift",
-    "alerts-chart-title": "Alerts by status"
+    "alerts-chart-title": "Alerts by status",
+    "kicker": "— Safety analytics",
+    "verified-drivers": "Verified drivers",
+    "registered": "{count} registered",
+    "managed-alerts": "Managed alerts",
+    "confirmed": "{count} confirmed",
+    "transported": "Passengers transported",
+    "shifts": "{count} shifts",
+    "units-in-service": "Units in service",
+    "fleet-buses": "{count} buses in the fleet",
+    "no-speed-data": "No shifts with recorded speed yet.",
+    "bars": {
+      "pending": "PENDING",
+      "timeout": "TIMEOUT",
+      "critical": "CRITICAL",
+      "confirmed": "CONFIRMED"
+    }
   },
   "speed": {
     "current": "Current speed",
@@ -104,21 +228,182 @@
     "subtitle": "Active management of resends and network escalation protocols.",
     "detail-title": "Alert confirmation",
     "detail-subtitle": "Reference: {code}",
-    "location-title": "Alert location"
+    "location-title": "Alert location",
+    "resend-all": "RESEND ALL",
+    "pending-total": "Total pending",
+    "unconfirmed": "UNCONFIRMED ALERTS",
+    "critical-attempt": "Critical (attempt {count})",
+    "action-required": "ACTION REQUIRED",
+    "confirmed-label": "Confirmed",
+    "by-central": "BY THE CONTROL CENTER",
+    "col-time": "Time",
+    "col-id": "Alert ID",
+    "col-type": "Type",
+    "col-receiver": "Receiver",
+    "col-attempts": "Attempts",
+    "tip-resend": "Resend",
+    "tip-confirm": "Confirm",
+    "tip-detail": "View details",
+    "delete-message": "Are you sure you want to delete alert {code}?",
+    "step-sent": "Alert sent",
+    "step-received": "Alert received",
+    "step-confirmed": "Confirmed",
+    "step-time": "Time: {time}",
+    "step-node": "Node: {node}",
+    "step-attempts": "Attempts: {count}",
+    "step-number": "Step {number}",
+    "signal-from": "Signal emitted by unit {code}",
+    "protocol-validated": "Protocol validated",
+    "confirm-alert": "CONFIRM ALERT",
+    "resend": "RESEND",
+    "close-view": "CLOSE VIEW",
+    "not-found": "The alert does not exist or was deleted."
   },
   "notifications": {
     "title": "Alert network administration",
     "subtitle": "Manage the active recipients and run delivery drills to validate the protocols.",
     "recipients-title": "Active recipients",
     "simulation-title": "Delivery simulation",
-    "log-title": "Delivery log"
+    "log-title": "Delivery log",
+    "operational": "OPERATIONAL: {count}",
+    "alert-type": "Alert type",
+    "priority-label": "Message priority",
+    "preview-label": "Message preview",
+    "preview-text": "[SIM-ALERT] \"{type}\" reported with {priority} priority. Requires attention per TRANSIT-SEC protocol.",
+    "send-all": "SEND TO ALL",
+    "col-recipient": "Recipient",
+    "col-channel": "Channel",
+    "col-priority": "Priority",
+    "col-date": "Date",
+    "sim-sent": "Simulation sent",
+    "notified": "{count} recipients notified"
   },
   "panic": {
     "title": "Alert sent!",
-    "subtitle": "Emergency transmission active"
+    "subtitle": "Emergency transmission active",
+    "error": "Error",
+    "error-detail": "The alert could not be sent. Is json-server running?",
+    "cancelled-title": "Alert cancelled",
+    "cancelled-detail": "{code} was cancelled.",
+    "code": "Code",
+    "cancel-alert": "CANCEL ALERT ({seconds}s)",
+    "cannot-cancel": "CAN NO LONGER BE CANCELLED",
+    "ok": "OK"
   },
   "page-not-found": {
     "title": "Page not found",
-    "subtitle": "The path {unavailable-route} is not available."
+    "subtitle": "The path {unavailable-route} is not available.",
+    "back": "← Back to home"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "confirm-delete": "Confirm deletion",
+    "actions": "Actions",
+    "status": "Status",
+    "unit": "Unit",
+    "unit-code": "Unit {code}",
+    "plate": "Plate",
+    "gps": "GPS coordinates",
+    "central-status": "Control center status",
+    "central-notified": "CONTROL CENTER NOTIFIED",
+    "active": "Active",
+    "inactive": "Inactive",
+    "distance": "Distance",
+    "total-time": "Total time",
+    "passengers": "Passengers",
+    "revenue": "Revenue",
+    "total": "TOTAL",
+    "no-driver": "No driver",
+    "your-unit": "Your unit",
+    "language": "Change language"
+  },
+  "vehicle-status": {
+    "available": "Available",
+    "in-service": "In service",
+    "maintenance": "Maintenance"
+  },
+  "alert-status": {
+    "pending": "NO RESPONSE",
+    "timeout": "TIMED OUT",
+    "critical": "CRITICAL FAILURE",
+    "confirmed": "CONFIRMED"
+  },
+  "shift-status": {
+    "active": "IN PROGRESS",
+    "finished": "FINISHED",
+    "interrupted": "INTERRUPTED"
+  },
+  "delivery-status": {
+    "sent": "SENT",
+    "pending": "PENDING",
+    "failed": "FAILED"
+  },
+  "months": {
+    "jan": "JAN",
+    "feb": "FEB",
+    "mar": "MAR",
+    "apr": "APR",
+    "may": "MAY",
+    "jun": "JUN",
+    "jul": "JUL",
+    "aug": "AUG",
+    "sep": "SEP",
+    "oct": "OCT",
+    "nov": "NOV",
+    "dec": "DEC"
+  },
+  "titles": {
+    "access": "Driver access",
+    "home": "Home",
+    "map": "Map",
+    "history": "Shift history",
+    "impact": "Impact in numbers",
+    "alert-logs": "Alert logs",
+    "alert-detail": "Alert confirmation",
+    "notifications": "Notifications",
+    "control-center": "Control center",
+    "drivers": "Driver management",
+    "vehicles": "Vehicle management",
+    "assignments": "Unit assignment",
+    "not-found": "Page not found"
+  },
+  "data": {
+    "alert-type": {
+      "panic-button": "Panic button",
+      "mechanical-failure": "Mechanical failure",
+      "unauthorized-entry": "Unauthorized entry",
+      "door-open": "Door open while moving",
+      "infrastructure-failure": "Infrastructure failure",
+      "route-deviation": "Route deviation"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "urgent": "Urgent"
+    },
+    "role": {
+      "zone-supervisor": "Central zone supervisor",
+      "logistics-coordinator": "Logistics coordinator",
+      "night-dispatch": "Night dispatch",
+      "network-analyst": "Network analyst"
+    },
+    "receiver": {
+      "CENTRAL_OPERACIONES": "OPERATIONS_CENTER",
+      "DISP_SEGURIDAD_NORTE": "NORTH_SECURITY_DISPATCH",
+      "SISTEMA_RED_WAN": "WAN_NETWORK_SYSTEM",
+      "TERMINAL_CENTRAL": "CENTRAL_TERMINAL",
+      "UNIDAD_MOVIL_04": "MOBILE_UNIT_04"
+    }
+  },
+  "primevue": {
+    "empty-message": "No available options",
+    "empty-search-message": "No results found",
+    "empty-selection-message": "No selected item"
+  },
+  "map": {
+    "critical-alert": "CRITICAL ALERT",
+    "view-details": "VIEW DETAILS →"
   }
 }

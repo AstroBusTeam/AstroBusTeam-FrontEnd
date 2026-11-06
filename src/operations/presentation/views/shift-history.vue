@@ -12,7 +12,7 @@ const operationsStore = useOperationsStore();
 const fleetStore = useFleetStore();
 
 // meses para mostrar la fecha
-const MONTHS = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
+const MONTH_KEYS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
 // el conductor puede venir en la url (?driverId=4)
 const selectedDriverId = ref(route.query.driverId ? parseInt(route.query.driverId) : 4);
@@ -49,11 +49,11 @@ const toggleShift = (id) => {
 
 const vehicleCode = (vehicleId) => fleetStore.getVehicleById(vehicleId)?.code ?? '—';
 const hour = (dateTime) => dateTime ? dateTime.slice(11, 16) : '--:--';
-const month = (date) => MONTHS[parseInt(date.slice(5, 7)) - 1];
+const month = (date) => t(`months.${MONTH_KEYS[parseInt(date.slice(5, 7)) - 1]}`);
 const day = (date) => date.slice(8, 10);
 
 const statusSeverity = { active: 'info', finished: 'success', interrupted: 'danger' };
-const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: 'INTERRUMPIDO' };
+const statusLabel = { active: 'shift-status.active', finished: 'shift-status.finished', interrupted: 'shift-status.interrupted' };
 </script>
 
 <template>
@@ -63,7 +63,7 @@ const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: '
       <p class="sb-subtitle">{{ t('history.subtitle') }}</p>
     </div>
     <pv-select v-model="selectedDriverId" :options="fleetStore.drivers" option-value="id" class="w-16rem"
-               :option-label="option => option.fullName" placeholder="Selecciona un conductor"/>
+               :option-label="option => option.fullName" :placeholder="t('history.select-driver')"/>
   </div>
 
   <!-- datos del conductor -->
@@ -74,26 +74,26 @@ const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: '
         <div>
           <div class="text-lg font-semibold">{{ driver.fullName }}</div>
           <div class="text-sm sb-muted">ID: {{ driver.employeeCode }}</div>
-          <pv-tag :value="driver.isActive ? 'ACTIVO' : 'INACTIVO'" :severity="driver.isActive ? 'success' : 'secondary'"/>
-          <span class="text-xs sb-muted ml-2">Clase {{ driver.category }}</span>
+          <pv-tag :value="t(driver.isActive ? 'common.active' : 'common.inactive').toUpperCase()" :severity="driver.isActive ? 'success' : 'secondary'"/>
+          <span class="text-xs sb-muted ml-2">{{ t('history.class', { category: driver.category }) }}</span>
         </div>
       </div>
     </div>
     <div class="col-12 md:col-6 lg:col-3">
       <div class="sb-panel h-full">
-        <div class="sb-label">Total turnos</div>
+        <div class="sb-label">{{ t('history.total-shifts') }}</div>
         <div class="text-5xl font-bold">{{ shifts.length }}</div>
       </div>
     </div>
     <div class="col-12 md:col-6 lg:col-3">
       <div class="sb-panel h-full">
-        <div class="sb-label">Incidentes detectados</div>
+        <div class="sb-label">{{ t('history.incidents-detected') }}</div>
         <div class="text-5xl font-bold" :class="totalIncidents > 0 ? 'sb-danger' : ''">{{ String(totalIncidents).padStart(2, '0') }}</div>
       </div>
     </div>
     <div class="col-12 md:col-6 lg:col-3">
       <div class="sb-panel h-full">
-        <div class="sb-label">Puntuación seguridad</div>
+        <div class="sb-label">{{ t('history.safety-score') }}</div>
         <div class="text-5xl font-bold sb-accent">{{ safetyScore }}<span class="text-base sb-muted">/100</span></div>
         <pv-tag :value="t(behaviorLabels[assessment.level]).toUpperCase()" :severity="behaviorSeverities[assessment.level]"/>
       </div>
@@ -130,12 +130,12 @@ const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: '
           </div>
         </div>
         <div class="text-center">
-          <div class="sb-label">Pasajeros</div>
+          <div class="sb-label">{{ t('common.passengers') }}</div>
           <div class="text-xl">{{ shift.passengers.toLocaleString() }}</div>
         </div>
         <div class="text-center">
-          <div class="sb-label">Incidentes</div>
-          <pv-tag :value="`${String(shift.incidents).padStart(2, '0')} ${shift.incidents ? 'ALERTA' : 'LIMPIO'}`"
+          <div class="sb-label">{{ t('history.incidents') }}</div>
+          <pv-tag :value="`${String(shift.incidents).padStart(2, '0')} ${shift.incidents ? t('history.alert') : t('history.clean')}`"
                   :severity="shift.incidents ? 'danger' : 'success'"/>
         </div>
         <i :class="openShiftId === shift.id ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"/>
@@ -143,22 +143,22 @@ const statusLabel = { active: 'EN CURSO', finished: 'FINALIZADO', interrupted: '
 
       <!-- detalle del turno -->
       <div v-if="openShiftId === shift.id" class="shift-detail">
-        <div class="sb-label mb-2">Log de operaciones</div>
-        <div class="text-sm mb-1"><span class="sb-dot mr-2"/>{{ hour(shift.startTime) }} — Inicio de turno · Escaneo de credencial validado.</div>
-        <div v-if="shift.incidents" class="text-sm mb-1"><span class="sb-dot mr-2" style="background: var(--sb-warning)"/>Incidentes registrados: {{ shift.incidents }}</div>
-        <div class="text-sm mb-3"><span class="sb-dot mr-2" style="background: var(--sb-muted)"/>{{ hour(shift.endTime) }} — Fin de turno</div>
+        <div class="sb-label mb-2">{{ t('history.operations-log') }}</div>
+        <div class="text-sm mb-1"><span class="sb-dot mr-2"/>{{ hour(shift.startTime) }} — {{ t('history.shift-start') }}</div>
+        <div v-if="shift.incidents" class="text-sm mb-1"><span class="sb-dot mr-2" style="background: var(--sb-warning)"/>{{ t('history.incidents-recorded', { count: shift.incidents }) }}</div>
+        <div class="text-sm mb-3"><span class="sb-dot mr-2" style="background: var(--sb-muted)"/>{{ hour(shift.endTime) }} — {{ t('history.shift-end') }}</div>
         <div class="flex flex-wrap gap-5 text-sm">
-          <span>Ruta: <strong>{{ shift.routeCode }}</strong></span>
-          <span>Distancia: <strong>{{ shift.distanceKm }} km</strong></span>
+          <span>{{ t('history.route') }}: <strong>{{ shift.routeCode }}</strong></span>
+          <span>{{ t('common.distance') }}: <strong>{{ shift.distanceKm }} km</strong></span>
           <span>{{ t('speed.average') }}: <strong>{{ shift.averageSpeed ?? '—' }} km/h</strong></span>
           <span>{{ t('speed.max') }}: <strong>{{ shift.hasSpeedData ? shift.maxSpeedKmh : '—' }} km/h</strong></span>
           <span>{{ t('speed.overspeed') }}: <strong :class="shift.overspeedEvents ? 'sb-danger' : ''">{{ shift.overspeedEvents }}</strong></span>
-          <span>Recaudación: <strong>S/ {{ shift.revenue.toFixed(2) }}</strong></span>
-          <pv-tag :value="statusLabel[shift.status]" :severity="statusSeverity[shift.status]"/>
+          <span>{{ t('common.revenue') }}: <strong>S/ {{ shift.revenue.toFixed(2) }}</strong></span>
+          <pv-tag :value="t(statusLabel[shift.status])" :severity="statusSeverity[shift.status]"/>
         </div>
       </div>
     </div>
-    <p v-if="!shifts.length" class="sb-muted">Este conductor aún no tiene turnos registrados.</p>
+    <p v-if="!shifts.length" class="sb-muted">{{ t('history.no-shifts') }}</p>
   </div>
 </template>
 

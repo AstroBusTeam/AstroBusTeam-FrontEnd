@@ -18,10 +18,10 @@ const authorized = ref(false);
 
 // mensajes de error que se muestran
 const errorMessages = {
-  'invalid-code': { title: 'Código inválido', detail: 'El código no coincide con los registros actuales.' },
-  'unauthorized': { title: 'Conductor no autorizado', detail: 'Su perfil no tiene permisos para operar.' },
-  'no-vehicle':   { title: 'Sin vehículo asignado', detail: 'Pida a la central que le asigne una unidad.' },
-  'connection':   { title: 'Sin conexión', detail: 'No se pudo conectar con el servidor (json-server).' }
+  'invalid-code': { title: 'iam.errors.invalid-code-title', detail: 'iam.errors.invalid-code-detail' },
+  'unauthorized': { title: 'iam.errors.unauthorized-title', detail: 'iam.errors.unauthorized-detail' },
+  'no-vehicle':   { title: 'iam.errors.no-vehicle-title',   detail: 'iam.errors.no-vehicle-detail' },
+  'connection':   { title: 'iam.errors.connection-title',   detail: 'iam.errors.connection-detail' }
 };
 
 // verificar el código
@@ -60,7 +60,7 @@ const goToDashboard = () => {
     <div class="access-grid">
       <!-- lado izquierdo -->
       <section class="access-hero">
-        <span class="sb-badge mb-3">Estado: en espera</span>
+        <span class="sb-badge mb-3">{{ t('iam.status-waiting') }}</span>
         <h1 class="access-hero-title">{{ t('iam.hero-title') }}</h1>
         <p class="sb-muted m-0">{{ t('iam.hero-subtitle') }}</p>
       </section>
@@ -73,19 +73,19 @@ const goToDashboard = () => {
 
         <div class="access-qr mb-3">
           <i class="pi pi-qrcode text-5xl sb-accent"/>
-          <div class="text-sm font-semibold mt-2">CÓDIGO REQUERIDO</div>
-          <div class="text-xs sb-muted">Ejemplo: SF-90210</div>
+          <div class="text-sm font-semibold mt-2">{{ t('iam.code-required') }}</div>
+          <div class="text-xs sb-muted">{{ t('iam.code-example') }}</div>
         </div>
 
         <form class="flex flex-column gap-2" @submit.prevent="verify">
-          <pv-input-text v-model="employeeCode" placeholder="Código de empleado" required/>
-          <pv-button type="submit" label="VERIFICAR CREDENCIALES" icon="pi pi-shield" :loading="verifying"/>
+          <pv-input-text v-model="employeeCode" :placeholder="t('iam.code-placeholder')" required/>
+          <pv-button type="submit" :label="t('iam.verify')" icon="pi pi-shield" :loading="verifying"/>
         </form>
 
         <div v-if="errorCode" class="access-error mt-3">
           <i class="pi pi-times-circle mr-2"/>
-          <strong>{{ errorMessages[errorCode].title }}</strong>
-          <div class="text-sm">{{ errorMessages[errorCode].detail }}</div>
+          <strong>{{ t(errorMessages[errorCode].title) }}</strong>
+          <div class="text-sm">{{ t(errorMessages[errorCode].detail) }}</div>
         </div>
 
         <!-- tarjeta del conductor verificado -->
@@ -93,26 +93,26 @@ const goToDashboard = () => {
           <div class="flex align-items-center gap-3">
             <pv-avatar :label="verifiedDriver.initials" size="xlarge" class="sb-avatar"/>
             <div>
-              <span class="sb-badge">Identidad verificada</span>
+              <span class="sb-badge">{{ t('iam.verified') }}</span>
               <div class="text-lg font-semibold mt-1">{{ verifiedDriver.fullName.toUpperCase() }}</div>
               <div class="text-sm sb-muted">ID: {{ verifiedDriver.employeeCode }}</div>
             </div>
           </div>
           <div class="flex gap-5 my-3">
             <div>
-              <div class="sb-label">Placa vehículo</div>
+              <div class="sb-label">{{ t('iam.vehicle-plate') }}</div>
               <div class="sb-accent">{{ verifiedVehicle.plate }}</div>
             </div>
             <div>
-              <div class="sb-label">Unidad</div>
+              <div class="sb-label">{{ t('common.unit') }}</div>
               <div class="sb-accent">{{ verifiedVehicle.code }}</div>
             </div>
             <div>
-              <div class="sb-label">Estado</div>
-              <div class="sb-accent">ACTIVO</div>
+              <div class="sb-label">{{ t('common.status') }}</div>
+              <div class="sb-accent">{{ t('iam.status-active') }}</div>
             </div>
           </div>
-          <pv-button label="INICIAR TURNO" icon="pi pi-arrow-right" icon-pos="right" class="w-full" @click="startShift"/>
+          <pv-button :label="t('iam.start-shift')" icon="pi pi-arrow-right" icon-pos="right" class="w-full" @click="startShift"/>
         </div>
       </section>
     </div>
@@ -125,15 +125,15 @@ const goToDashboard = () => {
         <p class="sb-label mb-4">{{ t('iam.authorized-subtitle') }}</p>
         <div class="authorized-info">
           <div class="flex justify-content-between">
-            <span class="sb-label">Coordenadas GPS</span>
+            <span class="sb-label">{{ t('common.gps') }}</span>
             <span class="sb-danger">{{ verifiedVehicle.latitude }}, {{ verifiedVehicle.longitude }}</span>
           </div>
           <div class="flex justify-content-between">
-            <span class="sb-label">Estado central</span>
-            <span class="sb-accent">CENTRAL NOTIFICADA</span>
+            <span class="sb-label">{{ t('common.central-status') }}</span>
+            <span class="sb-accent">{{ t('common.central-notified') }}</span>
           </div>
         </div>
-        <pv-button label="Seguir" class="authorized-button w-full" @click="goToDashboard"/>
+        <pv-button :label="t('iam.continue')" class="authorized-button w-full" @click="goToDashboard"/>
       </div>
     </div>
   </div>
@@ -161,8 +161,8 @@ const goToDashboard = () => {
   min-height: 520px;
   padding: 2.5rem;
   background:
-    linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2)),
-    repeating-linear-gradient(90deg, #2a2a2a 0 40px, #1d1d1d 40px 80px);
+      linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2)),
+      repeating-linear-gradient(90deg, #2a2a2a 0 40px, #1d1d1d 40px 80px);
 }
 
 .access-hero-title {

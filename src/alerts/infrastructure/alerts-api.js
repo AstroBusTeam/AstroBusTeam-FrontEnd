@@ -1,5 +1,5 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
-import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
+import {AdaptedEndpoint} from "../../shared/infrastructure/backend-adapter.js";
 
 const alertsEndpointPath     = import.meta.env.VITE_ALERTS_ENDPOINT_PATH;
 const recipientsEndpointPath = import.meta.env.VITE_RECIPIENTS_ENDPOINT_PATH;
@@ -13,9 +13,9 @@ export class AlertsApi extends BaseApi {
 
     constructor() {
         super();
-        this.#alertsEndpoint     = new BaseEndpoint(this, alertsEndpointPath);
-        this.#recipientsEndpoint = new BaseEndpoint(this, recipientsEndpointPath);
-        this.#deliveriesEndpoint = new BaseEndpoint(this, deliveriesEndpointPath);
+        this.#alertsEndpoint     = new AdaptedEndpoint('alerts', this, alertsEndpointPath);
+        this.#recipientsEndpoint = new AdaptedEndpoint('recipients', this, recipientsEndpointPath);
+        this.#deliveriesEndpoint = new AdaptedEndpoint('deliveries', this, deliveriesEndpointPath);
     }
 
     getAlerts()              { return this.#alertsEndpoint.getAll(); }

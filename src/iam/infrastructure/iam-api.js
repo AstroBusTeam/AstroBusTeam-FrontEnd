@@ -1,5 +1,5 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
-import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
+import {AdaptedEndpoint} from "../../shared/infrastructure/backend-adapter.js";
 
 const driversEndpointPath     = import.meta.env.VITE_DRIVERS_ENDPOINT_PATH;
 const vehiclesEndpointPath    = import.meta.env.VITE_VEHICLES_ENDPOINT_PATH;
@@ -12,9 +12,9 @@ export class IamApi extends BaseApi {
 
     constructor() {
         super();
-        this.#driversEndpoint     = new BaseEndpoint(this, driversEndpointPath);
-        this.#vehiclesEndpoint    = new BaseEndpoint(this, vehiclesEndpointPath);
-        this.#assignmentsEndpoint = new BaseEndpoint(this, assignmentsEndpointPath);
+        this.#driversEndpoint     = new AdaptedEndpoint('drivers', this, driversEndpointPath);
+        this.#vehiclesEndpoint    = new AdaptedEndpoint('vehicles', this, vehiclesEndpointPath);
+        this.#assignmentsEndpoint = new AdaptedEndpoint('assignments', this, assignmentsEndpointPath);
     }
 
     // busca el conductor por su código

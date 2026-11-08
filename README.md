@@ -1,7 +1,17 @@
 # SecurityBus (AstroBus Team) - Front-end
 
 Front-end de un sistema de gestión de flota de buses y conductores, con sistema de alertas y botón de emergencia.
-Hecho con Vue 3, Vite, Vue Router, PrimeVue, vue-i18n y Axios. 
+Hecho con Vue 3, Vite, Vue Router, PrimeVue, vue-i18n y Axios.
+
+## Conexión con el backend (SecurityBus.API)
+
+El frontend ya no usa la API falsa (json-server) sino el backend .NET con base de datos de 15 tablas. La conversión entre
+el modelo del backend (ids de rutas, tipos de alerta, canales...) y los objetos del frontend está en
+`src/shared/infrastructure/backend-adapter.js`; las entidades, los stores y las vistas no cambian.
+
+- Desarrollo: `VITE_SAFEBUS_API_URL` en `.env.development` apunta a `http://localhost:5128/api/v1`.
+- Producción: cambia `VITE_SAFEBUS_API_URL` en `.env.production` por la URL de la Web App de Azure.
+- Los datos de ejemplo (conductores, buses, rutas...) los carga el backend al crear la base.
 
 ## Cómo ejecutarlo
 

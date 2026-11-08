@@ -1,5 +1,5 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
-import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
+import {AdaptedEndpoint} from "../../shared/infrastructure/backend-adapter.js";
 
 const shiftsEndpointPath = import.meta.env.VITE_SHIFTS_ENDPOINT_PATH;
 
@@ -9,7 +9,7 @@ export class OperationsApi extends BaseApi {
 
     constructor() {
         super();
-        this.#shiftsEndpoint = new BaseEndpoint(this, shiftsEndpointPath);
+        this.#shiftsEndpoint = new AdaptedEndpoint('shifts', this, shiftsEndpointPath);
     }
 
     getShifts()            { return this.#shiftsEndpoint.getAll(); }

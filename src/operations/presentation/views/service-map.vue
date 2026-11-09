@@ -33,7 +33,8 @@ const markers = computed(() => [
     title: `${alert.code} - SOS`, description: `${alert.type} · ${alert.time}`, link: `/alerts/logs/${alert.id}`
   }))
 ]);
-
+  
+// Initializes shift and alert data while starting the dashboard clock.
 onMounted(() => {
   if (!operationsStore.shiftsLoaded) operationsStore.fetchShifts();
   if (!alertsStore.alertsLoaded) alertsStore.fetchAlerts();

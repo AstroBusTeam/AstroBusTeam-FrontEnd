@@ -41,7 +41,7 @@ const speedPanelClass = computed(() => ({
   'speed-panel-warning': speedState.value === 'warning',
   'speed-panel-overspeed': speedState.value === 'overspeed'
 }));
-
+// Builds reactive map markers using the current vehicle location and speed.
 const vehicleMarkers = computed(() => [{
   id: vehicle.value.id, latitude: vehicle.value.latitude, longitude: vehicle.value.longitude,
   label: vehicle.value.code, title: vehicle.value.code,

@@ -2,6 +2,7 @@
 import {computed} from "vue";
 import {useI18n} from "vue-i18n";
 
+// locale is the active language of vue-i18n; changing it translates the whole interface.
 const { locale, t } = useI18n();
 
 // el switch está en true cuando el idioma es inglés

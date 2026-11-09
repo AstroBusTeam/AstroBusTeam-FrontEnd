@@ -13,6 +13,7 @@ const { t, locale } = useI18n();
 const primevue = usePrimeVue();
 const route = useRoute();
 const router = useRouter();
+// Holds the signed-in driver and vehicle shown in the sidebar and the toolbar.
 const iamStore = useIamStore();
 const operationsStore = useOperationsStore();
 

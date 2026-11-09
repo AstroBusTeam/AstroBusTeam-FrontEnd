@@ -49,6 +49,7 @@ const toggleShift = (id) => {
 };
 
 const vehicleCode = (vehicleId) => fleetStore.getVehicleById(vehicleId)?.code ?? '—';
+// Extracts the hour and minute from a timestamp, using a fallback for missing values.
 const hour = (dateTime) => dateTime ? dateTime.slice(11, 16) : '--:--';
 const month = (date) => t(`months.${MONTH_KEYS[parseInt(date.slice(5, 7)) - 1]}`);
 const day = (date) => date.slice(8, 10);

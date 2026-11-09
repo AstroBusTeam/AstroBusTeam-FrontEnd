@@ -1,3 +1,4 @@
+// las vistas se cargan solo cuando se necesitan
 const alertLogs     = () => import('./views/alert-logs.vue');
 const alertDetail   = () => import('./views/alert-detail.vue');
 const notifications = () => import('./views/notifications.vue');

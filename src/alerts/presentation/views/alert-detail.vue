@@ -12,12 +12,14 @@ const router = useRouter();
 const alertsStore = useAlertsStore();
 const fleetStore = useFleetStore();
 
+// alerta según el id de la url y el bus que la envió
 const alert = computed(() => alertsStore.getAlertById(route.params.id));
 const vehicle = computed(() => alert.value ? fleetStore.getVehicleById(alert.value.vehicleId) : null);
 
 // los 3 pasos de la confirmación
 const steps = computed(() => {
   const status = alert.value.status;
+  // si nadie respondió, el paso de recepción se marca como fallido
   const failed = status === 'timeout' || status === 'critical';
   return [
     { title: 'Alerta enviada',    detail: `Hora: ${alert.value.time}`,                done: true,                    failed: false },
@@ -32,6 +34,7 @@ const markers = computed(() => [{
   title: `${alert.value.code} - ${vehicle.value?.code ?? ''}`, description: alert.value.type
 }]);
 
+// si se entra directo por la url hay que cargar los datos
 onMounted(() => {
   if (!alertsStore.alertsLoaded) alertsStore.fetchAlerts();
   if (!fleetStore.vehiclesLoaded) fleetStore.fetchVehicles();
@@ -69,6 +72,7 @@ onMounted(() => {
             </div>
           </div>
 
+          <!-- acciones: confirmar, reenviar o volver -->
           <div class="flex gap-2 mt-4">
             <pv-button v-if="!alert.isConfirmed" label="CONFIRMAR ALERTA" icon="pi pi-check" @click="alertsStore.confirmAlert(alert)"/>
             <pv-button v-if="!alert.isConfirmed && !alert.isCritical" label="REENVIAR" icon="pi pi-refresh" severity="secondary"
@@ -88,6 +92,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <!-- ya cargó pero no se encontró la alerta -->
   <p v-else-if="alertsStore.alertsLoaded" class="sb-muted">La alerta no existe o fue eliminada.</p>
 </template>
 

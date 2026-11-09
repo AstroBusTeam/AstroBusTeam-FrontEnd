@@ -4,7 +4,7 @@ export class Recipient {
         this.id = id;
         this.name = name;
         this.role = role;
-        this.channel = channel;
-        this.active = active;
+        this.channel = channel; // canales como texto, por ejemplo "SMS / EMAIL"
+        this.active = active; // solo los activos reciben notificaciones
     }
 }

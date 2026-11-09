@@ -13,9 +13,11 @@ const toast = useToast();
 const alertsStore = useAlertsStore();
 const iamStore = useIamStore();
 
+// estado de la pantalla de alerta
 const visible = ref(false);
 const sending = ref(false);
 const sentAlert = ref(null);
+// cuenta regresiva y su intervalo
 const secondsLeft = ref(0);
 let timer = null;
 
@@ -40,6 +42,7 @@ const startCountdown = () => {
   }, 1000);
 };
 
+// detiene la cuenta regresiva
 const stopCountdown = () => {
   clearInterval(timer);
   timer = null;
@@ -52,11 +55,13 @@ const cancelAlert = () => {
   close();
 };
 
+// cierra la pantalla, la alerta sigue activa
 const close = () => {
   stopCountdown();
   visible.value = false;
 };
 
+// evitamos que el intervalo siga corriendo si el componente desaparece
 onUnmounted(stopCountdown);
 </script>
 
@@ -87,6 +92,7 @@ onUnmounted(stopCountdown);
           </div>
         </div>
 
+        <!-- solo se puede cancelar durante la cuenta regresiva -->
         <pv-button class="panic-white-button w-full mb-2" :disabled="secondsLeft <= 0"
                    :label="secondsLeft > 0 ? t('panic.cancel-alert', { seconds: secondsLeft }) : t('panic.cannot-cancel')"
                    @click="cancelAlert"/>

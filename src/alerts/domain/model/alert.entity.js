@@ -8,19 +8,22 @@ export class Alert {
         this.id = id;
         this.code = code;
         this.vehicleId = vehicleId;
-        this.type = type;
-        this.receiver = receiver;
-        this.attempts = attempts;
-        this.status = status;
-        this.createdAt = createdAt;
+        this.type = type; // nombre del tipo de alerta
+        this.receiver = receiver; // nombre de quien la recibe
+        this.attempts = attempts; // veces que se envió
+        this.status = status; // 'pending', 'timeout', 'critical' o 'confirmed'
+        this.createdAt = createdAt; // yyyy-mm-ddThh:mm:ss
+        // ubicación del bus cuando se envió
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    // la central ya respondió
     get isConfirmed() {
         return this.status === 'confirmed';
     }
 
+    // llegó al máximo de intentos sin respuesta
     get isCritical() {
         return this.status === 'critical';
     }

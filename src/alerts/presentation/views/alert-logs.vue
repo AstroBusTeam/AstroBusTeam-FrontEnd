@@ -21,18 +21,21 @@ const statusInfo = {
   confirmed: { label: 'CONFIRMADO',     severity: 'success' }
 };
 
+// las alertas se recargan siempre para ver las nuevas
 onMounted(() => {
   alertsStore.fetchAlerts();
   if (!fleetStore.vehiclesLoaded) fleetStore.fetchVehicles();
 });
 
+// código del bus para la tabla
 const vehicleCode = (vehicleId) => fleetStore.getVehicleById(vehicleId)?.code ?? '—';
 
-// reenvía todas las que se puedan
+// reenvía todas las que se puedan (el store ignora las críticas)
 const resendAll = () => {
   alertsStore.unconfirmedAlerts.forEach(alert => alertsStore.resendAlert(alert));
 };
 
+// pregunta antes de eliminar
 const confirmDelete = (alert) => {
   confirm.require({
     header: 'Confirmar eliminación',
@@ -98,6 +101,7 @@ const rowClass = (alert) => alert.isCritical ? 'critical-row' : '';
     <pv-column field="receiver" :header="t('alerts.col-receiver')"/>
     <pv-column :header="t('alerts.col-attempts')">
       <template #body="{ data }">
+        <!-- en rojo cuando llegó al máximo -->
         <pv-tag :value="`${data.attempts}/${MAX_ATTEMPTS}`" :severity="data.attempts >= MAX_ATTEMPTS ? 'danger' : 'warn'"/>
       </template>
     </pv-column>

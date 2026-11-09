@@ -19,7 +19,9 @@ function createAlertsStore() {
     const alerts = ref([]);
     const recipients = ref([]);
     const deliveries = ref([]);
+    // errores de las llamadas a la api
     const errors = ref([]);
+    // indican si cada lista ya se cargó
     const alertsLoaded = ref(false);
     const recipientsLoaded = ref(false);
     const deliveriesLoaded = ref(false);
@@ -27,11 +29,13 @@ function createAlertsStore() {
     // alertas sin confirmar
     const unconfirmedAlerts = computed(() => alerts.value.filter(alert => !alert.isConfirmed));
 
+    // alertas que llegaron al máximo de intentos
     const criticalAlerts = computed(() => alerts.value.filter(alert => alert.isCritical));
 
     // traer los datos de la api
     function fetchAlerts() {
         alertsApi.getAlerts().then(response => {
+            // las más recientes primero
             alerts.value = AlertAssembler.toEntitiesFromResponse(response)
                 .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
             alertsLoaded.value = true;
@@ -47,11 +51,13 @@ function createAlertsStore() {
 
     function fetchDeliveries() {
         alertsApi.getDeliveries().then(response => {
+            // las últimas entregas arriba
             deliveries.value = DeliveryAssembler.toEntitiesFromResponse(response).reverse();
             deliveriesLoaded.value = true;
         }).catch(error => errors.value.push(error));
     }
 
+    // el id llega como texto desde la url
     function getAlertById(id) {
         return alerts.value.find(alert => alert.id === parseInt(id));
     }
@@ -67,6 +73,7 @@ function createAlertsStore() {
     // crea la alerta del botón de pánico con la ubicación del bus
     function sendPanicAlert(vehicle) {
         const alert = {
+            // código aleatorio de 4 dígitos
             code: `AL-${Math.floor(1000 + Math.random() * 9000)}`,
             vehicleId: vehicle.id,
             type: 'Botón de pánico',
@@ -77,6 +84,7 @@ function createAlertsStore() {
             latitude: vehicle.latitude,
             longitude: vehicle.longitude
         };
+        // sin catch: el botón de pánico muestra el error al conductor
         return alertsApi.createAlert(alert).then(response => {
             const created = AlertAssembler.toEntityFromResource(response.data);
             alerts.value = [created, ...alerts.value];
@@ -86,6 +94,7 @@ function createAlertsStore() {
 
     // reenviar, al tercer intento pasa a crítica
     function resendAlert(alert) {
+        // las confirmadas o críticas ya no se reenvían
         if (alert.isConfirmed || alert.isCritical) return;
         const attempts = alert.attempts + 1;
         const status = attempts >= MAX_ATTEMPTS ? 'critical' : 'pending';
@@ -97,6 +106,7 @@ function createAlertsStore() {
         return saveAlert({...alert, status: 'confirmed'});
     }
 
+    // también se usa para cancelar una alerta de pánico
     function deleteAlert(alert) {
         return alertsApi.deleteAlert(alert.id).then(() => {
             alerts.value = alerts.value.filter(a => a.id !== alert.id);
@@ -124,10 +134,12 @@ function createAlertsStore() {
         }).then(response => {
             deliveries.value = [DeliveryAssembler.toEntityFromResource(response.data), ...deliveries.value];
         }));
+        // devuelve cuántos destinatarios fueron notificados
         return Promise.all(requests).then(() => activeRecipients.length)
             .catch(error => errors.value.push(error));
     }
 
+    // lo que pueden usar los componentes
     return reactive({
         alerts, recipients, deliveries, errors,
         alertsLoaded, recipientsLoaded, deliveriesLoaded,

@@ -11,16 +11,19 @@ const alertsStore = useAlertsStore();
 // opciones del simulacro
 const alertTypes = ['Fallo de infraestructura', 'Botón de pánico', 'Desvío de ruta', 'Fallo mecánico'];
 const priorities = ['Baja', 'Media', 'Urgente'];
+// texto y color de cada estado de entrega
 const statusInfo = {
   sent:    { label: 'ENVIADO',   severity: 'success' },
   pending: { label: 'PENDIENTE', severity: 'secondary' },
   failed:  { label: 'FALLIDO',   severity: 'danger' }
 };
 
+// valores elegidos en el formulario
 const alertType = ref(alertTypes[0]);
 const priority = ref('Media');
 const sending = ref(false);
 
+// destinatarios que van a recibir el simulacro
 const activeCount = computed(() => alertsStore.recipients.filter(r => r.active).length);
 // mensaje de vista previa
 const preview = computed(() =>
@@ -53,6 +56,7 @@ const sendToAll = () => {
           <h2 class="sb-section-title sb-accent">{{ t('notifications.recipients-title') }}</h2>
           <span class="text-xs sb-muted">{{ t('notifications.operational', { count: activeCount }) }}</span>
         </div>
+        <!-- el switch activa o desactiva al destinatario -->
         <div v-for="recipient in alertsStore.recipients" :key="recipient.id" class="recipient-row">
           <pv-avatar icon="pi pi-user"/>
           <div class="flex-1">
@@ -81,6 +85,7 @@ const sendToAll = () => {
           <div class="sb-label mb-1">{{ t('notifications.preview-label') }}</div>
           <span class="sb-accent">{{ preview }}</span>
         </div>
+        <!-- se deshabilita si no hay destinatarios activos -->
         <pv-button :label="t('notifications.send-all')" icon="pi pi-send" class="py-3 font-bold" :loading="sending"
                    :disabled="activeCount === 0" @click="sendToAll"/>
       </div>

@@ -54,6 +54,7 @@ onMounted(() => {
   clock = setInterval(() => now.value = new Date(), 1000);
 });
 
+// Clears the clock interval when the dashboard component is unmounted.
 onUnmounted(() => clearInterval(clock));
 
 // si el servicio está activo empieza la simulación

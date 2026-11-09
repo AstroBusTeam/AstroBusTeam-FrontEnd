@@ -80,6 +80,7 @@ function loadTiles() {
 }
 
 // botones de zoom
+// The zoom is limited between levels 11 and 18.
 function zoomIn()  { if (currentZoom.value < 18) currentZoom.value++; }
 function zoomOut() { if (currentZoom.value > 11) currentZoom.value--; }
 

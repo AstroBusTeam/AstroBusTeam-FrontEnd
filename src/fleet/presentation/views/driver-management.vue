@@ -239,6 +239,7 @@ const confirmDelete = (driver) => {
 </template>
 
 <style scoped>
+/* Styles the driver detail fields using the application's theme variables. */
 .detail-box {
   height: 100%;
   padding: 0.75rem;

@@ -1,6 +1,7 @@
 <script setup>
 import {useI18n} from "vue-i18n";
 
+// t translates the footer texts according to the active language.
 const { t } = useI18n();
 </script>
 

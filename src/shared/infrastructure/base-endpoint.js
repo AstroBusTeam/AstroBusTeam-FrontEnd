@@ -2,6 +2,7 @@
 export class BaseEndpoint {
     constructor(baseApi, endpointPath) {
         this.http = baseApi.http;
+        // Path of the resource, for example /alerts or /shifts.
         this.endpointPath = endpointPath;
     }
 

@@ -5,6 +5,7 @@ import {useConfirm} from "primevue";
 import useFleetStore from "../../application/fleet.store.js";
 import {Vehicle} from "../../domain/model/vehicle.entity.js";
 
+// Initializes translation, confirmation dialog, and fleet state services.
 const { t } = useI18n();
 const confirm = useConfirm();
 const fleetStore = useFleetStore();

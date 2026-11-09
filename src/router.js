@@ -24,6 +24,7 @@ const routes = [
     { path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: { title: 'Página no encontrada' } }
 ];
 
+// Creates the router in history mode, using the base URL configured in Vite.
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: routes,

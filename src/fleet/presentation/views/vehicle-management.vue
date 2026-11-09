@@ -19,6 +19,7 @@ const statusOptions = computed(() => [
 // estado del formulario
 const dialogVisible = ref(false);
 const form = ref(new Vehicle({}));
+// Determines whether the vehicle form is editing an existing record.
 const isEdit = computed(() => form.value.id !== null);
 
 // solo se piden los buses si todavía no están cargados

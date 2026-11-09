@@ -78,7 +78,7 @@ const speedBars = computed(() => {
   }));
 });
 </script>
-
+<!-- Displays the impact dashboard heading with localized title and description. -->
 <template>
   <div class="mb-4">
     <div class="sb-label sb-accent mb-1">{{ t('impact.kicker') }}</div>

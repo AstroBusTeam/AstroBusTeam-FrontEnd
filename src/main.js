@@ -39,6 +39,7 @@ createApp(App)
     .use(PrimeVue, {theme: { preset: SafeBusTheme, options: { darkModeSelector: '.app-dark' }}, ripple: true, license: primeUiLicenseKey})
     // Provides the service behind the confirmation dialogs (pv-confirm-dialog).
     .use(ConfirmationService)
+    // Provides the service behind the toast notifications (pv-toast).
     .use(ToastService)
     // registramos los componentes de PrimeVue con el prefijo pv-
     .component('pv-avatar',         Avatar)

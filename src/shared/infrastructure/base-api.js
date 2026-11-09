@@ -17,6 +17,7 @@ export class BaseApi {
         });
     }
 
+    // Exposes the axios instance to the endpoint classes.
     get http() {
         return this.#http;
     }

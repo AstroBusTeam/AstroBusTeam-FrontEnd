@@ -16,21 +16,26 @@ const statusOptions = computed(() => [
   { label: t('vehicle-status.maintenance'), value: 'maintenance', severity: 'warn' }
 ]);
 
+// estado del formulario
 const dialogVisible = ref(false);
 const form = ref(new Vehicle({}));
 const isEdit = computed(() => form.value.id !== null);
 
+// solo se piden los buses si todavía no están cargados
 onMounted(() => {
   if (!fleetStore.vehiclesLoaded) fleetStore.fetchVehicles();
 });
 
+// opción de estado (texto y color) para la etiqueta
 const statusOf = (value) => statusOptions.value.find(option => option.value === value);
 
+// abrir el formulario vacío
 const openNew = () => {
   form.value = new Vehicle({});
   dialogVisible.value = true;
 };
 
+// abrir el formulario con los datos del bus
 const openEdit = (vehicle) => {
   form.value = new Vehicle({...vehicle});
   dialogVisible.value = true;
@@ -38,6 +43,7 @@ const openEdit = (vehicle) => {
 
 // si tiene id se actualiza, si no se crea
 const saveVehicle = () => {
+  // placa y código siempre en mayúsculas
   const vehicle = new Vehicle({...form.value, plate: form.value.plate.toUpperCase(), code: form.value.code.toUpperCase()});
   if (isEdit.value) fleetStore.updateVehicle(vehicle); else fleetStore.addVehicle(vehicle);
   dialogVisible.value = false;

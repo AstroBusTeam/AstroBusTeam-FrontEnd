@@ -1,9 +1,10 @@
+// las vistas se cargan solo cuando se necesitan
 const controlCenter     = () => import('./views/control-center.vue');
 const driverManagement  = () => import('./views/driver-management.vue');
 const vehicleManagement = () => import('./views/vehicle-management.vue');
 const unitAssignment    = () => import('./views/unit-assignment.vue');
 
-// rutas del módulo de flota
+// rutas del módulo de flota (van dentro de /administration)
 const fleetRoutes = [
     { path: 'control-center', name: 'fleet-control-center', component: controlCenter,     meta: { title: 'Centro de control' } },
     { path: 'drivers',        name: 'fleet-drivers',        component: driverManagement,  meta: { title: 'Gestión de conductores' } },

@@ -1,6 +1,7 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
 import {AdaptedEndpoint} from "../../shared/infrastructure/backend-adapter.js";
 
+// rutas de los endpoints, vienen del archivo .env
 const driversEndpointPath     = import.meta.env.VITE_DRIVERS_ENDPOINT_PATH;
 const vehiclesEndpointPath    = import.meta.env.VITE_VEHICLES_ENDPOINT_PATH;
 const assignmentsEndpointPath = import.meta.env.VITE_ASSIGNMENTS_ENDPOINT_PATH;
@@ -30,7 +31,7 @@ export class FleetApi extends BaseApi {
     updateVehicle(resource)  { return this.#vehiclesEndpoint.update(resource.id, resource); }
     deleteVehicle(id)        { return this.#vehiclesEndpoint.delete(id); }
 
-    // asignaciones
+    // asignaciones (al eliminar, el adaptador solo las desactiva)
     getAssignments()           { return this.#assignmentsEndpoint.getAll(); }
     createAssignment(resource) { return this.#assignmentsEndpoint.create(resource); }
     deleteAssignment(id)       { return this.#assignmentsEndpoint.delete(id); }

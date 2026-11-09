@@ -6,8 +6,9 @@ export class Vehicle {
         this.code = code;
         this.plate = plate;
         this.model = model;
-        this.capacity = capacity;
-        this.status = status;
+        this.capacity = capacity; // cantidad de pasajeros
+        this.status = status; // 'available', 'in-service' o 'maintenance'
+        // última posición conocida, por defecto el centro de Lima
         this.latitude = latitude;
         this.longitude = longitude;
     }

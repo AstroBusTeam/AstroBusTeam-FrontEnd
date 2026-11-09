@@ -4,8 +4,8 @@ export class Assignment {
         this.id = id;
         this.driverId = driverId;
         this.vehicleId = vehicleId;
-        this.route = route;
-        this.startTime = startTime;
-        this.status = status;
+        this.route = route; // texto de la ruta (código y nombre), no su id
+        this.startTime = startTime; // hora de inicio (hh:mm)
+        this.status = status; // 'active' o 'inactive'
     }
 }

@@ -11,8 +11,10 @@ const alertsStore = useAlertsStore();
 
 // centro del mapa (Lima)
 const LIMA_CENTER = { latitude: -12.0490, longitude: -77.0450 };
+// texto del estado del bus para el marcador
 const statusLabel = { 'available': 'Disponible', 'in-service': 'En servicio', 'maintenance': 'Mantenimiento' };
 
+// necesitamos la flota y las alertas para armar el mapa
 onMounted(() => {
   fleetStore.fetchAll();
   alertsStore.fetchAlerts();
@@ -33,10 +35,12 @@ const markers = computed(() => fleetStore.vehicles.map(vehicle => {
     description: alert
         ? `${alert.type} · ${assignment?.route ?? ''}`
         : `${driver ? driver.fullName : 'Sin conductor'} · ${statusLabel[vehicle.status]}`,
+    // si tiene alerta el marcador lleva al detalle
     link: alert ? `/alerts/logs/${alert.id}` : null
   };
 }));
 
+// cantidad de buses que están trabajando
 const vehiclesInService = computed(() => fleetStore.vehicles.filter(v => v.status === 'in-service').length);
 </script>
 
@@ -46,6 +50,7 @@ const vehiclesInService = computed(() => fleetStore.vehicles.filter(v => v.statu
     <p class="sb-subtitle">{{ t('control-center.subtitle') }}</p>
   </div>
 
+  <!-- resumen: unidades, en servicio y alertas -->
   <div class="flex gap-5 mb-3 text-sm">
     <span><span class="sb-dot mr-2"/>{{ fleetStore.vehicles.length }} {{t('control-center.units-count')}}</span>
     <span><span class="sb-dot mr-2"/>{{ vehiclesInService }} {{t('control-center.in-service-count')}}</span>

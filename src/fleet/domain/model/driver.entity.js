@@ -7,13 +7,13 @@ export class Driver {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dni = dni;
-        this.category = category;
+        this.category = category; // categoría de la licencia (A-IIa, A-IIIb, ...)
         this.licenseNumber = licenseNumber;
         this.licenseExpiry = licenseExpiry;
-        this.points = points;
-        this.rating = rating;
+        this.points = points; // puntos de la licencia (máximo 15)
+        this.rating = rating; // calificación de 0 a 5
         this.yearsExperience = yearsExperience;
-        this.status = status;
+        this.status = status; // 'active' o 'inactive'
     }
 
     // nombre completo

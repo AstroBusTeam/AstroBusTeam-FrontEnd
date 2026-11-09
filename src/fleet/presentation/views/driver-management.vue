@@ -21,13 +21,16 @@ const statusOptions = computed(() => [
   { label: t('common.inactive'), value: 'inactive' }
 ]);
 
+// conductor elegido en la tabla
 const selectedDriverId = ref(null);
+// estado del formulario
 const dialogVisible = ref(false);
 const form = ref(new Driver({}));
 
 const selectedDriver = computed(() => fleetStore.getDriverById(selectedDriverId.value));
 const isEdit = computed(() => form.value.id !== null);
 
+// los turnos se usan para evaluar la conducta
 onMounted(() => {
   fleetStore.fetchAll();
   if (!operationsStore.shiftsLoaded) operationsStore.fetchShifts();
@@ -44,6 +47,7 @@ const assessmentOf = (driver) => assessDriver({
   rating: driver.rating,
   shifts: operationsStore.getShiftsByDriverId(driver.id)
 });
+// texto y color de la etiqueta según el nivel
 const behaviorLabels = { good: 'speed.good', regular: 'speed.regular', risk: 'speed.risk', unknown: 'speed.unknown' };
 const behaviorSeverities = { good: 'success', regular: 'warn', risk: 'danger', unknown: 'secondary' };
 const behaviorLabel = (driver) => t(behaviorLabels[assessmentOf(driver).level]).toUpperCase();
@@ -63,6 +67,7 @@ const openEdit = (driver) => {
 
 // si tiene id se actualiza, si no se crea
 const saveDriver = () => {
+  // el código de empleado siempre se guarda en mayúsculas
   const driver = new Driver({...form.value, employeeCode: form.value.employeeCode.toUpperCase()});
   if (isEdit.value) fleetStore.updateDriver(driver); else fleetStore.addDriver(driver);
   dialogVisible.value = false;
@@ -87,6 +92,7 @@ const confirmDelete = (driver) => {
 <template>
   <div class="grid">
     <div class="col-12 xl:col-8">
+      <!-- título y botón para agregar -->
       <div class="flex justify-content-between align-items-end flex-wrap gap-3 mb-3">
         <div>
           <h1 class="sb-title">{{ t('drivers.title') }}</h1>
@@ -166,6 +172,7 @@ const confirmDelete = (driver) => {
           </div>
           <pv-tag :value="behaviorLabel(selectedDriver)" :severity="behaviorSeverity(selectedDriver)" class="mt-3"/>
 
+          <!-- ver sus turnos o editarlo -->
           <div class="flex gap-2 mt-3">
             <pv-button :label="t('drivers.history')" icon="pi pi-history" severity="secondary" class="flex-1"
                        @click="router.push({ name: 'operations-history', query: { driverId: selectedDriver.id } })"/>

@@ -10,6 +10,7 @@ const confirm = useConfirm();
 const toast = useToast();
 const fleetStore = useFleetStore();
 
+// lo que el usuario va eligiendo
 const selectedDriverId = ref(null);
 const selectedVehicleId = ref(null);
 const routeName = ref('');
@@ -28,10 +29,12 @@ const confirmAssignment = () => {
     driverId: selectedDriverId.value,
     vehicleId: selectedVehicleId.value,
     route: routeName.value.trim(),
+    // la hora de inicio es la hora actual (hh:mm)
     startTime: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
   });
   fleetStore.addAssignment(assignment);
   toast.add({ severity: 'success', summary: t('assignments.confirmed-toast'), detail: assignment.route, life: 3000 });
+  // limpiamos la selección para la siguiente asignación
   selectedDriverId.value = null;
   selectedVehicleId.value = null;
   routeName.value = '';
@@ -49,6 +52,7 @@ const confirmRelease = (assignment) => {
   });
 };
 
+// textos para la tabla de asignaciones
 const driverName = (id) => fleetStore.getDriverById(id)?.fullName ?? '—';
 const vehicleText = (id) => {
   const vehicle = fleetStore.getVehicleById(id);

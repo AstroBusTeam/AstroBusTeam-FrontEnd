@@ -21,7 +21,9 @@ function createFleetStore() {
     const drivers = ref([]);
     const vehicles = ref([]);
     const assignments = ref([]);
+    // errores de las llamadas a la api
     const errors = ref([]);
+    // indican si cada lista ya se cargó (para mostrar el "cargando")
     const driversLoaded = ref(false);
     const vehiclesLoaded = ref(false);
     const assignmentsLoaded = ref(false);
@@ -65,6 +67,7 @@ function createFleetStore() {
         fetchAssignments();
     }
 
+    // búsquedas por id; parseInt porque el id puede venir como texto (por ejemplo desde la url)
     function getDriverById(id) {
         return drivers.value.find(driver => driver.id === parseInt(id));
     }
@@ -73,6 +76,7 @@ function createFleetStore() {
         return vehicles.value.find(vehicle => vehicle.id === parseInt(id));
     }
 
+    // asignación activa del conductor o del bus
     function getAssignmentByDriverId(driverId) {
         return activeAssignments.value.find(a => a.driverId === driverId);
     }
@@ -137,6 +141,7 @@ function createFleetStore() {
         }).catch(error => errors.value.push(error));
     }
 
+    // lo que pueden usar los componentes
     return reactive({
         drivers, vehicles, assignments, errors,
         driversLoaded, vehiclesLoaded, assignmentsLoaded,

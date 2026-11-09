@@ -1,5 +1,6 @@
 import {Driver} from "../domain/model/driver.entity.js";
 
+// pasa los datos de conductores de la api a entidades del dominio
 export class DriverAssembler {
     // convierte un recurso de la api en una entidad
     static toEntityFromResource(resource) {
@@ -8,6 +9,7 @@ export class DriverAssembler {
 
     // convierte la lista que llega de la api en entidades
     static toEntitiesFromResponse(response) {
+        // si la respuesta no es correcta se devuelve una lista vacía
         if (response.status !== 200) {
             console.error(`${response.status}, ${response.statusText}`);
             return [];

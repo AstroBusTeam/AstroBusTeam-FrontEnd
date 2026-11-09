@@ -7,6 +7,7 @@ const SafeBusTheme = definePreset(Aura, {
         // bordes casi cuadrados
         borderRadius: { none: '0', xs: '1px', sm: '2px', md: '2px', lg: '3px', xl: '4px' }
     },
+    // Semantic tokens: primary color scale and the surface colors of the dark mode.
     semantic: {
         // color principal: verde lima
         primary: {

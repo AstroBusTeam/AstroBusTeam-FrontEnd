@@ -11,6 +11,7 @@ const operationsStore = useOperationsStore();
 const fleetStore = useFleetStore();
 const alertsStore = useAlertsStore();
 
+// Loads the operational data required for impact metrics when it is not already available.
 onMounted(() => {
   if (!operationsStore.shiftsLoaded) operationsStore.fetchShifts();
   if (!fleetStore.driversLoaded) fleetStore.fetchDrivers();

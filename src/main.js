@@ -58,5 +58,6 @@ createApp(App)
     .component('pv-toggle-switch',  ToggleSwitch)
     .component('pv-toolbar',        Toolbar)
     .directive('tooltip',           Tooltip)
+    // Installs the router: routes and navigation guard are defined in router.js.
     .use(router)
     .mount('#app')

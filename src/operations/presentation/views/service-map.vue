@@ -41,6 +41,7 @@ onMounted(() => {
   clock = setInterval(() => now.value = new Date(), 1000);
 });
 
+// Stops the dashboard clock when the service map component is unmounted.
 onUnmounted(() => clearInterval(clock));
 </script>
 

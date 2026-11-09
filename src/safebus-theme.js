@@ -26,4 +26,5 @@ const SafeBusTheme = definePreset(Aura, {
     }
 });
 
+// The preset is registered in main.js through the theme option of PrimeVue.
 export default SafeBusTheme;

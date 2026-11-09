@@ -2,6 +2,7 @@
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 
+// The current route provides the path that does not exist.
 const route = useRoute();
 // ruta que el usuario intentó abrir
 const unavailableRoute = route.path;

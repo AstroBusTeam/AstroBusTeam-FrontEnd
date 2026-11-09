@@ -37,6 +37,7 @@ const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
 createApp(App)
     .use(i18n)
     .use(PrimeVue, {theme: { preset: SafeBusTheme, options: { darkModeSelector: '.app-dark' }}, ripple: true, license: primeUiLicenseKey})
+    // Provides the service behind the confirmation dialogs (pv-confirm-dialog).
     .use(ConfirmationService)
     .use(ToastService)
     // registramos los componentes de PrimeVue con el prefijo pv-

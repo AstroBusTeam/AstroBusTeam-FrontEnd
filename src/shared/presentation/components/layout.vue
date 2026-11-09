@@ -15,6 +15,7 @@ const route = useRoute();
 const router = useRouter();
 // Holds the signed-in driver and vehicle shown in the sidebar and the toolbar.
 const iamStore = useIamStore();
+// Needed to stop the live tracking when the driver signs out.
 const operationsStore = useOperationsStore();
 
 // los mensajes por defecto de PrimeVue (tablas vacías, selects) cambian con el idioma

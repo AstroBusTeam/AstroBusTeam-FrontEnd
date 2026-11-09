@@ -16,6 +16,7 @@ const operationsStore = useOperationsStore();
 
 // opciones de los selects
 const categories = ['A-IIa', 'A-IIb', 'A-IIIa', 'A-IIIb', 'A-IIIc'];
+// Genera las opciones de estado del conductor utilizando las traducciones del idioma actual.
 const statusOptions = computed(() => [
   { label: t('common.active'), value: 'active' },
   { label: t('common.inactive'), value: 'inactive' }

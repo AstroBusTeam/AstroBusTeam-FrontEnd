@@ -37,6 +37,7 @@ const operationItems = [
   { label: 'menu.map',       icon: 'pi pi-map',      to: '/operations/map' }
 ];
 
+// Administration menu entries; each one points to a view of the fleet, alerts or operations modules.
 const administrationItems = [
   { label: 'menu.control-center', to: '/administration/control-center' },
   { label: 'menu.drivers',        to: '/administration/drivers' },

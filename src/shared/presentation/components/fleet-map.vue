@@ -55,6 +55,7 @@ function markerStyle(marker) {
   return { left: `${pixel.x - origin.value.x}px`, top: `${pixel.y - origin.value.y}px` };
 }
 
+// Frees the memory used by the downloaded images (blob URLs).
 function releaseTiles() {
   tiles.value.forEach(tile => tile.url && URL.revokeObjectURL(tile.url));
 }

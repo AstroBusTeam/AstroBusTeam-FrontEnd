@@ -19,6 +19,7 @@ const COLUMNS = 5;
 const ROWS = 4;
 
 const currentZoom = ref(props.zoom);
+// Map images (tiles) currently shown in the grid.
 const tiles = ref([]);
 const selectedMarker = ref(null);
 

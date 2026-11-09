@@ -28,6 +28,7 @@ const checklist = ref([
 const vehicle = computed(() => iamStore.currentVehicle);
 // turno que se muestra en el dashboard
 const shift = computed(() => operationsStore.getCurrentShift(iamStore.currentDriver.id));
+// Checks whether all required service closure tasks have been completed.
 const isProtocolComplete = computed(() => checklist.value.every(item => item.done));
 
 // velocidad del turno actual

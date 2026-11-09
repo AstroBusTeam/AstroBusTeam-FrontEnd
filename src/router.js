@@ -20,6 +20,7 @@ const routes = [
     // Both /home and the root path redirect to the operations dashboard.
     { path: '/home',            redirect: '/operations/dashboard' },
     { path: '/',                redirect: '/operations/dashboard' },
+    // Catch-all route: any unknown path shows the page not found view.
     { path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: { title: 'Página no encontrada' } }
 ];
 

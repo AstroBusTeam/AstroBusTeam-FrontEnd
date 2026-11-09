@@ -1,6 +1,10 @@
 import {BaseApi} from "./base-api.js";
 import {BaseEndpoint} from "./base-endpoint.js";
 
+// adaptador entre el modelo del front y el backend real
+// traduce los recursos en ambos sentidos y resuelve ids a partir de textos
+
+// rutas de los endpoints, se pueden cambiar desde el archivo .env
 const env = import.meta.env;
 const paths = {
     routes: env.VITE_ROUTES_ENDPOINT_PATH ?? "/routes",
@@ -14,18 +18,24 @@ const paths = {
     vehicles: env.VITE_VEHICLES_ENDPOINT_PATH ?? "/vehicles",
 };
 
+// cliente http compartido por todo el adaptador
 const http = new BaseApi().http;
 
+// normaliza un texto para compararlo (sin espacios y en minúsculas)
 const norm = (value) => (value ?? "").toString().trim().toLowerCase();
+// fecha y hora local en formato ISO sin zona horaria (yyyy-mm-ddThh:mm:ss)
 const nowAsText = () => {
     const now = new Date();
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 19);
 };
+// solo la fecha (yyyy-mm-dd)
 const todayAsText = () => nowAsText().slice(0, 10);
 
+// catálogos que casi no cambian, se cargan una vez y se reutilizan
 const catalog = {routes: [], alertTypes: [], channels: [], recipients: []};
 let catalogPromise = null;
 
+// carga los catálogos una sola vez; si falla se permite volver a intentar
 function loadCatalog(force = false) {
     if (force || catalogPromise === null) {
         catalogPromise = Promise.all([
@@ -43,28 +53,34 @@ function loadCatalog(force = false) {
     return catalogPromise;
 }
 
+// búsquedas por id dentro de los catálogos
 const routeById = (id) => catalog.routes.find((r) => r.id === id);
 const typeById = (id) => catalog.alertTypes.find((t) => t.id === id);
 const channelById = (id) => catalog.channels.find((c) => c.id === id);
 const recipientById = (id) => catalog.recipients.find((r) => r.id === id);
 
+// texto de la ruta tal como lo muestra el front ("código nombre")
 const routeText = (id) => {
     const route = routeById(id);
     return route ? `${route.code} ${route.name}` : "";
 };
 
+// reemplaza el elemento si ya existe en la lista, si no lo agrega
 function upsert(list, item) {
     const index = list.findIndex((i) => i.id === item.id);
     if (index >= 0) list[index] = item; else list.push(item);
 }
 
+// busca la ruta por código o nombre; si no existe la crea en el backend
 async function resolveRouteId(text) {
     await loadCatalog();
     const wanted = norm(text);
+    // primero coincidencia exacta y luego parcial
     const found = catalog.routes.find((r) =>
         norm(r.code) === wanted || norm(r.name) === wanted || norm(`${r.code} ${r.name}`) === wanted)
         ?? catalog.routes.find((r) => wanted !== "" && (norm(r.name).includes(wanted) || wanted.includes(norm(r.code))));
     if (found) return found.id;
+    // ruta nueva con un código generado y datos por completar
     const {data} = await http.post(paths.routes, {
         code: `RT-${Date.now().toString().slice(-6)}`,
         name: (text ?? "Ruta").toString().trim().slice(0, 120) || "Ruta",
@@ -74,6 +90,7 @@ async function resolveRouteId(text) {
     return data.id;
 }
 
+// busca el tipo de alerta por nombre; si no existe lo crea
 async function resolveAlertTypeId(name) {
     await loadCatalog();
     const wanted = norm(name);
@@ -87,6 +104,7 @@ async function resolveAlertTypeId(name) {
     return data.id;
 }
 
+// busca el destinatario por nombre; si no hay coincidencia usa el primero activo
 async function resolveReceiverId(name) {
     await loadCatalog();
     const wanted = norm(name);
@@ -98,8 +116,9 @@ async function resolveReceiverId(name) {
 
 const telemetry = new Map();      // shiftId -> {speedKmh, speedSamples}
 const incidentCounts = new Map(); // shiftId -> cantidad de alertas del turno
-const vehicleCoordinates = new Map();
+const vehicleCoordinates = new Map(); // vehicleId -> {latitude, longitude}
 
+// cuenta las alertas de cada turno para mostrar los incidentes
 async function refreshIncidents() {
     try {
         const {data} = await http.get(paths.alerts);
@@ -112,8 +131,10 @@ async function refreshIncidents() {
     }
 }
 
+// envía la velocidad actual del vehículo como una nueva posición
 async function reportPosition(shift) {
     try {
+        // las coordenadas del vehículo se piden una vez y se guardan
         let coordinates = vehicleCoordinates.get(shift.vehicleId);
         if (!coordinates) {
             const {data} = await http.get(`${paths.vehicles}/${shift.vehicleId}`);
@@ -129,11 +150,16 @@ async function reportPosition(shift) {
     }
 }
 
+// prioridades: del valor del backend al texto en español y al revés
 const PRIORITY_LABEL = {low: "Baja", medium: "Media", high: "Alta", critical: "Crítica"};
 const PRIORITY_VALUE = {baja: "low", media: "medium", alta: "high", "crítica": "critical", critica: "critical",
     low: "low", medium: "medium", high: "high", critical: "critical"};
 
+// traductores por recurso:
+// fromApi convierte lo que llega del backend al formato del front
+// toApi arma lo que se envía al backend (prev es el recurso original al editar)
 const translators = {
+    // el backend llama licenseCategory a la categoría
     drivers: {
         fromApi: (r) => ({...r, category: r.licenseCategory}),
         toApi: async (e, prev) => {
@@ -142,18 +168,21 @@ const translators = {
         },
     },
 
+    // la posición actual del vehículo se maneja como latitude/longitude en el front
     vehicles: {
         fromApi: (r) => ({...r, latitude: r.currentLatitude, longitude: r.currentLongitude}),
         toApi: async (e, prev) => {
             const {latitude, longitude, ...rest} = e;
             return {
                 ...prev, ...rest,
+                // si no hay posición se usa el centro de Lima
                 currentLatitude: latitude ?? prev?.currentLatitude ?? -12.0464,
                 currentLongitude: longitude ?? prev?.currentLongitude ?? -77.0428,
             };
         },
     },
 
+    // el front trabaja con el texto de la ruta y el backend con su id
     assignments: {
         fromApi: (r) => ({...r, route: routeText(r.routeId)}),
         toApi: async (e, prev) => ({
@@ -165,6 +194,7 @@ const translators = {
         }),
     },
 
+    // al turno se le agregan la ruta, los incidentes y la velocidad en vivo
     shifts: {
         fromApi: (r) => {
             const route = routeById(r.routeId);
@@ -182,6 +212,7 @@ const translators = {
         toApi: async (e, prev) => {
             let assignmentId = prev?.assignmentId;
             let routeId = prev?.routeId;
+            // un turno nuevo sale de la asignación activa del conductor
             if (!prev) {
                 const {data} = await http.get(paths.assignments, {params: {driverId: e.driverId, status: "active"}});
                 const assignment = data.find((a) => a.vehicleId === e.vehicleId) ?? data[0];
@@ -206,6 +237,7 @@ const translators = {
         },
     },
 
+    // el front usa los nombres del tipo y del destinatario, el backend sus ids
     alerts: {
         fromApi: (r) => ({
             ...r,
@@ -213,6 +245,7 @@ const translators = {
             receiver: recipientById(r.receiverId)?.name ?? "",
         }),
         toApi: async (e, prev) => {
+            // al editar se conservan los datos originales y solo cambia el estado
             if (prev) {
                 const confirmed = e.status === "confirmed";
                 return {
@@ -246,6 +279,7 @@ const translators = {
         },
     },
 
+    // los canales se muestran como texto, por ejemplo "SMS / EMAIL"
     recipients: {
         fromApi: (r) => ({
             ...r,
@@ -259,6 +293,7 @@ const translators = {
         }),
     },
 
+    // la entrega se arma a partir de los nombres que usa el front
     deliveries: {
         fromApi: (r) => ({
             ...r,
@@ -271,10 +306,12 @@ const translators = {
             await loadCatalog();
             const recipient = catalog.recipients.find((r) => norm(r.name) === norm(e.recipientName));
             if (!recipient) throw new Error("El destinatario de la entrega no existe");
+            // si el canal tiene varios ("SMS / EMAIL") se usa el primero
             const firstChannel = norm(e.channel).split("/")[0].trim();
             const channel = catalog.channels.find((c) => norm(c.code) === firstChannel)
                 ?? channelById(recipient.channelIds?.[0]) ?? catalog.channels[0];
             if (!channel) throw new Error("No hay canales de notificación registrados");
+            // la entrega se asocia a la alerta más reciente
             const {data: alerts} = await http.get(paths.alerts);
             const alert = alerts.reduce((latest, a) => (!latest || a.id > latest.id ? a : latest), null);
             if (!alert) throw new Error("No hay alertas a las que asociar la entrega");
@@ -290,10 +327,11 @@ const translators = {
 };
 
 
+// endpoint que traduce los datos antes de enviarlos y después de recibirlos
 export class AdaptedEndpoint extends BaseEndpoint {
     #kind;
     #translator;
-    #raw = new Map();
+    #raw = new Map(); // id -> recurso tal como vino del backend
 
     constructor(kind, baseApi, endpointPath) {
         super(baseApi, endpointPath);
@@ -301,6 +339,7 @@ export class AdaptedEndpoint extends BaseEndpoint {
         this.#translator = translators[kind];
     }
 
+    // guarda el recurso original y devuelve la versión traducida
     #remember(resource) {
         this.#raw.set(resource.id, resource);
         if (this.#kind === "recipients") upsert(catalog.recipients, resource);
@@ -333,9 +372,11 @@ export class AdaptedEndpoint extends BaseEndpoint {
 
     async update(id, resource) {
         await loadCatalog();
+        // necesitamos el recurso original para no perder campos que el front no maneja
         const previous = this.#raw.get(id) ?? (await super.getById(id)).data;
         const payload = await this.#translator.toApi(resource, previous);
         const response = await super.update(id, payload);
+        // en los turnos activos se guarda la velocidad y se reporta la posición
         if (this.#kind === "shifts") {
             const live = {speedKmh: resource.speedKmh ?? 0, speedSamples: resource.speedSamples ?? 0};
             telemetry.set(id, live);
@@ -348,6 +389,7 @@ export class AdaptedEndpoint extends BaseEndpoint {
     }
 
     async delete(id) {
+        // las asignaciones no se borran, se desactivan para mantener el historial
         if (this.#kind === "assignments") {
             return http.put(`${this.endpointPath}/${id}`, {status: "inactive", validTo: todayAsText()});
         }

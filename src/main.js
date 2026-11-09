@@ -60,4 +60,5 @@ createApp(App)
     .directive('tooltip',           Tooltip)
     // Installs the router: routes and navigation guard are defined in router.js.
     .use(router)
+    // Mounts the application in the #app element of index.html.
     .mount('#app')

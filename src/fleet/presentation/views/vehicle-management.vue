@@ -65,6 +65,7 @@ const confirmDelete = (vehicle) => {
 </script>
 
 <template>
+  <!-- Displays the vehicle management title, total vehicle count, and registration button. -->
   <div class="flex justify-content-between align-items-end flex-wrap gap-3 mb-3">
     <div>
       <h1 class="sb-title">{{ t('vehicles.title') }}</h1>

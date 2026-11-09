@@ -9,14 +9,17 @@ const { t } = useI18n();
 const router = useRouter();
 const iamStore = useIamStore();
 
+// estado del formulario
 const employeeCode = ref('');
 const verifying = ref(false);
 const errorCode = ref(null);
+// conductor y bus que se encontraron con el código
 const verifiedDriver = ref(null);
 const verifiedVehicle = ref(null);
+// muestra la pantalla de acceso autorizado
 const authorized = ref(false);
 
-// mensajes de error que se muestran
+// mensajes de error que se muestran (claves de traducción)
 const errorMessages = {
   'invalid-code': { title: 'iam.errors.invalid-code-title', detail: 'iam.errors.invalid-code-detail' },
   'unauthorized': { title: 'iam.errors.unauthorized-title', detail: 'iam.errors.unauthorized-detail' },
@@ -45,6 +48,7 @@ const startShift = () => {
   authorized.value = true;
 };
 
+// después de autorizar pasamos al panel principal
 const goToDashboard = () => {
   router.push({ name: 'operations-dashboard' });
 };
@@ -52,6 +56,7 @@ const goToDashboard = () => {
 
 <template>
   <div class="access-page">
+    <!-- encabezado con el logo y el cambio de idioma -->
     <header class="flex justify-content-between align-items-center px-4 py-3">
       <div class="font-bold sb-accent">SECURITYBUS | URBANGUARD</div>
       <language-switcher/>
@@ -77,11 +82,13 @@ const goToDashboard = () => {
           <div class="text-xs sb-muted">{{ t('iam.code-example') }}</div>
         </div>
 
+        <!-- ingreso del código de empleado -->
         <form class="flex flex-column gap-2" @submit.prevent="verify">
           <pv-input-text v-model="employeeCode" :placeholder="t('iam.code-placeholder')" required/>
           <pv-button type="submit" :label="t('iam.verify')" icon="pi pi-shield" :loading="verifying"/>
         </form>
 
+        <!-- error de la verificación -->
         <div v-if="errorCode" class="access-error mt-3">
           <i class="pi pi-times-circle mr-2"/>
           <strong>{{ t(errorMessages[errorCode].title) }}</strong>
@@ -98,6 +105,7 @@ const goToDashboard = () => {
               <div class="text-sm sb-muted">ID: {{ verifiedDriver.employeeCode }}</div>
             </div>
           </div>
+          <!-- datos del bus asignado -->
           <div class="flex gap-5 my-3">
             <div>
               <div class="sb-label">{{ t('iam.vehicle-plate') }}</div>
@@ -153,6 +161,7 @@ const goToDashboard = () => {
   border: 1px solid var(--sb-border);
 }
 
+/* imagen de fondo hecha solo con degradados */
 .access-hero {
   display: flex;
   flex-direction: column;
@@ -193,6 +202,7 @@ const goToDashboard = () => {
   border: 2px solid var(--sb-accent);
 }
 
+/* pantalla verde que cubre toda la app */
 .authorized-overlay {
   position: fixed;
   inset: 0;
@@ -250,6 +260,7 @@ const goToDashboard = () => {
   font-weight: 700;
 }
 
+/* en pantallas chicas el formulario va debajo de la imagen */
 @media (max-width: 800px) {
   .access-grid {
     grid-template-columns: 1fr;

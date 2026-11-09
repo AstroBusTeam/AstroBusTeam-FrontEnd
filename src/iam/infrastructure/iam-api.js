@@ -1,10 +1,12 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
 import {AdaptedEndpoint} from "../../shared/infrastructure/backend-adapter.js";
 
+// rutas de los endpoints, vienen del archivo .env
 const driversEndpointPath     = import.meta.env.VITE_DRIVERS_ENDPOINT_PATH;
 const vehiclesEndpointPath    = import.meta.env.VITE_VEHICLES_ENDPOINT_PATH;
 const assignmentsEndpointPath = import.meta.env.VITE_ASSIGNMENTS_ENDPOINT_PATH;
 
+// api para verificar al conductor antes de iniciar el turno
 export class IamApi extends BaseApi {
     #driversEndpoint;
     #vehiclesEndpoint;
@@ -12,6 +14,7 @@ export class IamApi extends BaseApi {
 
     constructor() {
         super();
+        // los endpoints pasan por el adaptador para traducir los datos del backend
         this.#driversEndpoint     = new AdaptedEndpoint('drivers', this, driversEndpointPath);
         this.#vehiclesEndpoint    = new AdaptedEndpoint('vehicles', this, vehiclesEndpointPath);
         this.#assignmentsEndpoint = new AdaptedEndpoint('assignments', this, assignmentsEndpointPath);

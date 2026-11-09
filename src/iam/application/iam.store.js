@@ -18,9 +18,11 @@ function readSavedSession() {
 }
 
 function createIamStore() {
+    // si había una sesión guardada empezamos con ese conductor y su bus
     const savedSession = readSavedSession();
     const currentDriver = ref(savedSession?.driver ?? null);
     const currentVehicle = ref(savedSession?.vehicle ?? null);
+    // hay sesión mientras exista un conductor
     const isSignedIn = computed(() => currentDriver.value !== null);
 
     // revisa el código del empleado en la base de datos
@@ -34,18 +36,21 @@ function createIamStore() {
             // el conductor está inactivo
             if (!driver.isActive) return { error: 'unauthorized' };
 
+            // el conductor no tiene un bus asignado
             const assignmentsResponse = await iamApi.getActiveAssignments(driver.id);
             if (assignmentsResponse.data.length === 0) return { error: 'no-vehicle' };
 
+            // se usa el bus de la primera asignación activa
             const vehicleResponse = await iamApi.getVehicleById(assignmentsResponse.data[0].vehicleId);
             return { driver, vehicle: new Vehicle(vehicleResponse.data) };
         } catch (error) {
+            // cualquier fallo de la api se muestra como error de conexión
             console.error(error);
             return { error: 'connection' };
         }
     }
 
-    // guarda el conductor y su bus
+    // guarda el conductor y su bus (también en el navegador)
     function signIn(driver, vehicle) {
         currentDriver.value = driver;
         currentVehicle.value = vehicle;

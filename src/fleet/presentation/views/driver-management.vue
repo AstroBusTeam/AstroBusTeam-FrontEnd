@@ -27,6 +27,7 @@ const selectedDriverId = ref(null);
 const dialogVisible = ref(false);
 const form = ref(new Driver({}));
 
+// Obtiene el conductor seleccionado y determina si el formulario está en modo edición.
 const selectedDriver = computed(() => fleetStore.getDriverById(selectedDriverId.value));
 const isEdit = computed(() => form.value.id !== null);
 

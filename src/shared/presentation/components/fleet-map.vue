@@ -21,6 +21,7 @@ const ROWS = 4;
 const currentZoom = ref(props.zoom);
 // Map images (tiles) currently shown in the grid.
 const tiles = ref([]);
+// Marker whose popup is open; null when no popup is shown.
 const selectedMarker = ref(null);
 
 // convierte latitud y longitud a pixeles

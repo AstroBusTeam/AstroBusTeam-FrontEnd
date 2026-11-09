@@ -36,6 +36,7 @@ const overspeedEvents = computed(() => assessment.value.overspeedEvents);
 const behaviorLabels = { good: 'speed.good', regular: 'speed.regular', risk: 'speed.risk', unknown: 'speed.unknown' };
 const behaviorSeverities = { good: 'success', regular: 'warn', risk: 'danger', unknown: 'secondary' };
 
+// Loads shifts, drivers, and vehicles only when their data has not been fetched.
 onMounted(() => {
   if (!operationsStore.shiftsLoaded) operationsStore.fetchShifts();
   if (!fleetStore.driversLoaded) fleetStore.fetchDrivers();

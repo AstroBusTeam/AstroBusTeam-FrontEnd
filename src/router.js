@@ -17,6 +17,7 @@ const routes = [
     { path: '/operations',      name: 'operations',     children: operationsRoutes },
     { path: '/administration',  name: 'administration', children: administrationRoutes },
     { path: '/alerts',          name: 'alerts',         children: alertsRoutes },
+    // Both /home and the root path redirect to the operations dashboard.
     { path: '/home',            redirect: '/operations/dashboard' },
     { path: '/',                redirect: '/operations/dashboard' },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: { title: 'Página no encontrada' } }

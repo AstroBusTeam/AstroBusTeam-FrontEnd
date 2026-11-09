@@ -33,6 +33,7 @@ const router = createRouter({
 // antes de cambiar de página ponemos el título y revisamos si hay sesión
 router.beforeEach((to) => {
     document.title = `SecurityBus - ${to.meta['title']}`;
+    // The authentication guard sends the user to the login when there is no active session.
     return authenticationGuard(to);
 });
 
